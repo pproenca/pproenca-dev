@@ -152,10 +152,159 @@ pre code {
 
 /* Shiki theme backgrounds */
 .shiki {
-  @apply overflow-x-auto rounded-lg;
-  background-color: var(--color-bg-elevated) !important;
-  border: 1px solid var(--color-border-subtle);
+  @apply overflow-x-auto;
+  background-color: transparent !important;
+  border: none;
   padding: 1.25rem;
+}
+
+/* ========================================
+   Terminal Window - macOS Inspired
+   ======================================== */
+
+.terminal-window {
+  @apply overflow-hidden rounded-xl;
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.dark .terminal-window {
+  box-shadow:
+    0 8px 16px -4px rgba(0, 0, 0, 0.4),
+    0 4px 8px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.terminal-window:hover {
+  box-shadow:
+    0 8px 12px -2px rgba(0, 0, 0, 0.12),
+    0 4px 6px -2px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.dark .terminal-window:hover {
+  box-shadow:
+    0 12px 24px -6px rgba(0, 0, 0, 0.5),
+    0 6px 12px -6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Terminal Header - Minimal Title Bar */
+.terminal-header {
+  @apply flex items-center justify-between px-3 py-2;
+  background-color: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.dark .terminal-header {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02) 0%,
+    transparent 100%
+  );
+  background-color: var(--color-bg-surface);
+}
+
+/* Traffic Light Dots */
+.terminal-dots {
+  @apply flex items-center gap-1.5;
+}
+
+.terminal-dot {
+  @apply block h-2.5 w-2.5 rounded-full;
+  transition: box-shadow var(--transition-fast);
+}
+
+.terminal-dot-red {
+  background-color: #ff5f57;
+}
+
+.terminal-dot-yellow {
+  background-color: #febc2e;
+}
+
+.terminal-dot-green {
+  background-color: #28c840;
+}
+
+/* Hover glow effects */
+.terminal-window:hover .terminal-dot-red {
+  box-shadow: 0 0 6px rgba(255, 95, 87, 0.5);
+}
+
+.terminal-window:hover .terminal-dot-yellow {
+  box-shadow: 0 0 6px rgba(254, 188, 46, 0.5);
+}
+
+.terminal-window:hover .terminal-dot-green {
+  box-shadow: 0 0 6px rgba(40, 200, 64, 0.5);
+}
+
+/* Copy Button */
+.terminal-copy {
+  @apply flex items-center justify-center rounded p-1;
+  color: var(--color-text-tertiary);
+  opacity: 0;
+  transition: all var(--transition-base);
+}
+
+.terminal-window:hover .terminal-copy {
+  opacity: 1;
+}
+
+.terminal-copy:hover {
+  color: var(--color-accent);
+  background-color: var(--color-bg-elevated);
+}
+
+.terminal-copy:active {
+  transform: scale(0.95);
+}
+
+/* Terminal Body */
+.terminal-body {
+  @apply relative;
+  padding: 1.25rem 1.5rem;
+}
+
+.terminal-body .shiki {
+  margin: 0;
+  padding: 0 !important;
+  border-radius: 0;
+}
+
+.terminal-body pre {
+  margin: 0;
+  padding: 0 !important;
+  border: none;
+  border-radius: 0;
+  background-color: transparent !important;
+}
+
+.terminal-body code {
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Override prose pre styling for terminal */
+.prose .terminal-window {
+  margin: 1.5rem 0;
+}
+
+.prose .terminal-window pre {
+  margin: 0;
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+.prose .terminal-body .shiki {
+  padding: 0 !important;
+  background-color: transparent !important;
 }
 
 /* ========================================
