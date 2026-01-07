@@ -1,0 +1,192 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+/* ========================================
+   Literary Nightfall - Warm Dark Theme
+   ======================================== */
+
+:root {
+  /* Light mode defaults (unchanged for now) */
+  --color-bg-deep: #ffffff;
+  --color-bg-surface: #f9fafb;
+  --color-bg-elevated: #f3f4f6;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #9ca3af;
+  --color-accent: #b8860b;
+  --color-accent-muted: #a67c00;
+  --color-border-subtle: #e5e7eb;
+  --color-border-visible: #d1d5db;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+.dark {
+  /* Warm Dark Foundation */
+  --color-bg-deep: #0f0d0b;
+  --color-bg-surface: #1a1714;
+  --color-bg-elevated: #241f1a;
+
+  /* Warm Neutrals */
+  --color-text-primary: #e8e2d9;
+  --color-text-secondary: #a69f94;
+  --color-text-tertiary: #6b635a;
+
+  /* Accent Colors */
+  --color-accent: #c9a962;
+  --color-accent-muted: #8b7355;
+
+  /* Borders & Dividers */
+  --color-border-subtle: #2a2420;
+  --color-border-visible: #3d352d;
+}
+
+/* Base body styles */
+body {
+  background-color: var(--color-bg-deep);
+  color: var(--color-text-primary);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* ========================================
+   Prose Typography - Literary Nightfall
+   ======================================== */
+
+.prose {
+  --tw-prose-body: var(--color-text-primary);
+  --tw-prose-headings: var(--color-text-primary);
+  --tw-prose-lead: var(--color-text-secondary);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-text-primary);
+  --tw-prose-counters: var(--color-text-tertiary);
+  --tw-prose-bullets: var(--color-text-tertiary);
+  --tw-prose-hr: var(--color-border-subtle);
+  --tw-prose-quotes: var(--color-text-secondary);
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-captions: var(--color-text-tertiary);
+  --tw-prose-code: var(--color-text-primary);
+  --tw-prose-pre-code: var(--color-text-primary);
+  --tw-prose-pre-bg: var(--color-bg-elevated);
+  --tw-prose-th-borders: var(--color-border-visible);
+  --tw-prose-td-borders: var(--color-border-subtle);
+}
+
+/* Prose headings use serif font */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+}
+
+/* Optimal line height for reading */
+.prose p {
+  line-height: 1.7;
+}
+
+/* Link styling with underline */
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-muted);
+  text-underline-offset: 2px;
+  transition: color var(--transition-base), text-decoration-color var(--transition-base);
+}
+
+.prose a:hover {
+  color: var(--color-accent-muted);
+  text-decoration-color: var(--color-accent);
+}
+
+/* Blockquote styling */
+.prose blockquote {
+  border-left-color: var(--color-accent);
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+/* Inline code styling */
+.prose :not(pre) > code {
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.875em;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+/* ========================================
+   Code Block Styling
+   ======================================== */
+
+pre {
+  @apply overflow-x-auto rounded-lg text-sm;
+  background-color: var(--color-bg-elevated) !important;
+  border: 1px solid var(--color-border-subtle);
+  padding: 1.25rem;
+}
+
+pre code {
+  @apply font-mono;
+  background-color: transparent !important;
+}
+
+.prose pre {
+  @apply bg-transparent p-0;
+  background-color: var(--color-bg-elevated) !important;
+}
+
+/* Shiki theme backgrounds */
+.shiki {
+  @apply overflow-x-auto rounded-lg;
+  background-color: var(--color-bg-elevated) !important;
+  border: 1px solid var(--color-border-subtle);
+  padding: 1.25rem;
+}
+
+/* ========================================
+   Focus States & Accessibility
+   ======================================== */
+
+/* Focus visible styling */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* Remove default focus styles for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg-deep);
+}
