@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Person, WithContext } from "schema-dts";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_CONFIG } from "@/lib/constants";
 
@@ -44,7 +45,7 @@ export default function AboutPage() {
       "React",
       "Next.js",
     ],
-  };
+  } as const satisfies WithContext<Person>;
 
   return (
     <div className="mx-auto max-w-[680px]">

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Article, BreadcrumbList, WithContext } from "schema-dts";
 import { getAllSlugs, getPostBySlug, categoryToSlug } from "@/lib/posts";
 import { MDXContent } from "@/components/MDXContent";
 import { JsonLd } from "@/components/JsonLd";
@@ -59,7 +60,7 @@ export default async function PostPage({ params }: PageProps) {
 
   const { frontmatter, content } = post;
 
-  const articleSchema = {
+  const articleSchema: WithContext<Article> = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: frontmatter.title,
@@ -83,7 +84,7 @@ export default async function PostPage({ params }: PageProps) {
     keywords: frontmatter.categories?.join(", "),
   };
 
-  const breadcrumbSchema = {
+  const breadcrumbSchema: WithContext<BreadcrumbList> = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [

@@ -1,3 +1,4 @@
+import type { WebSite, WithContext } from "schema-dts";
 import { getAllPosts } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
 import { JsonLd } from "@/components/JsonLd";
@@ -17,7 +18,7 @@ export default function HomePage() {
       name: SITE_CONFIG.author.name,
       url: SITE_CONFIG.author.url,
     },
-  };
+  } as const satisfies WithContext<WebSite>;
 
   return (
     <div>

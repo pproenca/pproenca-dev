@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { cache } from "react";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -59,7 +60,7 @@ export function getAllPosts(): PostMeta[] {
   return posts;
 }
 
-export function getPostBySlug(slug: string): Post | null {
+export const getPostBySlug = cache((slug: string): Post | null => {
   const fullPath = path.join(postsDirectory, `${slug}.mdx`);
 
   if (!fs.existsSync(fullPath)) {
@@ -76,7 +77,7 @@ export function getPostBySlug(slug: string): Post | null {
     frontmatter,
     content,
   };
-}
+});
 
 export function getAllCategories(): CategoryCount[] {
   const posts = getAllPosts();
@@ -93,14 +94,14 @@ export function getAllCategories(): CategoryCount[] {
     .sort((a, b) => b.count - a.count);
 }
 
-export function getPostsByCategory(category: string): PostMeta[] {
+export const getPostsByCategory = cache((category: string): PostMeta[] => {
   const posts = getAllPosts();
   return posts.filter((post) =>
     post.frontmatter.categories
       .map((c) => c.toLowerCase())
       .includes(category.toLowerCase())
   );
-}
+});
 
 export function getAllSlugs(): string[] {
   if (!fs.existsSync(postsDirectory)) {

@@ -1,5 +1,9 @@
+import type { Thing, WithContext } from "schema-dts";
+
+type JsonLdData = WithContext<Thing> | Record<string, unknown>;
+
 type JsonLdProps = {
-  data: Record<string, unknown>;
+  data: JsonLdData;
 };
 
 export function JsonLd({ data }: JsonLdProps) {
@@ -7,7 +11,7 @@ export function JsonLd({ data }: JsonLdProps) {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data),
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
       }}
     />
   );
