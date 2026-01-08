@@ -1,11 +1,12 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@theme inline {
-  --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
-  --font-mono: var(--font-mono);
+/* Exclude documentation from Tailwind scanning */
+@source not "../../openspec";
+@source not "../../content";
+@source not "../../docs";
 
+@theme inline {
   /* Golden ratio spacing scale (Fibonacci-based)
      φ ≈ 1.618 creates naturally pleasing proportions */
   --spacing-golden-1: 0.5rem;      /* 8px  - micro gaps */

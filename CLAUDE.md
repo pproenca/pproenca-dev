@@ -1,5 +1,47 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Commands
+
+```bash
+npm run dev          # Start dev server with Turbopack (http://localhost:3000)
+npm run build        # Generate sitemap + build static site to out/
+npm run lint         # Run ESLint
+```
+
+## Architecture
+
+This is a static MDX blog built with Next.js 16, Tailwind CSS 4, and the App Router.
+
+### Content Flow
+
+1. MDX posts live in `content/posts/` with YAML frontmatter
+2. `src/lib/posts.ts` reads and parses posts using gray-matter
+3. `src/components/MDXContent.tsx` renders posts using next-mdx-remote/rsc
+4. Code blocks go through `src/lib/shiki.ts` for syntax highlighting with dual themes (github-light / literary-nightfall)
+
+### Key Patterns
+
+- **Static export**: Site builds to `out/` directory for static hosting
+- **Dual theme code blocks**: MDXContent renders both light and dark HTML, CodeBlock component shows the appropriate one based on theme
+- **CSS variables for theming**: Colors defined in `globals.css` as CSS custom properties, switched via `.dark` class
+- **Server components by default**: MDX rendering happens server-side; only interactive components (ThemeToggle, CodeBlock copy) are client components
+
+### Route Structure
+
+- `/` - Post listing (src/app/page.tsx)
+- `/posts/[slug]` - Individual posts (src/app/posts/[slug]/page.tsx)
+- `/categories` - Category listing (src/app/categories/page.tsx)
+- `/categories/[slug]` - Posts by category (src/app/categories/[slug]/page.tsx)
+- `/about` - About page (src/app/about/page.tsx)
+
+### Adding New Syntax Highlighting Languages
+
+Add to the `langs` array in `src/lib/shiki.ts`.
+
 <!-- OPENSPEC:START -->
-# OpenSpec Instructions
+## OpenSpec Instructions
 
 These instructions are for AI assistants working in this project.
 
