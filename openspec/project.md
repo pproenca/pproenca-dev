@@ -5,12 +5,13 @@ Personal developer blog for sharing thoughts on web development, programming, an
 
 ## Tech Stack
 - **Framework**: Next.js 16.1.1 (App Router with Turbopack)
-- **Language**: TypeScript 5 (strict mode)
+- **Language**: TypeScript 5.9 (strict mode)
 - **UI**: React 19.2.3
 - **Styling**: Tailwind CSS 4 with @tailwindcss/typography
 - **Content**: MDX via next-mdx-remote, gray-matter for frontmatter
-- **Code Highlighting**: Shiki
+- **Code Highlighting**: Shiki with dual themes (github-light / literary-nightfall)
 - **Theming**: next-themes for dark/light mode
+- **SEO**: JSON-LD via schema-dts, dynamic OG images, sitemap.ts, robots.ts
 - **Fonts**: Libre Baskerville (serif), Source Sans 3 (sans), JetBrains Mono (mono)
 
 ## Project Conventions
@@ -29,8 +30,11 @@ Personal developer blog for sharing thoughts on web development, programming, an
   - `src/components/` - Reusable React components
   - `src/lib/` - Utility functions and helpers
   - `content/posts/` - MDX blog post files
+  - `openspec/` - Project documentation and proposals
 - **Theming**: CSS variables in globals.css with `.dark` class toggle via next-themes
 - **Content Pipeline**: MDX files → gray-matter parsing → next-mdx-remote rendering → Shiki highlighting
+- **Caching**: React `cache()` for server-side request deduplication (see `src/lib/posts.ts`)
+- **Spacing System**: Golden ratio (Fibonacci-based) spacing scale in CSS (`--spacing-golden-*`)
 
 ### Testing Strategy
 No testing framework configured yet. When adding tests, consider:
@@ -47,16 +51,25 @@ No testing framework configured yet. When adding tests, consider:
 - **Branch**: Single `master` branch (early stage project)
 
 ## Domain Context
-- Blog posts are MDX files in `content/posts/` with frontmatter (title, date, category, excerpt)
-- Categories are extracted from post frontmatter
-- Theme is called "Literary Nightfall" - warm, literary aesthetic with dark amber accents
+- Blog posts are MDX files in `content/posts/` with frontmatter:
+  - `title`: Post title (string)
+  - `date`: Publication date (YYYY-MM-DD format)
+  - `description`: Post summary for SEO and previews (string)
+  - `categories`: Array of category names (e.g., `["Next.js", "Web Development"]`)
+  - `draft`: Optional boolean to hide post from listings
+- Categories are extracted from post frontmatter, slugified for URLs
+- Design theme: "Kindle Reading Theme" - e-ink inspired light mode, OLED-optimized dark mode
+- Color palette: Warm cream text, soft gold accents, aged paper aesthetic
 - Content focused on web development and technology topics
 
 ## Important Constraints
 - Static generation preferred for blog posts (SSG)
 - Accessibility: Focus states, reduced motion support, semantic HTML
 - Performance: Turbopack in dev, optimized fonts with `display: swap`
+- Security: XSS protection in JSON-LD output (HTML entity escaping)
+- SEO: All pages require metadata, canonical URLs, and structured data
 - No external CMS - all content in repository
+- Modern browsers only (last 2 versions of Chrome, Firefox, Safari, Edge)
 
 ## External Dependencies
 - Google Fonts (Libre Baskerville, Source Sans 3, JetBrains Mono)
