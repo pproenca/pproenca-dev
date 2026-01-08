@@ -1,8 +1,8 @@
 export function Footer() {
   return (
-    <footer className="border-t border-(--color-border-subtle)">
-      <div className="mx-auto max-w-[680px] px-golden-3 py-golden-4 text-center text-sm text-(--color-text-tertiary)">
-        <p>&copy; {new Date().getFullYear()} Blog. All rights reserved.</p>
+    <footer className="border-t border-(--color-border-subtle)/30">
+      <div className="mx-auto max-w-[680px] px-golden-3 py-golden-3 text-center text-xs text-(--color-text-tertiary)/70">
+        <p>&copy; {new Date().getFullYear()} Blog</p>
       </div>
     </footer>
   );

@@ -18,21 +18,25 @@
 }
 
 /* ========================================
-   Literary Nightfall - Warm Dark Theme
+   Kindle Reading Theme - Digital Paper
    ======================================== */
 
 :root {
-  /* Paper-like warm cream palette */
-  --color-bg-deep: #fdfbf7;
-  --color-bg-surface: #faf8f3;
-  --color-bg-elevated: #f5f3ee;
-  --color-text-primary: #111827;
-  --color-text-secondary: #4b5563;
-  --color-text-tertiary: #9ca3af;
-  --color-accent: #b8860b;
-  --color-accent-muted: #a67c00;
-  --color-border-subtle: #e8e6e1;
-  --color-border-visible: #d4d2cd;
+  /* Light Mode: Aged Paper - e-ink inspired */
+  --color-bg-deep: #f4f1e8;
+  --color-bg-surface: #ebe6d9;
+  --color-bg-elevated: #e2dccf;
+  --color-text-primary: #3d3731;
+  --color-text-secondary: #6b6459;
+  --color-text-tertiary: #9a948a;
+  --color-accent: #9a7b4f;
+  --color-accent-muted: #7a6342;
+  --color-border-subtle: #ddd7cb;
+  --color-border-visible: #ccc5b8;
+
+  /* Paper texture for light mode */
+  --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  --paper-texture-visible: block;
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -41,23 +45,26 @@
 }
 
 .dark {
-  /* Warm Dark Foundation */
-  --color-bg-deep: #0f0d0b;
-  --color-bg-surface: #1a1714;
-  --color-bg-elevated: #241f1a;
+  /* Dark Mode: Night Reading - OLED optimized */
+  --color-bg-deep: #0a0908;
+  --color-bg-surface: #141210;
+  --color-bg-elevated: #1e1b17;
 
-  /* Warm Neutrals */
-  --color-text-primary: #e8e2d9;
-  --color-text-secondary: #a69f94;
-  --color-text-tertiary: #6b635a;
+  /* Warm Cream Text (not pure white) */
+  --color-text-primary: #d4cfc4;
+  --color-text-secondary: #9a958c;
+  --color-text-tertiary: #5a5650;
 
-  /* Accent Colors */
-  --color-accent: #c9a962;
-  --color-accent-muted: #8b7355;
+  /* Soft Gold Accents */
+  --color-accent: #a89060;
+  --color-accent-muted: #87734d;
 
-  /* Borders & Dividers */
-  --color-border-subtle: #2a2420;
-  --color-border-visible: #3d352d;
+  /* Subtle Warm Borders */
+  --color-border-subtle: #252220;
+  --color-border-visible: #353230;
+
+  /* No paper texture in dark mode (OLED clean) */
+  --paper-texture-visible: none;
 }
 
 /* Base body styles */
@@ -65,10 +72,23 @@ body {
   background-color: var(--color-bg-deep);
   color: var(--color-text-primary);
   transition: background-color var(--transition-base), color var(--transition-base);
+  font-size: 18px;
+}
+
+/* Paper texture overlay - light mode only */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--paper-texture);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: multiply;
+  display: var(--paper-texture-visible);
 }
 
 /* ========================================
-   Prose Typography - Literary Nightfall
+   Prose Typography - Kindle Reading Theme
    ======================================== */
 
 .prose {
@@ -99,9 +119,9 @@ body {
   font-weight: 700;
 }
 
-/* Golden ratio line height for optimal reading */
+/* Generous line height for comfortable reading */
 .prose p {
-  line-height: 1.618;
+  line-height: 1.75;
 }
 
 /* Golden rhythm for prose elements */
@@ -133,9 +153,9 @@ body {
   text-decoration-color: var(--color-accent);
 }
 
-/* Blockquote styling */
+/* Blockquote styling - book-like with subtle border */
 .prose blockquote {
-  border-left-color: var(--color-accent);
+  border-left: 2px solid var(--color-border-subtle);
   font-style: italic;
   color: var(--color-text-secondary);
   padding-left: var(--spacing-golden-3);
@@ -249,39 +269,28 @@ pre code {
   background-color: var(--color-bg-surface);
 }
 
-/* Traffic Light Dots */
+/* Traffic Light Dots - Muted for e-reader aesthetic */
 .terminal-dots {
   @apply flex items-center gap-1.5;
 }
 
 .terminal-dot {
-  @apply block h-2.5 w-2.5 rounded-full;
-  transition: box-shadow var(--transition-fast);
+  @apply block h-2 w-2 rounded-full;
+  background-color: var(--color-border-visible);
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
 }
 
-.terminal-dot-red {
-  background-color: #ff5f57;
-}
-
-.terminal-dot-yellow {
-  background-color: #febc2e;
-}
-
+/* All dots use same muted color */
+.terminal-dot-red,
+.terminal-dot-yellow,
 .terminal-dot-green {
-  background-color: #28c840;
+  background-color: var(--color-border-visible);
 }
 
-/* Hover glow effects */
-.terminal-window:hover .terminal-dot-red {
-  box-shadow: 0 0 6px rgba(255, 95, 87, 0.5);
-}
-
-.terminal-window:hover .terminal-dot-yellow {
-  box-shadow: 0 0 6px rgba(254, 188, 46, 0.5);
-}
-
-.terminal-window:hover .terminal-dot-green {
-  box-shadow: 0 0 6px rgba(40, 200, 64, 0.5);
+/* Subtle hover - dots become slightly more visible */
+.terminal-window:hover .terminal-dot {
+  opacity: 0.7;
 }
 
 /* Copy Button */
