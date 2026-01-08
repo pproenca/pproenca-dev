@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.com/</loc>
-    <lastmod>2026-01-08T14:18:52.347Z</lastmod>
+    <loc>https://pproenca.dev/</loc>
+    <lastmod>2026-01-08T20:00:02.658Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/categories</loc>
-    <lastmod>2026-01-08T14:18:52.347Z</lastmod>
+    <loc>https://pproenca.dev/categories</loc>
+    <lastmod>2026-01-08T20:00:02.658Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://example.com/about</loc>
-    <lastmod>2026-01-08T14:18:52.347Z</lastmod>
+    <loc>https://pproenca.dev/about</loc>
+    <lastmod>2026-01-08T20:00:02.658Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://example.com/posts/getting-started-with-nextjs</loc>
+    <loc>https://pproenca.dev/posts/getting-started-with-nextjs</loc>
     <lastmod>2025-01-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/posts/typescript-best-practices</loc>
+    <loc>https://pproenca.dev/posts/typescript-best-practices</loc>
     <lastmod>2025-01-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/categories/next.js</loc>
-    <lastmod>2026-01-08T14:18:52.347Z</lastmod>
+    <loc>https://pproenca.dev/categories/next.js</loc>
+    <lastmod>2026-01-08T20:00:02.658Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://example.com/categories/web-development</loc>
-    <lastmod>2026-01-08T14:18:52.347Z</lastmod>
+    <loc>https://pproenca.dev/categories/web-development</loc>
+    <lastmod>2026-01-08T20:00:02.658Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://example.com/categories/typescript</loc>
-    <lastmod>2026-01-08T14:18:52.347Z</lastmod>
+    <loc>https://pproenca.dev/categories/typescript</loc>
+    <lastmod>2026-01-08T20:00:02.658Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

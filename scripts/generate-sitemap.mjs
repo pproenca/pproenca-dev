@@ -2,7 +2,19 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+// Load .env.local if it exists
+const envPath = path.join(process.cwd(), ".env.local");
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, "utf8");
+  envContent.split("\n").forEach((line) => {
+    const [key, ...valueParts] = line.split("=");
+    if (key && valueParts.length) {
+      process.env[key.trim()] = valueParts.join("=").trim();
+    }
+  });
+}
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://pproenca.dev";
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
 function getAllPosts() {

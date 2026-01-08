@@ -56,7 +56,7 @@
   /* Warm Cream Text (not pure white) */
   --color-text-primary: #d4cfc4;
   --color-text-secondary: #9a958c;
-  --color-text-tertiary: #5a5650;
+  --color-text-tertiary: #8a857c; /* WCAG AA compliant: ~5:1 contrast ratio */
 
   /* Soft Gold Accents */
   --color-accent: #a89060;
@@ -272,28 +272,75 @@ pre code {
   background-color: var(--color-bg-surface);
 }
 
-/* Traffic Light Dots - Muted for e-reader aesthetic */
+/* Traffic Light Dots - Mac-inspired, theme-harmonized */
 .terminal-dots {
   @apply flex items-center gap-1.5;
 }
 
 .terminal-dot {
-  @apply block h-2 w-2 rounded-full;
-  background-color: var(--color-border-visible);
-  opacity: 0.5;
-  transition: opacity var(--transition-fast);
+  @apply block h-2.5 w-2.5 rounded-full;
+  transition:
+    background-color var(--transition-base),
+    transform var(--transition-fast),
+    box-shadow var(--transition-base);
 }
 
-/* All dots use same muted color */
-.terminal-dot-red,
-.terminal-dot-yellow,
+/* Light mode: warm, muted tones that feel like aged ink */
+.terminal-dot-red {
+  background-color: #c4a08a;
+}
+
+.terminal-dot-yellow {
+  background-color: #c9b896;
+}
+
 .terminal-dot-green {
-  background-color: var(--color-border-visible);
+  background-color: #a8b89a;
 }
 
-/* Subtle hover - dots become slightly more visible */
-.terminal-window:hover .terminal-dot {
-  opacity: 0.7;
+/* Dark mode: deeper, richer tones for OLED */
+.dark .terminal-dot-red {
+  background-color: #6b4a42;
+}
+
+.dark .terminal-dot-yellow {
+  background-color: #6b5f3d;
+}
+
+.dark .terminal-dot-green {
+  background-color: #4a5c42;
+}
+
+/* Hover: reveal true traffic light colors */
+.terminal-window:hover .terminal-dot-red {
+  background-color: #e8655a;
+  box-shadow: 0 0 8px rgba(232, 101, 90, 0.3);
+}
+
+.terminal-window:hover .terminal-dot-yellow {
+  background-color: #e5b645;
+  box-shadow: 0 0 8px rgba(229, 182, 69, 0.3);
+}
+
+.terminal-window:hover .terminal-dot-green {
+  background-color: #5ac26a;
+  box-shadow: 0 0 8px rgba(90, 194, 106, 0.3);
+}
+
+/* Dark mode hover: slightly deeper but still vibrant */
+.dark .terminal-window:hover .terminal-dot-red {
+  background-color: #d45a50;
+  box-shadow: 0 0 10px rgba(212, 90, 80, 0.4);
+}
+
+.dark .terminal-window:hover .terminal-dot-yellow {
+  background-color: #d4a83e;
+  box-shadow: 0 0 10px rgba(212, 168, 62, 0.4);
+}
+
+.dark .terminal-window:hover .terminal-dot-green {
+  background-color: #4fb85e;
+  box-shadow: 0 0 10px rgba(79, 184, 94, 0.4);
 }
 
 /* Copy Button */
