@@ -49,7 +49,7 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-[680px]">
       <JsonLd data={personSchema} />
-      <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
+      <h1 className="font-serif text-3xl font-bold text-text-primary">
         About
       </h1>
 

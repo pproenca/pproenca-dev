@@ -79,10 +79,10 @@ export default async function CategoryPage({ params }: PageProps) {
   return (
     <div>
       <JsonLd data={breadcrumbSchema} />
-      <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
+      <h1 className="font-serif text-3xl font-bold text-text-primary">
         {category}
       </h1>
-      <p className="mt-golden-2 text-(--color-text-secondary)">
+      <p className="mt-golden-2 text-text-secondary">
         {posts.length} {posts.length === 1 ? "post" : "posts"} in this category
       </p>
 
@@ -93,7 +93,7 @@ export default async function CategoryPage({ params }: PageProps) {
       </div>
 
       {posts.length === 0 && (
-        <p className="mt-golden-5 text-(--color-text-tertiary)">
+        <p className="mt-golden-5 text-text-tertiary">
           No posts found in this category.
         </p>
       )}

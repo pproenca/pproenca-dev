@@ -113,11 +113,11 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${libreBaskerville.variable} ${sourceSans.variable} ${jetbrainsMono.variable} font-sans antialiased`}
+        className={`${libreBaskerville.variable} ${sourceSans.variable} ${jetbrainsMono.variable} bg-bg-deep text-text-primary font-sans antialiased transition-colors duration-200`}
       >
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-(--color-bg-elevated) focus:px-4 focus:py-2 focus:text-(--color-accent)"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-bg-elevated focus:px-4 focus:py-2 focus:text-accent"
         >
           Skip to main content
         </a>

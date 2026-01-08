@@ -18,6 +18,29 @@
   --spacing-golden-4: 2.125rem;    /* 34px - section margins */
   --spacing-golden-5: 3.4375rem;   /* 55px - major breaks */
   --spacing-golden-6: 5.5625rem;   /* 89px - page-level */
+
+  /* Theme colors - reference CSS variables for dark mode switching
+     Enables cleaner syntax: bg-bg-deep instead of bg-(--color-bg-deep) */
+  --color-bg-deep: var(--color-bg-deep);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-elevated: var(--color-bg-elevated);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-tertiary: var(--color-text-tertiary);
+  --color-accent: var(--color-accent);
+  --color-accent-muted: var(--color-accent-muted);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-visible: var(--color-border-visible);
+  --color-border: var(--color-border-visible); /* alias */
+
+  /* Terminal traffic light colors - light mode base */
+  --color-terminal-red: #c4a08a;
+  --color-terminal-yellow: #c9b896;
+  --color-terminal-green: #a8b89a;
+  /* Terminal traffic light colors - hover active */
+  --color-terminal-red-active: #e8655a;
+  --color-terminal-yellow-active: #e5b645;
+  --color-terminal-green-active: #5ac26a;
 }
 
 /* ========================================
@@ -70,11 +93,8 @@
   --paper-texture-visible: none;
 }
 
-/* Base body styles */
+/* Base body styles - bg/color/transition handled by Tailwind utilities in layout.tsx */
 body {
-  background-color: var(--color-bg-deep);
-  color: var(--color-text-primary);
-  transition: background-color var(--transition-base), color var(--transition-base);
   font-size: 18px;
 }
 
@@ -233,27 +253,27 @@ pre code {
     0 2px 4px -2px rgba(0, 0, 0, 0.1),
     0 0 0 1px rgba(0, 0, 0, 0.05);
   transition: box-shadow var(--transition-base), transform var(--transition-base);
-}
 
-.dark .terminal-window {
-  box-shadow:
-    0 8px 16px -4px rgba(0, 0, 0, 0.4),
-    0 4px 8px -4px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
-}
+  @variant dark {
+    box-shadow:
+      0 8px 16px -4px rgba(0, 0, 0, 0.4),
+      0 4px 8px -4px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
 
-.terminal-window:hover {
-  box-shadow:
-    0 8px 12px -2px rgba(0, 0, 0, 0.12),
-    0 4px 6px -2px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
-}
+  &:hover {
+    box-shadow:
+      0 8px 12px -2px rgba(0, 0, 0, 0.12),
+      0 4px 6px -2px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(0, 0, 0, 0.05);
 
-.dark .terminal-window:hover {
-  box-shadow:
-    0 12px 24px -6px rgba(0, 0, 0, 0.5),
-    0 6px 12px -6px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    @variant dark {
+      box-shadow:
+        0 12px 24px -6px rgba(0, 0, 0, 0.5),
+        0 6px 12px -6px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+  }
 }
 
 /* Terminal Header - Minimal Title Bar */
@@ -261,15 +281,15 @@ pre code {
   @apply flex items-center justify-between px-3 py-2;
   background-color: var(--color-bg-surface);
   border-bottom: 1px solid var(--color-border-subtle);
-}
 
-.dark .terminal-header {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.02) 0%,
-    transparent 100%
-  );
-  background-color: var(--color-bg-surface);
+  @variant dark {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.02) 0%,
+      transparent 100%
+    );
+    background-color: var(--color-bg-surface);
+  }
 }
 
 /* Traffic Light Dots - Mac-inspired, theme-harmonized */
@@ -285,62 +305,60 @@ pre code {
     box-shadow var(--transition-base);
 }
 
-/* Light mode: warm, muted tones that feel like aged ink */
+/* Traffic light dots - use @theme colors */
 .terminal-dot-red {
-  background-color: #c4a08a;
+  background-color: var(--color-terminal-red);
+
+  @variant dark {
+    background-color: #6b4a42;
+  }
 }
 
 .terminal-dot-yellow {
-  background-color: #c9b896;
+  background-color: var(--color-terminal-yellow);
+
+  @variant dark {
+    background-color: #6b5f3d;
+  }
 }
 
 .terminal-dot-green {
-  background-color: #a8b89a;
-}
+  background-color: var(--color-terminal-green);
 
-/* Dark mode: deeper, richer tones for OLED */
-.dark .terminal-dot-red {
-  background-color: #6b4a42;
-}
-
-.dark .terminal-dot-yellow {
-  background-color: #6b5f3d;
-}
-
-.dark .terminal-dot-green {
-  background-color: #4a5c42;
+  @variant dark {
+    background-color: #4a5c42;
+  }
 }
 
 /* Hover: reveal true traffic light colors */
 .terminal-window:hover .terminal-dot-red {
-  background-color: #e8655a;
+  background-color: var(--color-terminal-red-active);
   box-shadow: 0 0 8px rgba(232, 101, 90, 0.3);
+
+  @variant dark {
+    background-color: #d45a50;
+    box-shadow: 0 0 10px rgba(212, 90, 80, 0.4);
+  }
 }
 
 .terminal-window:hover .terminal-dot-yellow {
-  background-color: #e5b645;
+  background-color: var(--color-terminal-yellow-active);
   box-shadow: 0 0 8px rgba(229, 182, 69, 0.3);
+
+  @variant dark {
+    background-color: #d4a83e;
+    box-shadow: 0 0 10px rgba(212, 168, 62, 0.4);
+  }
 }
 
 .terminal-window:hover .terminal-dot-green {
-  background-color: #5ac26a;
+  background-color: var(--color-terminal-green-active);
   box-shadow: 0 0 8px rgba(90, 194, 106, 0.3);
-}
 
-/* Dark mode hover: slightly deeper but still vibrant */
-.dark .terminal-window:hover .terminal-dot-red {
-  background-color: #d45a50;
-  box-shadow: 0 0 10px rgba(212, 90, 80, 0.4);
-}
-
-.dark .terminal-window:hover .terminal-dot-yellow {
-  background-color: #d4a83e;
-  box-shadow: 0 0 10px rgba(212, 168, 62, 0.4);
-}
-
-.dark .terminal-window:hover .terminal-dot-green {
-  background-color: #4fb85e;
-  box-shadow: 0 0 10px rgba(79, 184, 94, 0.4);
+  @variant dark {
+    background-color: #4fb85e;
+    box-shadow: 0 0 10px rgba(79, 184, 94, 0.4);
+  }
 }
 
 /* Copy Button */
@@ -369,10 +387,10 @@ pre code {
   @apply relative;
   padding: 1.25rem 1.5rem;
   background-color: #ffffff; /* GitHub Light background */
-}
 
-.dark .terminal-body {
-  background-color: #272822; /* Monokai background */
+  @variant dark {
+    background-color: #272822; /* Monokai background */
+  }
 }
 
 .terminal-body .shiki {

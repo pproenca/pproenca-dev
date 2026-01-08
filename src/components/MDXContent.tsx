@@ -22,7 +22,7 @@ async function Code({ children, className }: CodeProps) {
 
   if (!className) {
     return (
-      <code className="rounded border border-(--color-border-subtle) bg-(--color-bg-elevated) px-1.5 py-0.5 font-mono text-sm">
+      <code className="rounded border border-border-subtle bg-bg-elevated px-1.5 py-0.5 font-mono text-sm">
         {children}
       </code>
     );

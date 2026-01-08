@@ -22,10 +22,10 @@ export default function HomePage() {
   return (
     <div>
       <JsonLd data={websiteSchema} />
-      <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
+      <h1 className="font-serif text-3xl font-bold text-text-primary">
         Latest Posts
       </h1>
-      <p className="mt-golden-2 text-(--color-text-secondary)">
+      <p className="mt-golden-2 text-text-secondary">
         Thoughts on web development, programming, and technology.
       </p>
 
@@ -36,7 +36,7 @@ export default function HomePage() {
       </div>
 
       {posts.length === 0 && (
-        <p className="mt-golden-5 text-(--color-text-tertiary)">
+        <p className="mt-golden-5 text-text-tertiary">
           No posts yet. Check back soon!
         </p>
       )}

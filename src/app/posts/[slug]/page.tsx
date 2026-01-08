@@ -112,10 +112,10 @@ export default async function PostPage({ params }: PageProps) {
       <JsonLd data={articleSchema} />
       <JsonLd data={breadcrumbSchema} />
       <header className="mb-golden-5 text-center">
-        <h1 className="font-serif text-4xl font-bold leading-tight text-(--color-text-primary)">
+        <h1 className="font-serif text-4xl font-bold leading-tight text-text-primary">
           {frontmatter.title}
         </h1>
-        <time className="mt-golden-2 block text-(--color-text-tertiary)">
+        <time className="mt-golden-2 block text-text-tertiary">
           {new Date(frontmatter.date).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
@@ -127,14 +127,14 @@ export default async function PostPage({ params }: PageProps) {
       <MDXContent source={content} />
 
       {frontmatter.categories && frontmatter.categories.length > 0 && (
-        <footer className="mt-golden-6 border-t border-(--color-border) pt-golden-4">
-          <p className="font-serif text-sm text-(--color-text-tertiary)">
+        <footer className="mt-golden-6 border-t border-border pt-golden-4">
+          <p className="font-serif text-sm text-text-tertiary">
             Filed under{" "}
             {frontmatter.categories.map((category, index) => (
               <span key={category}>
                 <Link
                   href={`/categories/${categoryToSlug(category)}`}
-                  className="text-(--color-text-secondary) transition-colors hover:text-(--color-accent)"
+                  className="text-text-secondary transition-colors hover:text-accent"
                 >
                   {category}
                 </Link>

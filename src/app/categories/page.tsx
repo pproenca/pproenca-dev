@@ -20,10 +20,10 @@ export default function CategoriesPage() {
 
   return (
     <div>
-      <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
+      <h1 className="font-serif text-3xl font-bold text-text-primary">
         Categories
       </h1>
-      <p className="mt-golden-2 text-(--color-text-secondary)">
+      <p className="mt-golden-2 text-text-secondary">
         Browse posts by category
       </p>
 
@@ -32,12 +32,12 @@ export default function CategoriesPage() {
           <Link
             key={name}
             href={`/categories/${categoryToSlug(name)}`}
-            className="flex items-center gap-golden-1 rounded-lg border border-(--color-border-visible) px-golden-2 py-golden-1 transition-colors duration-200 hover:border-(--color-accent) hover:text-(--color-accent)"
+            className="flex items-center gap-golden-1 rounded-lg border border-border-visible px-golden-2 py-golden-1 transition-colors duration-200 hover:border-accent hover:text-accent"
           >
-            <span className="font-medium text-(--color-text-primary)">
+            <span className="font-medium text-text-primary">
               {name}
             </span>
-            <span className="rounded-full border border-(--color-border-subtle) px-2 py-0.5 text-sm text-(--color-text-tertiary)">
+            <span className="rounded-full border border-border-subtle px-2 py-0.5 text-sm text-text-tertiary">
               {count}
             </span>
           </Link>
@@ -45,7 +45,7 @@ export default function CategoriesPage() {
       </div>
 
       {categories.length === 0 && (
-        <p className="mt-golden-4 text-(--color-text-tertiary)">
+        <p className="mt-golden-4 text-text-tertiary">
           No categories found.
         </p>
       )}
