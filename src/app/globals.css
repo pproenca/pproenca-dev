@@ -5,6 +5,15 @@
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
+
+  /* Golden ratio spacing scale (Fibonacci-based)
+     φ ≈ 1.618 creates naturally pleasing proportions */
+  --spacing-golden-1: 0.5rem;      /* 8px  - micro gaps */
+  --spacing-golden-2: 0.8125rem;   /* 13px - small margins */
+  --spacing-golden-3: 1.3125rem;   /* 21px - standard rhythm */
+  --spacing-golden-4: 2.125rem;    /* 34px - section margins */
+  --spacing-golden-5: 3.4375rem;   /* 55px - major breaks */
+  --spacing-golden-6: 5.5625rem;   /* 89px - page-level */
 }
 
 /* ========================================
@@ -12,17 +21,17 @@
    ======================================== */
 
 :root {
-  /* Light mode defaults (unchanged for now) */
-  --color-bg-deep: #ffffff;
-  --color-bg-surface: #f9fafb;
-  --color-bg-elevated: #f3f4f6;
+  /* Paper-like warm cream palette */
+  --color-bg-deep: #fdfbf7;
+  --color-bg-surface: #faf8f3;
+  --color-bg-elevated: #f5f3ee;
   --color-text-primary: #111827;
   --color-text-secondary: #4b5563;
   --color-text-tertiary: #9ca3af;
   --color-accent: #b8860b;
   --color-accent-muted: #a67c00;
-  --color-border-subtle: #e5e7eb;
-  --color-border-visible: #d1d5db;
+  --color-border-subtle: #e8e6e1;
+  --color-border-visible: #d4d2cd;
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -89,9 +98,24 @@ body {
   font-weight: 700;
 }
 
-/* Optimal line height for reading */
+/* Golden ratio line height for optimal reading */
 .prose p {
-  line-height: 1.7;
+  line-height: 1.618;
+}
+
+/* Golden rhythm for prose elements */
+.prose > * + * {
+  margin-top: var(--spacing-golden-3);
+}
+
+.prose h2 {
+  margin-top: var(--spacing-golden-5);
+  margin-bottom: var(--spacing-golden-3);
+}
+
+.prose h3 {
+  margin-top: var(--spacing-golden-4);
+  margin-bottom: var(--spacing-golden-2);
 }
 
 /* Link styling with underline */
@@ -113,6 +137,20 @@ body {
   border-left-color: var(--color-accent);
   font-style: italic;
   color: var(--color-text-secondary);
+  padding-left: var(--spacing-golden-3);
+  margin-top: var(--spacing-golden-4);
+  margin-bottom: var(--spacing-golden-4);
+}
+
+/* List spacing */
+.prose ul,
+.prose ol {
+  padding-left: var(--spacing-golden-3);
+}
+
+.prose li {
+  margin-top: var(--spacing-golden-1);
+  margin-bottom: var(--spacing-golden-1);
 }
 
 /* Inline code styling */
@@ -293,7 +331,8 @@ pre code {
 
 /* Override prose pre styling for terminal */
 .prose .terminal-window {
-  margin: 1.5rem 0;
+  margin-top: var(--spacing-golden-4);
+  margin-bottom: var(--spacing-golden-4);
 }
 
 .prose .terminal-window pre {

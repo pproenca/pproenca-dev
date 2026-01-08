@@ -52,18 +52,18 @@ export default async function PostPage({ params }: PageProps) {
 
   return (
     <article className="mx-auto max-w-[680px]">
-      <header className="mb-12 text-center">
+      <header className="mb-golden-5 text-center">
         <h1 className="font-serif text-4xl font-bold leading-tight text-[var(--color-text-primary)]">
           {frontmatter.title}
         </h1>
-        <time className="mt-4 block text-[var(--color-text-tertiary)]">
+        <time className="mt-golden-2 block text-[var(--color-text-tertiary)]">
           {new Date(frontmatter.date).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
         </time>
-        <div className="mt-4 flex flex-wrap justify-center gap-2">
+        <div className="mt-golden-2 flex flex-wrap justify-center gap-golden-1">
           {frontmatter.categories.map((category) => (
             <CategoryBadge key={category} category={category} size="md" />
           ))}

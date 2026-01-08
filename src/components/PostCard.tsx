@@ -16,17 +16,17 @@ export function PostCard({ post }: PostCardProps) {
           {frontmatter.title}
         </h2>
       </Link>
-      <time className="mt-2 block text-sm text-[var(--color-text-tertiary)]">
+      <time className="mt-golden-1 block text-sm text-[var(--color-text-tertiary)]">
         {new Date(frontmatter.date).toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
           day: "numeric",
         })}
       </time>
-      <p className="mt-3 leading-relaxed text-[var(--color-text-secondary)]">
+      <p className="mt-golden-2 leading-relaxed text-[var(--color-text-secondary)]">
         {frontmatter.description}
       </p>
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-golden-2 flex flex-wrap gap-golden-1">
         {frontmatter.categories.map((category) => (
           <CategoryBadge key={category} category={category} />
         ))}

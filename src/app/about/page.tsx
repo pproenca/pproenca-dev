@@ -12,7 +12,7 @@ export default function AboutPage() {
         About
       </h1>
 
-      <div className="prose mt-8 max-w-none">
+      <div className="prose mt-golden-4 max-w-none">
         <p>
           Welcome to my blog! This is where I share my thoughts on web
           development, programming, and technology.

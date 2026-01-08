@@ -47,18 +47,18 @@ export default async function CategoryPage({ params }: PageProps) {
       <h1 className="font-serif text-3xl font-bold text-[var(--color-text-primary)]">
         {category}
       </h1>
-      <p className="mt-3 text-[var(--color-text-secondary)]">
+      <p className="mt-golden-2 text-[var(--color-text-secondary)]">
         {posts.length} {posts.length === 1 ? "post" : "posts"} in this category
       </p>
 
-      <div className="mt-12 space-y-12">
+      <div className="mt-golden-5 space-y-golden-5">
         {posts.map((post) => (
           <PostCard key={post.slug} post={post} />
         ))}
       </div>
 
       {posts.length === 0 && (
-        <p className="mt-12 text-[var(--color-text-tertiary)]">
+        <p className="mt-golden-5 text-[var(--color-text-tertiary)]">
           No posts found in this category.
         </p>
       )}
