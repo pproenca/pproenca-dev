@@ -79,7 +79,7 @@
   /* Warm Cream Text (not pure white) */
   --color-text-primary: #d4cfc4;
   --color-text-secondary: #9a958c;
-  --color-text-tertiary: #8a857c; /* WCAG AA compliant: ~5:1 contrast ratio */
+  --color-text-tertiary: #9e998f; /* WCAG AA compliant: ~6:1 contrast ratio */
 
   /* Soft Gold Accents */
   --color-accent: #a89060;
