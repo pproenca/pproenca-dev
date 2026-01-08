@@ -29,8 +29,8 @@ async function Code({ children, className }: CodeProps) {
   }
 
   const hl = await getHighlighter();
-  const lightHtml = hl.codeToHtml(code, { lang, theme: "github-light" });
-  const darkHtml = hl.codeToHtml(code, { lang, theme: "literary-nightfall" });
+  const lightHtml = hl.codeToHtml(code, { lang, theme: "light-plus" });
+  const darkHtml = hl.codeToHtml(code, { lang, theme: "monokai" });
 
   return (
     <CodeBlock lightHtml={lightHtml} darkHtml={darkHtml}>
