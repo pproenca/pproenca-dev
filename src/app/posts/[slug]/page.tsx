@@ -53,10 +53,10 @@ export default async function PostPage({ params }: PageProps) {
   return (
     <article className="mx-auto max-w-[680px]">
       <header className="mb-golden-5 text-center">
-        <h1 className="font-serif text-4xl font-bold leading-tight text-[var(--color-text-primary)]">
+        <h1 className="font-serif text-4xl font-bold leading-tight text-(--color-text-primary)">
           {frontmatter.title}
         </h1>
-        <time className="mt-golden-2 block text-[var(--color-text-tertiary)]">
+        <time className="mt-golden-2 block text-(--color-text-tertiary)">
           {new Date(frontmatter.date).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",

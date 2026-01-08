@@ -12,10 +12,10 @@ export default function CategoriesPage() {
 
   return (
     <div>
-      <h1 className="font-serif text-3xl font-bold text-[var(--color-text-primary)]">
+      <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
         Categories
       </h1>
-      <p className="mt-golden-2 text-[var(--color-text-secondary)]">
+      <p className="mt-golden-2 text-(--color-text-secondary)">
         Browse posts by category
       </p>
 
@@ -24,12 +24,12 @@ export default function CategoriesPage() {
           <Link
             key={name}
             href={`/categories/${categoryToSlug(name)}`}
-            className="flex items-center gap-golden-1 rounded-lg border border-[var(--color-border-visible)] px-golden-2 py-golden-1 transition-colors duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+            className="flex items-center gap-golden-1 rounded-lg border border-(--color-border-visible) px-golden-2 py-golden-1 transition-colors duration-200 hover:border-(--color-accent) hover:text-(--color-accent)"
           >
-            <span className="font-medium text-[var(--color-text-primary)]">
+            <span className="font-medium text-(--color-text-primary)">
               {name}
             </span>
-            <span className="rounded-full border border-[var(--color-border-subtle)] px-2 py-0.5 text-sm text-[var(--color-text-tertiary)]">
+            <span className="rounded-full border border-(--color-border-subtle) px-2 py-0.5 text-sm text-(--color-text-tertiary)">
               {count}
             </span>
           </Link>
@@ -37,7 +37,7 @@ export default function CategoriesPage() {
       </div>
 
       {categories.length === 0 && (
-        <p className="mt-golden-4 text-[var(--color-text-tertiary)]">
+        <p className="mt-golden-4 text-(--color-text-tertiary)">
           No categories found.
         </p>
       )}

@@ -13,7 +13,7 @@ export function CategoryBadge({ category, size = "sm" }: CategoryBadgeProps) {
   return (
     <Link
       href={`/categories/${categoryToSlug(category)}`}
-      className={`${sizeClasses} rounded-full border border-[var(--color-border-visible)] bg-transparent text-[var(--color-text-secondary)] transition-colors duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]`}
+      className={`${sizeClasses} rounded-full border border-(--color-border-visible) bg-transparent text-(--color-text-secondary) transition-colors duration-200 hover:border-(--color-accent) hover:text-(--color-accent)`}
     >
       {category}
     </Link>

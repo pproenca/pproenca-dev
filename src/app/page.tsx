@@ -6,10 +6,10 @@ export default function HomePage() {
 
   return (
     <div>
-      <h1 className="font-serif text-3xl font-bold text-[var(--color-text-primary)]">
+      <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
         Latest Posts
       </h1>
-      <p className="mt-golden-2 text-[var(--color-text-secondary)]">
+      <p className="mt-golden-2 text-(--color-text-secondary)">
         Thoughts on web development, programming, and technology.
       </p>
 
@@ -20,7 +20,7 @@ export default function HomePage() {
       </div>
 
       {posts.length === 0 && (
-        <p className="mt-golden-5 text-[var(--color-text-tertiary)]">
+        <p className="mt-golden-5 text-(--color-text-tertiary)">
           No posts yet. Check back soon!
         </p>
       )}

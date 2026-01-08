@@ -44,10 +44,10 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <div>
-      <h1 className="font-serif text-3xl font-bold text-[var(--color-text-primary)]">
+      <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
         {category}
       </h1>
-      <p className="mt-golden-2 text-[var(--color-text-secondary)]">
+      <p className="mt-golden-2 text-(--color-text-secondary)">
         {posts.length} {posts.length === 1 ? "post" : "posts"} in this category
       </p>
 
@@ -58,7 +58,7 @@ export default async function CategoryPage({ params }: PageProps) {
       </div>
 
       {posts.length === 0 && (
-        <p className="mt-golden-5 text-[var(--color-text-tertiary)]">
+        <p className="mt-golden-5 text-(--color-text-tertiary)">
           No posts found in this category.
         </p>
       )}
