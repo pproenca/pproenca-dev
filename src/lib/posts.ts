@@ -115,16 +115,18 @@ export function getAllSlugs(): string[] {
 
 export function getAllCategorySlugs(): string[] {
   const categories = getAllCategories();
-  return categories.map((c) => c.name.toLowerCase().replace(/\s+/g, "-"));
+  return categories.map((c) =>
+    c.name.toLowerCase().replace(/\./g, "").replace(/\s+/g, "-")
+  );
 }
 
 export function categoryToSlug(category: string): string {
-  return category.toLowerCase().replace(/\s+/g, "-");
+  return category.toLowerCase().replace(/\./g, "").replace(/\s+/g, "-");
 }
 
 export function slugToCategory(slug: string): string | undefined {
   const categories = getAllCategories();
   return categories.find(
-    (c) => c.name.toLowerCase().replace(/\s+/g, "-") === slug
+    (c) => c.name.toLowerCase().replace(/\./g, "").replace(/\s+/g, "-") === slug
   )?.name;
 }
