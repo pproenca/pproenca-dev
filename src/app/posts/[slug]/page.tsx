@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { getAllSlugs, getPostBySlug } from "@/lib/posts";
+import Link from "next/link";
+import { getAllSlugs, getPostBySlug, categoryToSlug } from "@/lib/posts";
 import { MDXContent } from "@/components/MDXContent";
-import { CategoryBadge } from "@/components/CategoryBadge";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -63,14 +63,28 @@ export default async function PostPage({ params }: PageProps) {
             day: "numeric",
           })}
         </time>
-        <div className="mt-golden-2 flex flex-wrap justify-center gap-golden-1">
-          {frontmatter.categories.map((category) => (
-            <CategoryBadge key={category} category={category} size="md" />
-          ))}
-        </div>
       </header>
 
       <MDXContent source={content} />
+
+      {frontmatter.categories && frontmatter.categories.length > 0 && (
+        <footer className="mt-golden-6 border-t border-(--color-border) pt-golden-4">
+          <p className="font-serif text-sm text-(--color-text-tertiary)">
+            Filed under{" "}
+            {frontmatter.categories.map((category, index) => (
+              <span key={category}>
+                <Link
+                  href={`/categories/${categoryToSlug(category)}`}
+                  className="text-(--color-text-secondary) transition-colors hover:text-(--color-accent)"
+                >
+                  {category}
+                </Link>
+                {index < frontmatter.categories.length - 1 && ", "}
+              </span>
+            ))}
+          </p>
+        </footer>
+      )}
     </article>
   );
 }
