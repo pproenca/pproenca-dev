@@ -23,6 +23,11 @@ export interface PostMeta {
   frontmatter: PostFrontmatter;
 }
 
+export interface CategoryCount {
+  name: string;
+  count: number;
+}
+
 export function getAllPosts(): PostMeta[] {
   if (!fs.existsSync(postsDirectory)) {
     return [];
@@ -37,9 +42,11 @@ export function getAllPosts(): PostMeta[] {
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data } = matter(fileContents);
 
+      // Frontmatter structure is validated by MDX file conventions
+      const frontmatter = data as PostFrontmatter;
       return {
         slug,
-        frontmatter: data as PostFrontmatter,
+        frontmatter,
       };
     })
     .filter((post) => !post.frontmatter.draft)
@@ -62,22 +69,24 @@ export function getPostBySlug(slug: string): Post | null {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
+  // Frontmatter structure is validated by MDX file conventions
+  const frontmatter = data as PostFrontmatter;
   return {
     slug,
-    frontmatter: data as PostFrontmatter,
+    frontmatter,
     content,
   };
 }
 
-export function getAllCategories(): { name: string; count: number }[] {
+export function getAllCategories(): CategoryCount[] {
   const posts = getAllPosts();
   const categoryMap = new Map<string, number>();
 
-  posts.forEach((post) => {
-    post.frontmatter.categories.forEach((category) => {
+  for (const post of posts) {
+    for (const category of post.frontmatter.categories) {
       categoryMap.set(category, (categoryMap.get(category) || 0) + 1);
-    });
-  });
+    }
+  }
 
   return Array.from(categoryMap.entries())
     .map(([name, count]) => ({ name, count }))

@@ -68,11 +68,12 @@ const warmDarkTheme: ThemeRegistration = {
   ],
 };
 
-let highlighter: Highlighter | null = null;
+// Module-level cache for Shiki highlighter (lazy initialization singleton)
+let highlighterInstance: Highlighter | null = null;
 
 export async function getHighlighter(): Promise<Highlighter> {
-  if (!highlighter) {
-    highlighter = await createHighlighter({
+  if (!highlighterInstance) {
+    highlighterInstance = await createHighlighter({
       themes: ["github-light", warmDarkTheme],
       langs: [
         "typescript",
@@ -91,7 +92,7 @@ export async function getHighlighter(): Promise<Highlighter> {
       ],
     });
   }
-  return highlighter;
+  return highlighterInstance;
 }
 
 export async function highlightCode(
