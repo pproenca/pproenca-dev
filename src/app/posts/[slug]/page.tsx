@@ -115,13 +115,26 @@ export default async function PostPage({ params }: PageProps) {
         <h1 className="font-serif text-4xl font-bold leading-tight text-text-primary">
           {frontmatter.title}
         </h1>
-        <time className="mt-golden-2 block text-text-tertiary">
-          {new Date(frontmatter.date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
+        <div className="mt-golden-2 text-text-tertiary">
+          <a
+            href={SITE_CONFIG.author.url}
+            rel="author"
+            className="author-name transition-colors hover:text-accent"
+          >
+            {SITE_CONFIG.author.name}
+          </a>
+          <span className="mx-2">&middot;</span>
+          <time
+            dateTime={frontmatter.date}
+            className="entry-date"
+          >
+            {new Date(frontmatter.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+        </div>
       </header>
 
       <MDXContent source={content} />

@@ -50,8 +50,8 @@ interface MDXContentProps {
 
 export function MDXContent({ source }: MDXContentProps) {
   return (
-    <article className="prose max-w-none">
+    <div className="prose max-w-none">
       <MDXRemote source={source} components={components} />
-    </article>
+    </div>
   );
 }
