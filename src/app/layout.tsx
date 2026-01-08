@@ -32,8 +32,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Blog",
-    template: "%s | Blog",
+    default: "pproenca.dev",
+    template: "%s | pproenca.dev",
   },
   description: "A personal blog about web development and technology.",
 };
