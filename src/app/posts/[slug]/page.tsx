@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllSlugs, getPostBySlug, categoryToSlug } from "@/lib/posts";
 import { MDXContent } from "@/components/MDXContent";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE_CONFIG } from "@/lib/constants";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -26,11 +28,18 @@ export async function generateMetadata({
   return {
     title: post.frontmatter.title,
     description: post.frontmatter.description,
+    alternates: {
+      canonical: `/posts/${slug}`,
+    },
     openGraph: {
       title: post.frontmatter.title,
       description: post.frontmatter.description,
       type: "article",
       publishedTime: post.frontmatter.date,
+      modifiedTime: post.frontmatter.date,
+      authors: [SITE_CONFIG.author.url],
+      tags: post.frontmatter.categories,
+      url: `/posts/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -50,8 +59,58 @@ export default async function PostPage({ params }: PageProps) {
 
   const { frontmatter, content } = post;
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: frontmatter.title,
+    description: frontmatter.description,
+    datePublished: frontmatter.date,
+    dateModified: frontmatter.date,
+    author: {
+      "@type": "Person",
+      name: SITE_CONFIG.author.name,
+      url: SITE_CONFIG.author.url,
+    },
+    publisher: {
+      "@type": "Person",
+      name: SITE_CONFIG.author.name,
+      url: SITE_CONFIG.url,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_CONFIG.url}/posts/${slug}`,
+    },
+    keywords: frontmatter.categories?.join(", "),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_CONFIG.url,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Posts",
+        item: `${SITE_CONFIG.url}/posts`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: frontmatter.title,
+      },
+    ],
+  };
+
   return (
     <article className="mx-auto max-w-[680px]">
+      <JsonLd data={articleSchema} />
+      <JsonLd data={breadcrumbSchema} />
       <header className="mb-golden-5 text-center">
         <h1 className="font-serif text-4xl font-bold leading-tight text-(--color-text-primary)">
           {frontmatter.title}

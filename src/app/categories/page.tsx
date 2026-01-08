@@ -5,6 +5,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Categories",
   description: "Browse all blog post categories",
+  alternates: {
+    canonical: "/categories",
+  },
+  openGraph: {
+    title: "Categories",
+    description: "Browse all blog post categories",
+    url: "/categories",
+  },
 };
 
 export default function CategoriesPage() {

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import {
   Libre_Baskerville,
@@ -8,6 +8,7 @@ import {
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SITE_CONFIG } from "@/lib/constants";
 import "./globals.css";
 
 const libreBaskerville = Libre_Baskerville({
@@ -31,23 +32,61 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f1e8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0908" },
+  ],
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://pproenca.dev"
-  ),
+  metadataBase: new URL(SITE_CONFIG.url),
   title: {
-    default: "pproenca.dev",
-    template: "%s | pproenca.dev",
+    default: SITE_CONFIG.title,
+    template: `%s | ${SITE_CONFIG.title}`,
   },
-  description: "A personal blog about web development and technology.",
+  description: SITE_CONFIG.description,
+  authors: [{ name: SITE_CONFIG.author.name, url: SITE_CONFIG.author.url }],
+  creator: SITE_CONFIG.author.name,
+  publisher: SITE_CONFIG.author.name,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32x32.svg", sizes: "32x32", type: "image/svg+xml" },
+      { url: "/favicon-16x16.svg", sizes: "16x16", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.svg", sizes: "180x180" }],
+  },
+  manifest: "/site.webmanifest",
   openGraph: {
     type: "website",
-    locale: "en_US",
-    siteName: "pproenca.dev",
+    locale: SITE_CONFIG.locale,
+    siteName: SITE_CONFIG.name,
+    title: SITE_CONFIG.title,
+    description: SITE_CONFIG.description,
+    url: SITE_CONFIG.url,
   },
   twitter: {
-    card: "summary",
-    creator: "@ThePedroProenca",
+    card: "summary_large_image",
+    creator: SITE_CONFIG.author.twitter,
+    site: SITE_CONFIG.author.twitter,
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 

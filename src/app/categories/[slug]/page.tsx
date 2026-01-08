@@ -5,6 +5,8 @@ import {
   slugToCategory,
 } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE_CONFIG } from "@/lib/constants";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -29,6 +31,14 @@ export async function generateMetadata({
   return {
     title: `${category} Posts`,
     description: `All blog posts in the ${category} category`,
+    alternates: {
+      canonical: `/categories/${slug}`,
+    },
+    openGraph: {
+      title: `${category} Posts`,
+      description: `All blog posts in the ${category} category`,
+      url: `/categories/${slug}`,
+    },
   };
 }
 
@@ -42,8 +52,33 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const posts = getPostsByCategory(category);
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_CONFIG.url,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Categories",
+        item: `${SITE_CONFIG.url}/categories`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: category,
+      },
+    ],
+  };
+
   return (
     <div>
+      <JsonLd data={breadcrumbSchema} />
       <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
         {category}
       </h1>

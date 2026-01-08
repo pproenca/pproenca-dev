@@ -1,11 +1,27 @@
 import { getAllPosts } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE_CONFIG } from "@/lib/constants";
 
 export default function HomePage() {
   const posts = getAllPosts();
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_CONFIG.name,
+    url: SITE_CONFIG.url,
+    description: SITE_CONFIG.description,
+    author: {
+      "@type": "Person",
+      name: SITE_CONFIG.author.name,
+      url: SITE_CONFIG.author.url,
+    },
+  };
+
   return (
     <div>
+      <JsonLd data={websiteSchema} />
       <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
         Latest Posts
       </h1>

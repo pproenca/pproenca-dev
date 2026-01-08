@@ -1,14 +1,54 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE_CONFIG } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "About",
   description:
     "Pedro Proenca - Hands-on Engineering Manager, growth hacker, and hardware tinkerer based in the UK",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About",
+    description:
+      "Pedro Proenca - Hands-on Engineering Manager, growth hacker, and hardware tinkerer based in the UK",
+    url: "/about",
+    type: "profile",
+  },
 };
 
 export default function AboutPage() {
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: SITE_CONFIG.author.name,
+    url: SITE_CONFIG.author.url,
+    jobTitle: SITE_CONFIG.author.jobTitle,
+    worksFor: {
+      "@type": "Organization",
+      name: SITE_CONFIG.author.employer,
+    },
+    description:
+      "Hands-on Engineering Manager, growth hacker, and hardware tinkerer based in the UK",
+    sameAs: [
+      SITE_CONFIG.social.github,
+      SITE_CONFIG.social.linkedin,
+      SITE_CONFIG.social.twitter,
+    ],
+    knowsAbout: [
+      "Web Development",
+      "TypeScript",
+      "Python",
+      "Growth Engineering",
+      "React",
+      "Next.js",
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-[680px]">
+      <JsonLd data={personSchema} />
       <h1 className="font-serif text-3xl font-bold text-(--color-text-primary)">
         About
       </h1>
