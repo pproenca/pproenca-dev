@@ -9,19 +9,19 @@ A complete template following all headless component patterns.
 For components like Button, Toggle, Separator:
 
 ```typescript
-'use client';
-import * as React from 'react';
-import { useRenderElement } from '../../utils/useRenderElement';
-import { useButton } from '../../utils/useButton';
-import type { HeadlessComponentProps } from '../../utils/types';
+"use client";
+import * as React from "react";
+import { useRenderElement } from "../../utils/useRenderElement";
+import { useButton } from "../../utils/useButton";
+import type { HeadlessComponentProps } from "../../utils/types";
 
 // State attributes mapping
 const stateAttributesMapping = {
   disabled(value: boolean) {
-    return value ? { 'data-disabled': '' } : null;
+    return value ? { "data-disabled": "" } : null;
   },
   pressed(value: boolean) {
-    return value ? { 'data-pressed': '' } : null;
+    return value ? { "data-pressed": "" } : null;
   },
 };
 
@@ -36,7 +36,7 @@ export const Button = React.forwardRef(function Button(
     render,
     className,
     disabled = false,
-    type = 'button',
+    type = "button",
     ...elementProps
   } = componentProps;
 
@@ -55,14 +55,10 @@ export const Button = React.forwardRef(function Button(
   );
 
   // Render with useRenderElement
-  const element = useRenderElement('button', componentProps, {
+  const element = useRenderElement("button", componentProps, {
     state,
     ref: buttonRef,
-    props: [
-      { type },
-      getButtonProps,
-      elementProps,
-    ],
+    props: [{ type }, getButtonProps, elementProps],
     stateAttributesMapping,
   });
 
@@ -78,8 +74,10 @@ export interface ButtonState {
 }
 
 // Props interface
-export interface ButtonProps
-  extends HeadlessComponentProps<'button', ButtonState> {
+export interface ButtonProps extends HeadlessComponentProps<
+  "button",
+  ButtonState
+> {
   /**
    * Whether the button is disabled.
    * @default false
@@ -89,7 +87,7 @@ export interface ButtonProps
    * The type of button.
    * @default 'button'
    */
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
 }
 
 // Namespace exports
@@ -302,8 +300,8 @@ export namespace SwitchRoot {
 ### Context File
 
 ```typescript
-'use client';
-import * as React from 'react';
+"use client";
+import * as React from "react";
 
 export interface SwitchRootContext {
   checked: boolean;
@@ -324,8 +322,8 @@ export const SwitchRootContext = React.createContext<
   SwitchRootContext | undefined
 >(undefined);
 
-if (process.env.NODE_ENV !== 'production') {
-  SwitchRootContext.displayName = 'SwitchRootContext';
+if (process.env.NODE_ENV !== "production") {
+  SwitchRootContext.displayName = "SwitchRootContext";
 }
 
 export function useSwitchRootContext(): SwitchRootContext;
@@ -339,9 +337,7 @@ export function useSwitchRootContext(
   const context = React.useContext(SwitchRootContext);
 
   if (!optional && context === undefined) {
-    throw new Error(
-      'useSwitchRootContext must be used within <Switch.Root>',
-    );
+    throw new Error("useSwitchRootContext must be used within <Switch.Root>");
   }
 
   return context;
@@ -351,18 +347,18 @@ export function useSwitchRootContext(
 ### Child Component (Thumb)
 
 ```typescript
-'use client';
-import * as React from 'react';
-import { useRenderElement } from '../../utils/useRenderElement';
-import type { HeadlessComponentProps } from '../../utils/types';
-import { useSwitchRootContext } from '../root/SwitchRootContext';
+"use client";
+import * as React from "react";
+import { useRenderElement } from "../../utils/useRenderElement";
+import type { HeadlessComponentProps } from "../../utils/types";
+import { useSwitchRootContext } from "../root/SwitchRootContext";
 
 const stateAttributesMapping = {
   checked(value: boolean) {
-    return value ? { 'data-checked': '' } : null;
+    return value ? { "data-checked": "" } : null;
   },
   disabled(value: boolean) {
-    return value ? { 'data-disabled': '' } : null;
+    return value ? { "data-disabled": "" } : null;
   },
 };
 
@@ -375,7 +371,7 @@ export const SwitchThumb = React.forwardRef(function SwitchThumb(
   // Get state from parent context
   const { state } = useSwitchRootContext();
 
-  const element = useRenderElement('span', componentProps, {
+  const element = useRenderElement("span", componentProps, {
     state,
     ref: forwardedRef,
     props: elementProps,
@@ -390,8 +386,10 @@ export interface SwitchThumbState {
   disabled: boolean;
 }
 
-export interface SwitchThumbProps
-  extends HeadlessComponentProps<'span', SwitchThumbState> {}
+export interface SwitchThumbProps extends HeadlessComponentProps<
+  "span",
+  SwitchThumbState
+> {}
 
 export namespace SwitchThumb {
   export type State = SwitchThumbState;
@@ -402,11 +400,11 @@ export namespace SwitchThumb {
 ### Index File
 
 ```typescript
-export { SwitchRoot as Root } from './root/SwitchRoot';
-export { SwitchThumb as Thumb } from './thumb/SwitchThumb';
+export { SwitchRoot as Root } from "./root/SwitchRoot";
+export { SwitchThumb as Thumb } from "./thumb/SwitchThumb";
 
-export type { SwitchRootProps, SwitchRootState } from './root/SwitchRoot';
-export type { SwitchThumbProps, SwitchThumbState } from './thumb/SwitchThumb';
+export type { SwitchRootProps, SwitchRootState } from "./root/SwitchRoot";
+export type { SwitchThumbProps, SwitchThumbState } from "./thumb/SwitchThumb";
 ```
 
 ---

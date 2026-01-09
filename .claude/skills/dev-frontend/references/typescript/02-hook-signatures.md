@@ -22,7 +22,12 @@ export function useRenderElement<
 >(
   element: TagName,
   componentProps: useRenderElement.ComponentProps<State>,
-  params?: useRenderElement.Parameters<State, RenderedElementType, TagName, Enabled>,
+  params?: useRenderElement.Parameters<
+    State,
+    RenderedElementType,
+    TagName,
+    Enabled
+  >,
 ): Enabled extends false ? null : React.ReactElement;
 
 // Namespace exports
@@ -54,7 +59,9 @@ export type UseRenderElementParameters<
   /**
    * The ref to apply to the rendered element.
    */
-  ref?: React.Ref<RenderedElementType> | (React.Ref<RenderedElementType> | undefined)[];
+  ref?:
+    | React.Ref<RenderedElementType>
+    | (React.Ref<RenderedElementType> | undefined)[];
   /**
    * The state of the component.
    */
@@ -67,7 +74,9 @@ export type UseRenderElementParameters<
     | Array<
         | RenderFunctionProps<TagName>
         | undefined
-        | ((props: RenderFunctionProps<TagName>) => RenderFunctionProps<TagName>)
+        | ((
+            props: RenderFunctionProps<TagName>,
+          ) => RenderFunctionProps<TagName>)
       >;
   /**
    * A mapping of state to `data-*` attributes.
@@ -88,16 +97,22 @@ export interface UseRenderElementComponentProps<State> {
   /**
    * The render prop or React element to override the default element.
    */
-  render?: undefined | ComponentRenderFn<React.HTMLAttributes<any>, State> | React.ReactElement;
+  render?:
+    | undefined
+    | ComponentRenderFn<React.HTMLAttributes<any>, State>
+    | React.ReactElement;
   /**
    * The style to apply to the rendered element.
    * Can be a style object or a function that accepts the state and returns a style object.
    */
-  style?: React.CSSProperties | ((state: State) => React.CSSProperties | undefined);
+  style?:
+    | React.CSSProperties
+    | ((state: State) => React.CSSProperties | undefined);
 }
 ```
 
 ### Key TypeScript Features:
+
 1. **Conditional return type**: `Enabled extends false ? null : React.ReactElement`
 2. **Namespace for types**: `useRenderElement.Parameters`, `useRenderElement.ComponentProps`
 3. **Props union**: Array or single value, with function support
@@ -108,7 +123,7 @@ export interface UseRenderElementComponentProps<State> {
 ## 2. useTransitionStatus - Animation States
 
 ```typescript
-export type TransitionStatus = 'starting' | 'ending' | 'idle' | undefined;
+export type TransitionStatus = "starting" | "ending" | "idle" | undefined;
 
 /**
  * Provides a status string for CSS animations.
@@ -156,12 +171,13 @@ export function useControlled<T>(
 ```
 
 ### Usage Pattern:
+
 ```typescript
 const [open, setOpen] = useControlled({
   controlled: openProp,
   default: defaultOpen ?? false,
-  name: 'Dialog',
-  state: 'open',
+  name: "Dialog",
+  state: "open",
 });
 ```
 
@@ -221,16 +237,22 @@ export function useTimeout(): UseTimeoutReturn;
 
 ```typescript
 export interface UseAnchorPositioningParams {
-  anchor?: Element | VirtualElement | (() => Element | VirtualElement | null) | null;
+  anchor?:
+    | Element
+    | VirtualElement
+    | (() => Element | VirtualElement | null)
+    | null;
   positionerRef: React.RefObject<HTMLElement | null>;
-  side?: 'top' | 'bottom' | 'left' | 'right';
+  side?: "top" | "bottom" | "left" | "right";
   sideOffset?: number;
-  align?: 'start' | 'center' | 'end';
+  align?: "start" | "center" | "end";
   alignOffset?: number;
-  collisionBoundary?: Element | Element[] | 'clippingAncestors';
-  collisionPadding?: number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>;
+  collisionBoundary?: Element | Element[] | "clippingAncestors";
+  collisionPadding?:
+    | number
+    | Partial<Record<"top" | "right" | "bottom" | "left", number>>;
   arrowPadding?: number;
-  sticky?: 'partial' | 'always';
+  sticky?: "partial" | "always";
   keepMounted?: boolean;
   trackAnchor?: boolean;
   mounted?: boolean;
@@ -240,11 +262,11 @@ export interface UseAnchorPositioningReturn {
   positionerStyles: React.CSSProperties;
   arrowStyles: React.CSSProperties;
   arrowRef: React.RefObject<Element | null>;
-  side: 'top' | 'bottom' | 'left' | 'right';
-  align: 'start' | 'center' | 'end';
+  side: "top" | "bottom" | "left" | "right";
+  align: "start" | "center" | "end";
   arrowUncentered: boolean;
-  renderedSide: 'top' | 'bottom' | 'left' | 'right';
-  renderedAlign: 'start' | 'center' | 'end';
+  renderedSide: "top" | "bottom" | "left" | "right";
+  renderedAlign: "start" | "center" | "end";
 }
 
 export function useAnchorPositioning(
@@ -269,7 +291,7 @@ export function useComponentId(idOverride?: string): string;
 ## 9. useOpenInteractionType - Track How Opened
 
 ```typescript
-export type OpenInteractionType = 'focus' | 'click' | 'hover' | undefined;
+export type OpenInteractionType = "focus" | "click" | "hover" | undefined;
 
 export function useOpenInteractionType(
   open: boolean,

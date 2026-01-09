@@ -1,11 +1,24 @@
 "use client";
 
+import * as React from "react";
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
 
 const emptySubscribe = () => () => {};
 
-export function ThemeToggle() {
+/** Props for the ThemeToggle component */
+export interface ThemeToggleProps {
+  /** Ref to the underlying button element */
+  ref?: React.Ref<HTMLButtonElement>;
+  /** Additional class names */
+  className?: string;
+}
+
+/**
+ * A toggle button that switches between light and dark themes.
+ * Uses aria-pressed for accessibility and data-theme for CSS styling.
+ */
+export function ThemeToggle({ ref, className }: ThemeToggleProps) {
   const { setTheme, resolvedTheme } = useTheme();
   const mounted = useSyncExternalStore(
     emptySubscribe,
@@ -13,10 +26,29 @@ export function ThemeToggle() {
     () => false,
   );
 
+  const handleToggle = React.useCallback(() => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  }, [setTheme, resolvedTheme]);
+
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      // Explicit Enter/Space handling for consistency
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleToggle();
+      }
+    },
+    [handleToggle],
+  );
+
   if (!mounted) {
     return (
       <button
-        className="rounded-md p-2 text-text-secondary transition-colors duration-200 hover:text-text-primary"
+        ref={ref}
+        className={
+          className ??
+          "rounded-md p-2 text-text-secondary transition-colors duration-200 hover:text-text-primary"
+        }
         aria-label="Toggle theme"
       >
         <span className="h-5 w-5 block" />
@@ -28,9 +60,16 @@ export function ThemeToggle() {
 
   return (
     <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="rounded-md p-2 text-text-secondary transition-colors duration-200 hover:text-accent"
+      ref={ref}
+      onClick={handleToggle}
+      onKeyDown={handleKeyDown}
+      className={
+        className ??
+        "rounded-md p-2 text-text-secondary transition-colors duration-200 hover:text-accent"
+      }
       aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
+      aria-pressed={isDark}
+      data-theme={isDark ? "dark" : "light"}
     >
       {isDark ? (
         <svg

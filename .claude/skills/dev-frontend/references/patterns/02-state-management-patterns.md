@@ -8,12 +8,13 @@ The foundation for all value management:
 const [value, setValue] = useControlled({
   controlled: valueProp,
   default: defaultValueProp,
-  name: 'MyComponent',
-  state: 'value',
+  name: "MyComponent",
+  state: "value",
 });
 ```
 
 ### Implementation Pattern
+
 ```typescript
 export function useControlled<T>(params: {
   controlled: T | undefined;
@@ -27,32 +28,36 @@ export function useControlled<T>(params: {
   const [valueState, setValueState] = React.useState(defaultProp);
   const value = isControlled ? controlled : valueState;
 
-  const setValueIfUncontrolled = React.useCallback((newValue) => {
-    if (!isControlled) {
-      setValueState(newValue);
-    }
-  }, [isControlled]);
+  const setValueIfUncontrolled = React.useCallback(
+    (newValue) => {
+      if (!isControlled) {
+        setValueState(newValue);
+      }
+    },
+    [isControlled],
+  );
 
   return [value, setValueIfUncontrolled];
 }
 ```
 
 ### Usage Examples
+
 ```typescript
 // Simple boolean
 const [open, setOpen] = useControlled({
   controlled: openProp,
   default: defaultOpen ?? false,
-  name: 'Dialog',
-  state: 'open',
+  name: "Dialog",
+  state: "open",
 });
 
 // Complex value
 const [checkedValue, setCheckedValue] = useControlled({
   controlled: valueProp,
   default: defaultValueProp,
-  name: 'RadioGroup',
-  state: 'value',
+  name: "RadioGroup",
+  state: "value",
 });
 ```
 
@@ -73,31 +78,33 @@ const store = useRefWithInit(() => {
 }).current;
 
 // Controlled prop sync
-store.useControlledProp('open', openProp, defaultOpen);
+store.useControlledProp("open", openProp, defaultOpen);
 
 // Value sync
-store.useSyncedValue('nested', nested);
+store.useSyncedValue("nested", nested);
 
 // Callback registration
-store.useContextCallback('onOpenChange', onOpenChange);
+store.useContextCallback("onOpenChange", onOpenChange);
 
 // State subscription
-const open = store.useState('open');
+const open = store.useState("open");
 ```
 
 ### Store Features
+
 - Single source of truth for complex state
 - Prop syncing for controlled mode
 - Context callbacks for events
 - Subscription-based state access
 
 ### When to Use Store vs useState
-| useState | Store |
-|----------|-------|
-| Simple state | Many related values |
-| 1-3 values | Open, mounted, trigger, nested, etc. |
-| No external sync | Props + callbacks sync |
-| Single component | Shared across parts |
+
+| useState         | Store                                |
+| ---------------- | ------------------------------------ |
+| Simple state     | Many related values                  |
+| 1-3 values       | Open, mounted, trigger, nested, etc. |
+| No external sync | Props + callbacks sync               |
+| Single component | Shared across parts                  |
 
 ---
 
@@ -105,7 +112,9 @@ const open = store.useState('open');
 
 ```typescript
 // Context creation
-export const MyContext = React.createContext<MyContextValue | undefined>(undefined);
+export const MyContext = React.createContext<MyContextValue | undefined>(
+  undefined,
+);
 
 // Hook with optional flag
 export function useMyContext(optional?: false): MyContextValue;
@@ -113,13 +122,14 @@ export function useMyContext(optional: true): MyContextValue | undefined;
 export function useMyContext(optional?: boolean): MyContextValue | undefined {
   const context = React.useContext(MyContext);
   if (!optional && context === undefined) {
-    throw new Error('useMyContext must be used within MyContextProvider');
+    throw new Error("useMyContext must be used within MyContextProvider");
   }
   return context;
 }
 ```
 
 ### Usage
+
 ```typescript
 // Required (throws if missing)
 const context = useMyContext();
@@ -150,7 +160,7 @@ const setOpen = useStableCallback(
     onOpenChange?.(nextOpen, eventDetails);
 
     if (eventDetails.isCanceled) {
-      return;  // External handler cancelled
+      return; // External handler cancelled
     }
 
     setOpenUnwrapped(nextOpen);
@@ -159,6 +169,7 @@ const setOpen = useStableCallback(
 ```
 
 ### Creating Event Details
+
 ```typescript
 const details = createChangeEventDetails(REASONS.triggerPress, event);
 
@@ -168,18 +179,19 @@ if (details.isCanceled) {
 ```
 
 ### Common Reasons
+
 ```typescript
 const REASONS = {
-  triggerPress: 'triggerPress',
-  triggerHover: 'triggerHover',
-  triggerFocus: 'triggerFocus',
-  escapeKey: 'escapeKey',
-  outsidePress: 'outsidePress',
-  focusOut: 'focusOut',
-  listNavigation: 'listNavigation',
-  itemPress: 'itemPress',
-  cancelOpen: 'cancelOpen',
-  none: 'none',
+  triggerPress: "triggerPress",
+  triggerHover: "triggerHover",
+  triggerFocus: "triggerFocus",
+  escapeKey: "escapeKey",
+  outsidePress: "outsidePress",
+  focusOut: "focusOut",
+  listNavigation: "listNavigation",
+  itemPress: "itemPress",
+  cancelOpen: "cancelOpen",
+  none: "none",
 };
 ```
 
@@ -200,14 +212,15 @@ const state = {
 ```
 
 ### State Attributes Mapping
+
 ```typescript
 const transitionStatusMapping = {
   transitionStatus(value) {
-    if (value === 'starting') {
-      return { 'data-starting': '' };
+    if (value === "starting") {
+      return { "data-starting": "" };
     }
-    if (value === 'ending') {
-      return { 'data-ending': '' };
+    if (value === "ending") {
+      return { "data-ending": "" };
     }
     return null;
   },
@@ -226,13 +239,13 @@ const open = value != null;
 
 // Progress: status derived from value
 const status = React.useMemo(() => {
-  if (value === max) return 'complete';
-  if (value > max) return 'progressing';
-  return 'indeterminate';
+  if (value === max) return "complete";
+  if (value > max) return "progressing";
+  return "indeterminate";
 }, [value, max]);
 
 // Checkbox: checked can be indeterminate
-const checkedState = indeterminate ? 'mixed' : checked;
+const checkedState = indeterminate ? "mixed" : checked;
 ```
 
 ---
@@ -255,11 +268,12 @@ const getDelayValue = () => delayRef.current;
 ```
 
 ### When to Use Refs vs State
-| useState | useRef |
-|----------|--------|
+
+| useState        | useRef              |
+| --------------- | ------------------- |
 | Needs re-render | No re-render needed |
-| Display value | Internal tracking |
-| User sees it | Calculation input |
+| Display value   | Internal tracking   |
+| User sees it    | Calculation input   |
 
 ---
 
@@ -292,6 +306,7 @@ const handleChange = useStableCallback((value, eventDetails) => {
 ```
 
 ### Why Use It
+
 - Avoids recreating callbacks
 - Prevents unnecessary re-renders
 - Always has current closure values
@@ -314,6 +329,7 @@ const handleScroll = useStableCallback(() => {
 ```
 
 ### useTimeout Hook
+
 ```typescript
 const timeout = useTimeout();
 

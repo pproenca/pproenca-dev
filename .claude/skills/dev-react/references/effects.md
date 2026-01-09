@@ -1,6 +1,7 @@
 # Effects Guide
 
 ## Table of Contents
+
 - [When to Use Effects](#when-to-use-effects)
 - [When NOT to Use Effects](#when-not-to-use-effects)
 - [Effect Lifecycle](#effect-lifecycle)
@@ -15,6 +16,7 @@
 Effects are for **synchronizing with external systems** - things outside React:
 
 ✅ **Valid use cases:**
+
 - Connecting to external APIs/services
 - Setting up subscriptions (WebSocket, event listeners)
 - Syncing with browser APIs (document.title, localStorage)
@@ -39,8 +41,8 @@ useEffect(() => {
 // Event listener
 useEffect(() => {
   const handleResize = () => setWidth(window.innerWidth);
-  window.addEventListener('resize', handleResize);
-  return () => window.removeEventListener('resize', handleResize);
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
 }, []);
 ```
 
@@ -49,25 +51,27 @@ useEffect(() => {
 ## When NOT to Use Effects
 
 ### ❌ Derived/Computed State
+
 ```tsx
 // BAD: Effect for derived state
 const [items, setItems] = useState([]);
 const [filtered, setFiltered] = useState([]);
 useEffect(() => {
-  setFiltered(items.filter(i => i.active));
+  setFiltered(items.filter((i) => i.active));
 }, [items]);
 
 // GOOD: Calculate during render
-const filtered = items.filter(i => i.active);
+const filtered = items.filter((i) => i.active);
 
 // GOOD: Memoize if expensive
-const filtered = useMemo(() => items.filter(i => i.active), [items]);
+const filtered = useMemo(() => items.filter((i) => i.active), [items]);
 ```
 
 ### ❌ Transforming Data for Display
+
 ```tsx
 // BAD
-const [fullName, setFullName] = useState('');
+const [fullName, setFullName] = useState("");
 useEffect(() => {
   setFullName(`${firstName} ${lastName}`);
 }, [firstName, lastName]);
@@ -77,6 +81,7 @@ const fullName = `${firstName} ${lastName}`;
 ```
 
 ### ❌ Handling User Events
+
 ```tsx
 // BAD: Effect for event response
 useEffect(() => {
@@ -93,26 +98,28 @@ const handleSubmit = () => {
 ```
 
 ### ❌ Resetting State on Prop Change
+
 ```tsx
 // BAD
 useEffect(() => {
-  setComment('');
+  setComment("");
 }, [userId]);
 
 // GOOD: Use key
-<Profile userId={userId} key={userId} />
+<Profile userId={userId} key={userId} />;
 ```
 
 ### ❌ Chaining State Updates
+
 ```tsx
 // BAD: Effect chain
 useEffect(() => {
-  if (card?.gold) setGoldCount(c => c + 1);
+  if (card?.gold) setGoldCount((c) => c + 1);
 }, [card]);
 
 useEffect(() => {
   if (goldCount > 3) {
-    setRound(r => r + 1);
+    setRound((r) => r + 1);
     setGoldCount(0);
   }
 }, [goldCount]);
@@ -123,7 +130,7 @@ function handleCardClick(card) {
   if (card.gold) {
     const newGold = goldCount + 1;
     if (newGold > 3) {
-      setRound(r => r + 1);
+      setRound((r) => r + 1);
       setGoldCount(0);
     } else {
       setGoldCount(newGold);
@@ -133,6 +140,7 @@ function handleCardClick(card) {
 ```
 
 ### ❌ Initializing App Once
+
 ```tsx
 // BAD: Effect that should run once globally
 useEffect(() => {
@@ -140,14 +148,17 @@ useEffect(() => {
 }, []);
 
 // GOOD: Outside component or in entry point
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   initializeApp();
 }
 
-function App() { /* ... */ }
+function App() {
+  /* ... */
+}
 ```
 
 ### ❌ Fetching Data Without Cleanup
+
 ```tsx
 // BAD: Race condition
 useEffect(() => {
@@ -157,16 +168,19 @@ useEffect(() => {
 // GOOD: With cleanup flag
 useEffect(() => {
   let ignore = false;
-  fetchData(id).then(result => {
+  fetchData(id).then((result) => {
     if (!ignore) setData(result);
   });
-  return () => { ignore = true; };
+  return () => {
+    ignore = true;
+  };
 }, [id]);
 
 // BETTER: Use framework's data fetching or library
 ```
 
 ### ❌ Notifying Parent of State Change
+
 ```tsx
 // BAD: Effect to call parent
 useEffect(() => {
@@ -208,7 +222,7 @@ Component unmounts
 // All used values in deps
 useEffect(() => {
   const connection = createConnection(serverUrl, roomId);
-  connection.on('message', onMessage);
+  connection.on("message", onMessage);
   connection.connect();
   return () => connection.disconnect();
 }, [serverUrl, roomId, onMessage]); // ✅ all deps listed
@@ -217,8 +231,9 @@ useEffect(() => {
 ### Removing Dependencies
 
 **1. Move static values outside component:**
+
 ```tsx
-const serverUrl = 'https://api.example.com'; // static
+const serverUrl = "https://api.example.com"; // static
 
 function Chat({ roomId }) {
   useEffect(() => {
@@ -229,6 +244,7 @@ function Chat({ roomId }) {
 ```
 
 **2. Move function inside effect:**
+
 ```tsx
 // BAD: Function in deps
 const createOptions = () => ({ serverUrl, roomId });
@@ -247,6 +263,7 @@ useEffect(() => {
 ```
 
 **3. Use updater function for state:**
+
 ```tsx
 // BAD: count in deps
 useEffect(() => {
@@ -259,13 +276,14 @@ useEffect(() => {
 // GOOD: Functional update
 useEffect(() => {
   const id = setInterval(() => {
-    setCount(c => c + 1);
+    setCount((c) => c + 1);
   }, 1000);
   return () => clearInterval(id);
 }, []); // runs once
 ```
 
 **4. Use ref for values you don't want to react to:**
+
 ```tsx
 const onMessageRef = useRef(onMessage);
 useLayoutEffect(() => {
@@ -273,7 +291,7 @@ useLayoutEffect(() => {
 });
 
 useEffect(() => {
-  connection.on('message', (...args) => onMessageRef.current(...args));
+  connection.on("message", (...args) => onMessageRef.current(...args));
   // ...
 }, []);
 ```
@@ -294,18 +312,18 @@ useEffect(() => {
 // Event listener
 useEffect(() => {
   const handler = () => {};
-  window.addEventListener('scroll', handler);
-  return () => window.removeEventListener('scroll', handler);
+  window.addEventListener("scroll", handler);
+  return () => window.removeEventListener("scroll", handler);
 }, []);
 
 // Abort controller for fetch
 useEffect(() => {
   const controller = new AbortController();
   fetch(url, { signal: controller.signal })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(setData)
-    .catch(err => {
-      if (err.name !== 'AbortError') setError(err);
+    .catch((err) => {
+      if (err.name !== "AbortError") setError(err);
     });
   return () => controller.abort();
 }, [url]);
@@ -313,10 +331,12 @@ useEffect(() => {
 // Ignore stale responses
 useEffect(() => {
   let cancelled = false;
-  fetchData(id).then(data => {
+  fetchData(id).then((data) => {
     if (!cancelled) setData(data);
   });
-  return () => { cancelled = true; };
+  return () => {
+    cancelled = true;
+  };
 }, [id]);
 ```
 
@@ -325,6 +345,7 @@ useEffect(() => {
 ## Common Patterns
 
 ### Data Fetching (with race condition handling)
+
 ```tsx
 useEffect(() => {
   let ignore = false;
@@ -345,11 +366,14 @@ useEffect(() => {
   }
 
   fetchData();
-  return () => { ignore = true; };
+  return () => {
+    ignore = true;
+  };
 }, [id]);
 ```
 
 ### Debounced Effect
+
 ```tsx
 useEffect(() => {
   const timer = setTimeout(() => {
@@ -360,33 +384,36 @@ useEffect(() => {
 ```
 
 ### Intersection Observer
+
 ```tsx
 useEffect(() => {
   if (!ref.current) return;
-  
+
   const observer = new IntersectionObserver(
     ([entry]) => setIsVisible(entry.isIntersecting),
-    { threshold: 0.1 }
+    { threshold: 0.1 },
   );
-  
+
   observer.observe(ref.current);
   return () => observer.disconnect();
 }, []);
 ```
 
 ### Media Query
+
 ```tsx
 useEffect(() => {
-  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
   const handler = (e) => setIsDark(e.matches);
-  
+
   setIsDark(mq.matches);
-  mq.addEventListener('change', handler);
-  return () => mq.removeEventListener('change', handler);
+  mq.addEventListener("change", handler);
+  return () => mq.removeEventListener("change", handler);
 }, []);
 ```
 
 ### Focus Management
+
 ```tsx
 useEffect(() => {
   if (isOpen) {
@@ -396,6 +423,7 @@ useEffect(() => {
 ```
 
 ### Sync to localStorage
+
 ```tsx
 // Read once on mount
 const [value, setValue] = useState(() => {
@@ -410,6 +438,7 @@ useEffect(() => {
 ```
 
 ### useLayoutEffect
+
 Use when you need to measure/mutate DOM before browser paint.
 
 ```tsx

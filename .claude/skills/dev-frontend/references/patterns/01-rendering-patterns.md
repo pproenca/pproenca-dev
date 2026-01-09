@@ -5,7 +5,7 @@
 Every headless component component uses this hook for rendering:
 
 ```typescript
-const element = useRenderElement('div', componentProps, {
+const element = useRenderElement("div", componentProps, {
   state,
   ref: forwardedRef,
   props: [defaultProps, elementProps],
@@ -16,6 +16,7 @@ const element = useRenderElement('div', componentProps, {
 ### Key Capabilities
 
 #### Render Prop Support (Function)
+
 ```typescript
 <Dialog.Popup render={(props, state) => (
   <motion.div {...props} animate={state.open ? 'open' : 'closed'} />
@@ -23,23 +24,27 @@ const element = useRenderElement('div', componentProps, {
 ```
 
 #### Render Prop Support (Element)
+
 ```typescript
 <Dialog.Popup render={<CustomPopup />} />
 ```
 
 #### State-Based className
+
 ```typescript
 <Button className={(state) => state.disabled ? 'btn-disabled' : 'btn'} />
 ```
 
 #### Conditional Rendering
+
 ```typescript
-const element = useRenderElement('img', componentProps, {
-  enabled: imageLoadingStatus === 'loaded',  // Returns null if false
+const element = useRenderElement("img", componentProps, {
+  enabled: imageLoadingStatus === "loaded", // Returns null if false
 });
 ```
 
 ### Implementation Pattern
+
 ```typescript
 export const MyComponent = React.forwardRef(function MyComponent(
   componentProps: MyComponent.Props,
@@ -47,11 +52,16 @@ export const MyComponent = React.forwardRef(function MyComponent(
 ) {
   const { render, className, ...elementProps } = componentProps;
 
-  const state: MyComponent.State = React.useMemo(() => ({
-    // state fields
-  }), [/* deps */]);
+  const state: MyComponent.State = React.useMemo(
+    () => ({
+      // state fields
+    }),
+    [
+      /* deps */
+    ],
+  );
 
-  const element = useRenderElement('div', componentProps, {
+  const element = useRenderElement("div", componentProps, {
     state,
     ref: forwardedRef,
     props: elementProps,
@@ -71,13 +81,13 @@ Automatically converts state to `data-*` attributes:
 ```typescript
 const stateAttributesMapping: StateAttributesMapping<State> = {
   open(value) {
-    return value ? { 'data-open': '' } : null;
+    return value ? { "data-open": "" } : null;
   },
   disabled(value) {
-    return value ? { 'data-disabled': '' } : null;
+    return value ? { "data-disabled": "" } : null;
   },
   orientation(value) {
-    return { 'data-orientation': value };
+    return { "data-orientation": value };
   },
 };
 ```
@@ -85,6 +95,7 @@ const stateAttributesMapping: StateAttributesMapping<State> = {
 ### Common Mappings
 
 #### Boolean (presence/absence)
+
 ```typescript
 open(value) {
   return value ? { 'data-open': '' } : null;
@@ -92,6 +103,7 @@ open(value) {
 ```
 
 #### Boolean (true/false string)
+
 ```typescript
 hasSubmenuOpen(value) {
   return { 'data-has-submenu-open': value ? 'true' : 'false' };
@@ -99,6 +111,7 @@ hasSubmenuOpen(value) {
 ```
 
 #### Enum value
+
 ```typescript
 side(value) {
   return { 'data-side': value };  // 'top' | 'bottom' | 'left' | 'right'
@@ -106,6 +119,7 @@ side(value) {
 ```
 
 #### Conditional based on value
+
 ```typescript
 multiple(value) {
   if (value) {
@@ -122,24 +136,26 @@ multiple(value) {
 Props can be passed as an array, merged left-to-right:
 
 ```typescript
-const element = useRenderElement('button', componentProps, {
+const element = useRenderElement("button", componentProps, {
   props: [
-    defaultProps,                    // Base props
-    validation.getValidationProps,   // Validation adds aria-invalid, etc.
-    getDescriptionProps,             // Labelable adds aria-describedby
-    elementProps,                    // User props (highest priority)
+    defaultProps, // Base props
+    validation.getValidationProps, // Validation adds aria-invalid, etc.
+    getDescriptionProps, // Labelable adds aria-describedby
+    elementProps, // User props (highest priority)
   ],
 });
 ```
 
 ### Props Getter Functions
+
 ```typescript
 const getValidationProps = React.useCallback(
-  (externalProps = {}) => mergeProps(
-    getDescriptionProps,
-    state.valid === false ? { 'aria-invalid': true } : {},
-    externalProps,
-  ),
+  (externalProps = {}) =>
+    mergeProps(
+      getDescriptionProps,
+      state.valid === false ? { "aria-invalid": true } : {},
+      externalProps,
+    ),
   [getDescriptionProps, state.valid],
 );
 ```
@@ -151,24 +167,25 @@ const getValidationProps = React.useCallback(
 Multiple refs merged automatically:
 
 ```typescript
-const element = useRenderElement('div', componentProps, {
+const element = useRenderElement("div", componentProps, {
   ref: [forwardedRef, internalRef, registerControlRef],
 });
 ```
 
 ### Common Ref Patterns
+
 ```typescript
 // Single ref
-ref: forwardedRef
+ref: forwardedRef;
 
 // Internal + forwarded
-ref: [forwardedRef, rootRef]
+ref: [forwardedRef, rootRef];
 
 // With registration callback
-ref: [forwardedRef, setContentElement, contentRef]
+ref: [forwardedRef, setContentElement, contentRef];
 
 // With setState as ref
-refs: [forwardedRef, setTriggerElement]  // CompositeRoot uses 'refs'
+refs: [forwardedRef, setTriggerElement]; // CompositeRoot uses 'refs'
 ```
 
 ---
@@ -191,11 +208,13 @@ export function DialogRoot(props: DialogRoot.Props) {
 ```
 
 ### When to Use
+
 - Popup components (Dialog, Popover, Tooltip, Menu)
 - When the root just provides context
 - When structure should be flexible
 
 ### Counter-pattern: Roots WITH DOM
+
 ```typescript
 // Toolbar, NavigationMenu, Form, RadioGroup render elements
 export const ToolbarRoot = React.forwardRef(function ToolbarRoot(...) {
@@ -215,7 +234,7 @@ Element type can depend on state:
 
 ```typescript
 // NavigationMenu: nav when root, div when nested
-const element = useRenderElement(nested ? 'div' : 'nav', componentProps, {
+const element = useRenderElement(nested ? "div" : "nav", componentProps, {
   state,
   ref: [forwardedRef, rootRef],
 });
@@ -244,10 +263,10 @@ function renderTag(Tag: string, props: Record<string, any>) {
 ## 8. Component Structure Template
 
 ```typescript
-'use client';
-import * as React from 'react';
-import { useRenderElement } from '../../utils/useRenderElement';
-import type { HeadlessComponentProps } from '../../utils/types';
+"use client";
+import * as React from "react";
+import { useRenderElement } from "../../utils/useRenderElement";
+import type { HeadlessComponentProps } from "../../utils/types";
 
 const stateAttributesMapping = {
   // state to data-* mapping
@@ -259,11 +278,16 @@ export const MyComponent = React.forwardRef(function MyComponent(
 ) {
   const { render, className, ...elementProps } = componentProps;
 
-  const state: MyComponent.State = React.useMemo(() => ({
-    // derive state
-  }), [/* deps */]);
+  const state: MyComponent.State = React.useMemo(
+    () => ({
+      // derive state
+    }),
+    [
+      /* deps */
+    ],
+  );
 
-  const element = useRenderElement('div', componentProps, {
+  const element = useRenderElement("div", componentProps, {
     state,
     ref: forwardedRef,
     props: elementProps,
@@ -277,7 +301,10 @@ export interface MyComponentState {
   // state interface
 }
 
-export interface MyComponentProps extends HeadlessComponentProps<'div', MyComponent.State> {
+export interface MyComponentProps extends HeadlessComponentProps<
+  "div",
+  MyComponent.State
+> {
   // additional props
 }
 

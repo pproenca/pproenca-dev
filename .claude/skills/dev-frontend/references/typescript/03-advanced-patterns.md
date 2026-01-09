@@ -8,8 +8,10 @@ Complex TypeScript patterns found in headless component.
 
 ```typescript
 // Select has Value and Multiple generics
-export interface SelectRootProps<Value, Multiple extends boolean = false>
-  extends HeadlessComponentProps<'div', SelectRootState<Value, Multiple>> {
+export interface SelectRootProps<
+  Value,
+  Multiple extends boolean = false,
+> extends HeadlessComponentProps<"div", SelectRootState<Value, Multiple>> {
   /**
    * The current value. Use when controlled.
    */
@@ -40,6 +42,7 @@ export interface SelectRootState<Value, Multiple extends boolean = false> {
 ```
 
 ### Key Pattern:
+
 - **Conditional type based on boolean generic**: `Multiple extends true ? Value[] : Value`
 - **Default generic value**: `Multiple extends boolean = false`
 - **Generic propagation**: Root passes generic to children via context
@@ -79,12 +82,16 @@ export function AutocompleteRoot<Value>(
 // The three overloads provide different behavior
 export function useDialogRootContext(): DialogRootContext;
 export function useDialogRootContext(optional: false): DialogRootContext;
-export function useDialogRootContext(optional: true): DialogRootContext | undefined;
-export function useDialogRootContext(optional?: boolean): DialogRootContext | undefined {
+export function useDialogRootContext(
+  optional: true,
+): DialogRootContext | undefined;
+export function useDialogRootContext(
+  optional?: boolean,
+): DialogRootContext | undefined {
   const context = React.useContext(DialogRootContext);
 
   if (!optional && context === undefined) {
-    throw new Error('useDialogRootContext must be used within <Dialog.Root>');
+    throw new Error("useDialogRootContext must be used within <Dialog.Root>");
   }
 
   return context;
@@ -92,15 +99,16 @@ export function useDialogRootContext(optional?: boolean): DialogRootContext | un
 ```
 
 ### Type Narrowing:
+
 ```typescript
 // Required - throws if missing, returns non-undefined
-const ctx = useDialogRootContext();           // Type: DialogRootContext
+const ctx = useDialogRootContext(); // Type: DialogRootContext
 
 // Explicit required
-const ctx = useDialogRootContext(false);      // Type: DialogRootContext
+const ctx = useDialogRootContext(false); // Type: DialogRootContext
 
 // Optional - never throws, may be undefined
-const ctx = useDialogRootContext(true);       // Type: DialogRootContext | undefined
+const ctx = useDialogRootContext(true); // Type: DialogRootContext | undefined
 ```
 
 ---
@@ -111,25 +119,25 @@ const ctx = useDialogRootContext(true);       // Type: DialogRootContext | undef
 // Menu parent varies by context
 type MenuParentContext =
   | {
-      type: 'menu';
+      type: "menu";
       closeParent: () => void;
       setClickAndDragActive: (active: boolean) => void;
       nested: true;
     }
   | {
-      type: 'menubar';
+      type: "menubar";
       closeParent: () => void;
       setClickAndDragActive: (active: boolean) => void;
       nested: true;
     }
   | {
-      type: 'context-menu';
+      type: "context-menu";
       closeParent: () => void;
       setClickAndDragActive: (active: boolean) => void;
       nested: true;
     }
   | {
-      type: 'root';
+      type: "root";
       nested: false;
     };
 
@@ -140,7 +148,7 @@ function handleParent(ctx: MenuParentContext) {
     ctx.closeParent();
   }
 
-  if (ctx.type === 'menubar') {
+  if (ctx.type === "menubar") {
     // Type narrowed: all menubar props available
     ctx.setClickAndDragActive(true);
   }
@@ -160,22 +168,28 @@ export function useRenderElement<
 >(
   element: TagName,
   componentProps: useRenderElement.ComponentProps<State>,
-  params?: useRenderElement.Parameters<State, RenderedElementType, TagName, Enabled>,
+  params?: useRenderElement.Parameters<
+    State,
+    RenderedElementType,
+    TagName,
+    Enabled
+  >,
 ): Enabled extends false ? null : React.ReactElement;
 ```
 
 ### Usage:
+
 ```typescript
 // enabled: true (default) - returns ReactElement
-const el1 = useRenderElement('div', props);
+const el1 = useRenderElement("div", props);
 // Type: React.ReactElement
 
 // enabled: false - returns null
-const el2 = useRenderElement('div', props, { enabled: false });
+const el2 = useRenderElement("div", props, { enabled: false });
 // Type: null
 
 // enabled: boolean - returns either
-const el3 = useRenderElement('div', props, { enabled: someCondition });
+const el3 = useRenderElement("div", props, { enabled: someCondition });
 // Type: React.ReactElement | null
 ```
 
@@ -185,28 +199,30 @@ const el3 = useRenderElement('div', props, { enabled: someCondition });
 
 ```typescript
 export type StateAttributesMapping<State> = {
-  [Property in keyof State]?: (state: State[Property]) => Record<string, string> | null;
+  [Property in keyof State]?: (
+    state: State[Property],
+  ) => Record<string, string> | null;
 };
 
 // Usage
 interface ButtonState {
   disabled: boolean;
   pressed: boolean;
-  orientation: 'horizontal' | 'vertical';
+  orientation: "horizontal" | "vertical";
 }
 
 const mapping: StateAttributesMapping<ButtonState> = {
   // value is boolean
   disabled(value) {
-    return value ? { 'data-disabled': '' } : null;
+    return value ? { "data-disabled": "" } : null;
   },
   // value is boolean
   pressed(value) {
-    return value ? { 'data-pressed': '' } : null;
+    return value ? { "data-pressed": "" } : null;
   },
   // value is 'horizontal' | 'vertical'
   orientation(value) {
-    return { 'data-orientation': value };
+    return { "data-orientation": value };
   },
 };
 ```
@@ -230,6 +246,7 @@ export type WithComponentEvent<T> = {
 ```
 
 ### What This Does:
+
 1. **Infers event type**: Extracts `E` from function signature
 2. **Checks if SyntheticEvent**: Only transforms React events
 3. **Adds extension**: `ComponentEvent<E>` adds `preventDefaultHandler()`
@@ -248,8 +265,12 @@ export const DialogRoot = React.forwardRef(function DialogRoot(
   // ...
 });
 
-export interface DialogRootProps { /* ... */ }
-export interface DialogRootState { /* ... */ }
+export interface DialogRootProps {
+  /* ... */
+}
+export interface DialogRootState {
+  /* ... */
+}
 
 // Namespace provides aliases
 export namespace DialogRoot {
@@ -258,8 +279,8 @@ export namespace DialogRoot {
 }
 
 // Usage - both work
-type P1 = DialogRoot.Props;       // Via namespace
-type P2 = DialogRootProps;        // Direct import
+type P1 = DialogRoot.Props; // Via namespace
+type P2 = DialogRootProps; // Direct import
 ```
 
 ---
@@ -280,7 +301,7 @@ export interface RadioGroupRootState extends FieldRootState {
   // Inherits: dirty, touched, valid, disabled
   readOnly: boolean;
   required: boolean;
-  orientation: 'horizontal' | 'vertical';
+  orientation: "horizontal" | "vertical";
 }
 ```
 
@@ -297,8 +318,8 @@ type PropsGetter<T extends Element = Element> = (
 const getInputProps: PropsGetter<HTMLInputElement> = (externalProps = {}) =>
   mergeProps(
     {
-      'aria-invalid': invalid || undefined,
-      'aria-required': required || undefined,
+      "aria-invalid": invalid || undefined,
+      "aria-required": required || undefined,
       name,
       disabled,
     },
@@ -312,18 +333,19 @@ const getInputProps: PropsGetter<HTMLInputElement> = (externalProps = {}) =>
 
 ```typescript
 // AlertDialog removes certain props from Dialog
-export interface AlertDialogRootProps
-  extends Omit<DialogRootProps, 'dismissible' | 'modal'> {
+export interface AlertDialogRootProps extends Omit<
+  DialogRootProps,
+  "dismissible" | "modal"
+> {
   // Props are now fixed in implementation
 }
 
 // Can re-declare with different type if needed
-export interface AlertDialogPopupProps
-  extends Omit<DialogPopupProps, 'role'> {
+export interface AlertDialogPopupProps extends Omit<DialogPopupProps, "role"> {
   /**
    * @default 'alertdialog'
    */
-  role?: 'alertdialog' | 'dialog';  // Narrower type
+  role?: "alertdialog" | "dialog"; // Narrower type
 }
 ```
 
@@ -386,9 +408,7 @@ const [values, setValues] = React.useState<string[]>([]);
 // For multiple mode: array has 0 to N elements
 
 // Conversion for external API
-const externalValue = multiple
-  ? values
-  : values[0];
+const externalValue = multiple ? values : values[0];
 ```
 
 ---
@@ -396,7 +416,7 @@ const externalValue = multiple
 ## 14. Loading Status State Machine
 
 ```typescript
-type LoadingStatus = 'idle' | 'loading' | 'loaded' | 'error';
+type LoadingStatus = "idle" | "loading" | "loaded" | "error";
 
 export interface AvatarRootState {
   loadingStatus: LoadingStatus;

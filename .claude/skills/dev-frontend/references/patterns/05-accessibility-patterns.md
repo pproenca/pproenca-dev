@@ -7,27 +7,27 @@ Semantic roles for custom components:
 ```typescript
 // Role based on element type
 const rootProps = {
-  role: 'checkbox',           // Checkbox
-  role: 'radio',              // Radio
-  role: 'switch',             // Switch
-  role: 'slider',             // Slider
-  role: 'progressbar',        // Progress
-  role: 'meter',              // Meter
-  role: 'dialog',             // Dialog
-  role: 'alertdialog',        // AlertDialog
-  role: 'menu',               // Menu popup
-  role: 'menuitem',           // Menu item
-  role: 'menuitemcheckbox',   // Menu checkbox item
-  role: 'menuitemradio',      // Menu radio item
-  role: 'listbox',            // Select/Combobox popup
-  role: 'option',             // Select/Combobox item
-  role: 'combobox',           // Combobox input
-  role: 'tablist',            // Tabs list
-  role: 'tab',                // Tab trigger
-  role: 'tabpanel',           // Tab content
-  role: 'separator',          // Separator
-  role: 'toolbar',            // Toolbar
-  role: 'navigation',         // NavigationMenu (root)
+  role: "checkbox", // Checkbox
+  role: "radio", // Radio
+  role: "switch", // Switch
+  role: "slider", // Slider
+  role: "progressbar", // Progress
+  role: "meter", // Meter
+  role: "dialog", // Dialog
+  role: "alertdialog", // AlertDialog
+  role: "menu", // Menu popup
+  role: "menuitem", // Menu item
+  role: "menuitemcheckbox", // Menu checkbox item
+  role: "menuitemradio", // Menu radio item
+  role: "listbox", // Select/Combobox popup
+  role: "option", // Select/Combobox item
+  role: "combobox", // Combobox input
+  role: "tablist", // Tabs list
+  role: "tab", // Tab trigger
+  role: "tabpanel", // Tab content
+  role: "separator", // Separator
+  role: "toolbar", // Toolbar
+  role: "navigation", // NavigationMenu (root)
 };
 ```
 
@@ -129,18 +129,18 @@ const controlId = useId();
 // Arrow keys for linear navigation
 const handleKeyDown = (event) => {
   switch (event.key) {
-    case 'ArrowDown':
-    case 'ArrowRight':
+    case "ArrowDown":
+    case "ArrowRight":
       focusNext();
       break;
-    case 'ArrowUp':
-    case 'ArrowLeft':
+    case "ArrowUp":
+    case "ArrowLeft":
       focusPrevious();
       break;
-    case 'Home':
+    case "Home":
       focusFirst();
       break;
-    case 'End':
+    case "End":
       focusLast();
       break;
   }
@@ -151,9 +151,9 @@ const handleKeyDown = (event) => {
 
 ```typescript
 const handleKeyDown = (event) => {
-  const isHorizontal = orientation === 'horizontal';
-  const nextKey = isHorizontal ? 'ArrowRight' : 'ArrowDown';
-  const prevKey = isHorizontal ? 'ArrowLeft' : 'ArrowUp';
+  const isHorizontal = orientation === "horizontal";
+  const nextKey = isHorizontal ? "ArrowRight" : "ArrowDown";
+  const prevKey = isHorizontal ? "ArrowLeft" : "ArrowUp";
 
   if (event.key === nextKey) focusNext();
   if (event.key === prevKey) focusPrevious();
@@ -164,13 +164,13 @@ const handleKeyDown = (event) => {
 
 ```typescript
 const { direction } = useDirectionContext();
-const isRTL = direction === 'rtl';
+const isRTL = direction === "rtl";
 
 const handleKeyDown = (event) => {
-  if (event.key === 'ArrowRight') {
+  if (event.key === "ArrowRight") {
     isRTL ? focusPrevious() : focusNext();
   }
-  if (event.key === 'ArrowLeft') {
+  if (event.key === "ArrowLeft") {
     isRTL ? focusNext() : focusPrevious();
   }
 };
@@ -183,7 +183,7 @@ const focusNext = () => {
   const nextIndex = activeIndex + 1;
   if (nextIndex >= items.length) {
     if (loop) {
-      setActiveIndex(0);  // Wrap to start
+      setActiveIndex(0); // Wrap to start
     }
     // else: stay at end
   } else {
@@ -204,7 +204,7 @@ useEffect(() => {
   if (!open || !modal) return;
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       const focusables = getFocusableElements(popupRef.current);
       const first = focusables[0];
       const last = focusables[focusables.length - 1];
@@ -219,8 +219,8 @@ useEffect(() => {
     }
   };
 
-  document.addEventListener('keydown', handleKeyDown);
-  return () => document.removeEventListener('keydown', handleKeyDown);
+  document.addEventListener("keydown", handleKeyDown);
+  return () => document.removeEventListener("keydown", handleKeyDown);
 }, [open, modal]);
 ```
 
@@ -315,24 +315,24 @@ Roving tabindex for groups:
 Keyboard search in lists:
 
 ```typescript
-const [searchString, setSearchString] = useState('');
+const [searchString, setSearchString] = useState("");
 const searchTimeoutRef = useRef<number>();
 
 const handleKeyDown = (event) => {
   // Printable character
   if (event.key.length === 1 && !event.ctrlKey && !event.metaKey) {
     // Accumulate search string
-    setSearchString(prev => prev + event.key);
+    setSearchString((prev) => prev + event.key);
 
     // Reset after delay
     clearTimeout(searchTimeoutRef.current);
     searchTimeoutRef.current = window.setTimeout(() => {
-      setSearchString('');
+      setSearchString("");
     }, 500);
 
     // Find matching item
-    const match = items.find(item =>
-      item.label.toLowerCase().startsWith(searchString.toLowerCase())
+    const match = items.find((item) =>
+      item.label.toLowerCase().startsWith(searchString.toLowerCase()),
     );
     if (match) {
       focusItem(match);
@@ -463,12 +463,12 @@ Different focus behaviors:
 useEffect(() => {
   if (open && modal) {
     // Make everything except popup inert
-    document.body.setAttribute('inert', '');
-    popupRef.current?.removeAttribute('inert');
+    document.body.setAttribute("inert", "");
+    popupRef.current?.removeAttribute("inert");
   }
 
   return () => {
-    document.body.removeAttribute('inert');
+    document.body.removeAttribute("inert");
   };
 }, [open, modal]);
 ```
@@ -484,15 +484,15 @@ useEffect(() => {
   if (!open) return;
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       event.preventDefault();
-      const details = createEventDetails('escapeKey', event);
+      const details = createEventDetails("escapeKey", event);
       setOpen(false, details);
     }
   };
 
-  document.addEventListener('keydown', handleKeyDown);
-  return () => document.removeEventListener('keydown', handleKeyDown);
+  document.addEventListener("keydown", handleKeyDown);
+  return () => document.removeEventListener("keydown", handleKeyDown);
 }, [open]);
 ```
 

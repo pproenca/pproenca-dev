@@ -23,7 +23,7 @@ Write production-grade TypeScript + React headless components following Headless
 Every component renders through this hook:
 
 ```typescript
-const element = useRenderElement('div', componentProps, {
+const element = useRenderElement("div", componentProps, {
   state,
   ref: forwardedRef,
   props: [defaultProps, elementProps],
@@ -34,6 +34,7 @@ return element;
 ```
 
 ### Key Capabilities
+
 - **Render prop (function)**: `render={(props, state) => <Custom {...props} />}`
 - **Render prop (element)**: `render={<Custom />}`
 - **State className**: `className={(state) => state.open ? 'open' : ''}`
@@ -49,23 +50,30 @@ Convert state to `data-*` attributes for CSS styling:
 const stateAttributesMapping: StateAttributesMapping<State> = {
   // Boolean: presence/absence
   open(value) {
-    return value ? { 'data-open': '' } : null;
+    return value ? { "data-open": "" } : null;
   },
   disabled(value) {
-    return value ? { 'data-disabled': '' } : null;
+    return value ? { "data-disabled": "" } : null;
   },
   // Enum: value
   side(value) {
-    return { 'data-side': value };
+    return { "data-side": value };
   },
 };
 ```
 
 **CSS Usage:**
+
 ```css
-[data-open] { opacity: 1; }
-[data-disabled] { pointer-events: none; }
-[data-side="top"] { bottom: 100%; }
+[data-open] {
+  opacity: 1;
+}
+[data-disabled] {
+  pointer-events: none;
+}
+[data-side="top"] {
+  bottom: 100%;
+}
 ```
 
 ---
@@ -78,16 +86,17 @@ Always use `useControlled`:
 const [open, setOpen] = useControlled({
   controlled: openProp,
   default: defaultOpen ?? false,
-  name: 'Dialog',
-  state: 'open',
+  name: "Dialog",
+  state: "open",
 });
 ```
 
 **Props interface:**
+
 ```typescript
 interface DialogRootProps {
-  open?: boolean;           // Controlled
-  defaultOpen?: boolean;    // Uncontrolled
+  open?: boolean; // Controlled
+  defaultOpen?: boolean; // Uncontrolled
   onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
 }
 ```
@@ -111,7 +120,9 @@ const handleOpen = (reason: string, event?: Event) => {
     reason,
     event,
     isCanceled: false,
-    cancel() { this.isCanceled = true; },
+    cancel() {
+      this.isCanceled = true;
+    },
   };
 
   onOpenChange?.(true, details);
@@ -137,7 +148,7 @@ export function useDialogContext(optional: true): DialogContext | undefined;
 export function useDialogContext(optional?: boolean) {
   const context = React.useContext(DialogContext);
   if (!optional && context === undefined) {
-    throw new Error('useDialogContext must be used within DialogRoot');
+    throw new Error("useDialogContext must be used within DialogRoot");
   }
   return context;
 }
@@ -148,10 +159,12 @@ export function useDialogContext(optional?: boolean) {
 ## Component Structure Template
 
 ```typescript
-'use client';
-import * as React from 'react';
+"use client";
+import * as React from "react";
 
-const stateAttributesMapping = { /* ... */ };
+const stateAttributesMapping = {
+  /* ... */
+};
 
 export const MyComponent = React.forwardRef(function MyComponent(
   componentProps: MyComponent.Props,
@@ -159,11 +172,16 @@ export const MyComponent = React.forwardRef(function MyComponent(
 ) {
   const { render, className, ...elementProps } = componentProps;
 
-  const state: MyComponent.State = React.useMemo(() => ({
-    // state fields
-  }), [/* deps */]);
+  const state: MyComponent.State = React.useMemo(
+    () => ({
+      // state fields
+    }),
+    [
+      /* deps */
+    ],
+  );
 
-  const element = useRenderElement('div', componentProps, {
+  const element = useRenderElement("div", componentProps, {
     state,
     ref: forwardedRef,
     props: elementProps,
@@ -174,8 +192,15 @@ export const MyComponent = React.forwardRef(function MyComponent(
 });
 
 // Interfaces
-export interface MyComponentState { /* ... */ }
-export interface MyComponentProps extends HeadlessComponentProps<'div', MyComponentState> { /* ... */ }
+export interface MyComponentState {
+  /* ... */
+}
+export interface MyComponentProps extends HeadlessComponentProps<
+  "div",
+  MyComponentState
+> {
+  /* ... */
+}
 
 // Namespace
 export namespace MyComponent {
@@ -189,17 +214,19 @@ export namespace MyComponent {
 ## TypeScript Patterns
 
 ### HeadlessComponentProps
+
 ```typescript
 export type HeadlessComponentProps<
   ElementType extends React.ElementType,
   State,
-> = Omit<React.ComponentPropsWithRef<ElementType>, 'className'> & {
+> = Omit<React.ComponentPropsWithRef<ElementType>, "className"> & {
   className?: string | ((state: State) => string);
   render?: ComponentRenderFn<Props, State> | React.ReactElement;
 };
 ```
 
 ### Multi-Generic Components
+
 ```typescript
 interface SelectProps<Value, Multiple extends boolean = false> {
   value?: Multiple extends true ? Value[] : Value;
@@ -212,11 +239,13 @@ interface SelectProps<Value, Multiple extends boolean = false> {
 ## Accessibility Essentials
 
 ### ARIA Roles
+
 ```typescript
 role="checkbox" | role="radio" | role="switch" | role="dialog" | role="menu" | role="listbox"
 ```
 
 ### ARIA States
+
 ```typescript
 'aria-checked': checked,
 'aria-expanded': expanded,
@@ -226,19 +255,33 @@ role="checkbox" | role="radio" | role="switch" | role="dialog" | role="menu" | r
 ```
 
 ### Keyboard Navigation
+
 ```typescript
 const handleKeyDown = (event) => {
   switch (event.key) {
-    case 'ArrowDown': case 'ArrowRight': focusNext(); break;
-    case 'ArrowUp': case 'ArrowLeft': focusPrevious(); break;
-    case 'Home': focusFirst(); break;
-    case 'End': focusLast(); break;
-    case 'Escape': close(); break;
+    case "ArrowDown":
+    case "ArrowRight":
+      focusNext();
+      break;
+    case "ArrowUp":
+    case "ArrowLeft":
+      focusPrevious();
+      break;
+    case "Home":
+      focusFirst();
+      break;
+    case "End":
+      focusLast();
+      break;
+    case "Escape":
+      close();
+      break;
   }
 };
 ```
 
 ### Focus Management
+
 - **Focus trap** for modal dialogs
 - **Return focus** to trigger on close
 - **Roving tabindex** for composite widgets
@@ -331,6 +374,7 @@ For detailed patterns and techniques, consult:
 ### Component Examples
 
 Working component examples in `examples/components/`:
+
 - Dialog, Switch, Checkbox, Progress - compound components
 - Button, Toggle - simple components
 - Select, Combobox - complex with stores

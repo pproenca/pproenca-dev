@@ -44,13 +44,13 @@ return (
 ### Input Props Pattern
 
 ```typescript
-const inputProps: React.ComponentPropsWithRef<'input'> = React.useMemo(
+const inputProps: React.ComponentPropsWithRef<"input"> = React.useMemo(
   () => ({
-    type: 'checkbox',  // or 'radio'
+    type: "checkbox", // or 'radio'
     ref: inputRef,
     tabIndex: -1,
     style: visuallyHidden,
-    'aria-hidden': true,
+    "aria-hidden": true,
     disabled,
     checked,
     required,
@@ -135,21 +135,22 @@ Functions that return validation-related props:
 ```typescript
 // Props getter for input validation
 const getInputValidationProps = React.useCallback(
-  (externalProps = {}) => mergeProps(
-    {
-      'aria-invalid': valid === false || undefined,
-      'aria-describedby': errorId || undefined,
-    },
-    externalProps,
-  ),
+  (externalProps = {}) =>
+    mergeProps(
+      {
+        "aria-invalid": valid === false || undefined,
+        "aria-describedby": errorId || undefined,
+      },
+      externalProps,
+    ),
   [valid, errorId],
 );
 
 // Usage in component
-const element = useRenderElement('input', componentProps, {
+const element = useRenderElement("input", componentProps, {
   props: [
     defaultProps,
-    getInputValidationProps,  // Function in props array
+    getInputValidationProps, // Function in props array
     elementProps,
   ],
 });
@@ -193,7 +194,7 @@ const registerControlRef = React.useCallback((element: HTMLElement | null) => {
 }, []);
 
 // Controls register themselves
-const element = useRenderElement('input', componentProps, {
+const element = useRenderElement("input", componentProps, {
   ref: [forwardedRef, registerControlRef],
 });
 
@@ -211,9 +212,9 @@ Track user interaction state:
 
 ```typescript
 interface FieldState {
-  dirty: boolean;   // Value changed from initial
+  dirty: boolean; // Value changed from initial
   touched: boolean; // User has interacted
-  valid: boolean | null;  // null = not validated yet
+  valid: boolean | null; // null = not validated yet
 }
 
 // In Field.Root
@@ -237,15 +238,15 @@ const handleChange = (value) => {
 ```typescript
 const stateAttributesMapping = {
   dirty(value) {
-    return value ? { 'data-dirty': '' } : null;
+    return value ? { "data-dirty": "" } : null;
   },
   touched(value) {
-    return value ? { 'data-touched': '' } : null;
+    return value ? { "data-touched": "" } : null;
   },
   valid(value) {
-    if (value === true) return { 'data-valid': '' };
-    if (value === false) return { 'data-invalid': '' };
-    return null;  // null = not validated
+    if (value === true) return { "data-valid": "" };
+    if (value === false) return { "data-invalid": "" };
+    return null; // null = not validated
   },
 };
 ```
@@ -258,7 +259,7 @@ Debounce validation for performance:
 
 ```typescript
 interface FieldRootProps {
-  validationDebounceTime?: number;  // Default: 0
+  validationDebounceTime?: number; // Default: 0
   validateOnChange?: boolean;
 }
 
@@ -374,13 +375,9 @@ Parent checkbox for "select all":
 
 ```typescript
 // Hook for parent checkbox behavior
-const {
-  checked,
-  indeterminate,
-  getParentProps,
-} = useCheckboxGroupParent({
-  values: groupValues,          // All selected values
-  allValues: allChildValues,    // All possible values
+const { checked, indeterminate, getParentProps } = useCheckboxGroupParent({
+  values: groupValues, // All selected values
+  allValues: allChildValues, // All possible values
   onParentChange,
 });
 
@@ -448,7 +445,7 @@ Formatted display vs raw value:
 ```typescript
 // Three values tracked
 const [rawValue, setRawValue] = useState<number | null>(null);
-const [inputValue, setInputValue] = useState('');  // Formatted display
+const [inputValue, setInputValue] = useState(""); // Formatted display
 const [committedValue, setCommittedValue] = useState<number | null>(null);
 
 // Formatting on blur
@@ -464,7 +461,7 @@ const handleChange = (event) => {
   if (!isNaN(parsed)) {
     setRawValue(parsed);
   }
-  setInputValue(event.target.value);  // Keep user input as-is
+  setInputValue(event.target.value); // Keep user input as-is
 };
 ```
 
@@ -473,9 +470,9 @@ const handleChange = (event) => {
 ```typescript
 // Three step sizes based on modifiers
 interface NumberFieldProps {
-  step?: number;        // Default step (arrows, up/down)
-  largeStep?: number;   // Shift + arrows
-  smallStep?: number;   // Alt + arrows
+  step?: number; // Default step (arrows, up/down)
+  largeStep?: number; // Shift + arrows
+  smallStep?: number; // Alt + arrows
 }
 
 const handleKeyDown = (event) => {
@@ -483,7 +480,7 @@ const handleKeyDown = (event) => {
   if (event.shiftKey) stepSize = largeStep ?? step * 10;
   if (event.altKey) stepSize = smallStep ?? step / 10;
 
-  if (event.key === 'ArrowUp') {
+  if (event.key === "ArrowUp") {
     setValue(value + stepSize);
   }
 };

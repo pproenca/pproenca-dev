@@ -32,19 +32,26 @@ export interface CheckboxRootState extends FieldRoot.State {
 }
 
 export interface CheckboxRootProps
-  extends NonNativeButtonProps,
-    Omit<HeadlessComponentProps<'span', CheckboxRoot.State>, 'onChange' | 'value'> {
+  extends
+    NonNativeButtonProps,
+    Omit<
+      HeadlessComponentProps<"span", CheckboxRoot.State>,
+      "onChange" | "value"
+    > {
   id?: string;
   name?: string;
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
-  onCheckedChange?: (checked: boolean, eventDetails: CheckboxRootChangeEventDetails) => void;
+  onCheckedChange?: (
+    checked: boolean,
+    eventDetails: CheckboxRootChangeEventDetails,
+  ) => void;
   readOnly?: boolean;
   required?: boolean;
   indeterminate?: boolean;
   inputRef?: React.Ref<HTMLInputElement>;
-  parent?: boolean;  // For parent checkbox in group
+  parent?: boolean; // For parent checkbox in group
   uncheckedValue?: string;
   value?: string;
 }
@@ -64,6 +71,7 @@ const parentContext = groupContext?.parent;
 ```
 
 **Context Priority Chain**:
+
 1. `useFormContext` - Form-level error clearing
 2. `useFieldRootContext` - Field wrapper integration
 3. `useFieldItemContext` - Field item (for groups)
@@ -88,6 +96,7 @@ if (isGroupedWithParent) {
 ```
 
 **Pattern**: Parent checkbox tracks disabled states of children:
+
 ```typescript
 React.useEffect(() => {
   if (parentContext && value) {
@@ -102,10 +111,14 @@ Complex controlled state with group override:
 
 ```typescript
 const [checked, setCheckedState] = useControlled({
-  controlled: value && groupValue && !parent ? groupValue.includes(value) : groupChecked,
-  default: value && defaultGroupValue && !parent ? defaultGroupValue.includes(value) : defaultChecked,
-  name: 'Checkbox',
-  state: 'checked',
+  controlled:
+    value && groupValue && !parent ? groupValue.includes(value) : groupChecked,
+  default:
+    value && defaultGroupValue && !parent
+      ? defaultGroupValue.includes(value)
+      : defaultChecked,
+  name: "Checkbox",
+  state: "checked",
 });
 ```
 
@@ -152,6 +165,7 @@ const stateAttributesMapping = useStateAttributesMapping(state);
 ```
 
 **utils/useStateAttributesMapping.ts** creates dynamic mappings:
+
 - `data-checked` / `data-unchecked`
 - `data-indeterminate`
 - Field validity attributes
@@ -193,6 +207,7 @@ Allows CSS/JS to distinguish parent checkbox.
 ## Complexity Warning
 
 This is one of the most complex components due to:
+
 - Multiple context consumers
 - Parent/child checkbox relationship
 - Group value management

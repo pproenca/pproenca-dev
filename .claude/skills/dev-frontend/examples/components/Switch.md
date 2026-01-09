@@ -23,16 +23,18 @@ switch/
 ## Export Pattern
 
 **index.ts**:
+
 ```typescript
-export * as Switch from './index.parts';
-export type * from './root/SwitchRoot';
-export type * from './thumb/SwitchThumb';
+export * as Switch from "./index.parts";
+export type * from "./root/SwitchRoot";
+export type * from "./thumb/SwitchThumb";
 ```
 
 **index.parts.ts**:
+
 ```typescript
-export { SwitchRoot as Root } from './root/SwitchRoot';
-export { SwitchThumb as Thumb } from './thumb/SwitchThumb';
+export { SwitchRoot as Root } from "./root/SwitchRoot";
+export { SwitchThumb as Thumb } from "./thumb/SwitchThumb";
 ```
 
 **Usage**: `<Switch.Root><Switch.Thumb /></Switch.Root>`
@@ -48,15 +50,19 @@ export interface SwitchRootState extends FieldRoot.State {
 }
 
 export interface SwitchRootProps
-  extends NonNativeButtonProps,
-    Omit<HeadlessComponentProps<'span', SwitchRoot.State>, 'onChange'> {
+  extends
+    NonNativeButtonProps,
+    Omit<HeadlessComponentProps<"span", SwitchRoot.State>, "onChange"> {
   id?: string;
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
   inputRef?: React.Ref<HTMLInputElement>;
   name?: string;
-  onCheckedChange?: (checked: boolean, eventDetails: SwitchRoot.ChangeEventDetails) => void;
+  onCheckedChange?: (
+    checked: boolean,
+    eventDetails: SwitchRoot.ChangeEventDetails,
+  ) => void;
   readOnly?: boolean;
   required?: boolean;
   uncheckedValue?: string;
@@ -72,8 +78,8 @@ export interface SwitchRootProps
 const [checked, setCheckedState] = useControlled({
   controlled: checkedProp,
   default: Boolean(defaultChecked),
-  name: 'Switch',
-  state: 'checked',
+  name: "Switch",
+  state: "checked",
 });
 
 // State object for context and rendering
@@ -106,14 +112,17 @@ const state: SwitchRoot.State = React.useMemo(
 ## Context Pattern
 
 **SwitchRootContext.ts**:
+
 ```typescript
-export const SwitchRootContext = React.createContext<SwitchRootContext | undefined>(undefined);
+export const SwitchRootContext = React.createContext<
+  SwitchRootContext | undefined
+>(undefined);
 
 export function useSwitchRootContext() {
   const context = React.useContext(SwitchRootContext);
   if (context === undefined) {
     throw new Error(
-      'headless component: SwitchRootContext is missing. Switch parts must be placed within <Switch.Root>.',
+      "headless component: SwitchRootContext is missing. Switch parts must be placed within <Switch.Root>.",
     );
   }
   return context;
@@ -161,31 +170,33 @@ onChange(event) {
 
 ```typescript
 export enum SwitchRootDataAttributes {
-  checked = 'data-checked',
-  unchecked = 'data-unchecked',
-  disabled = 'data-disabled',
-  readonly = 'data-readonly',
-  required = 'data-required',
-  valid = 'data-valid',
-  invalid = 'data-invalid',
-  touched = 'data-touched',
-  dirty = 'data-dirty',
-  filled = 'data-filled',
-  focused = 'data-focused',
+  checked = "data-checked",
+  unchecked = "data-unchecked",
+  disabled = "data-disabled",
+  readonly = "data-readonly",
+  required = "data-required",
+  valid = "data-valid",
+  invalid = "data-invalid",
+  touched = "data-touched",
+  dirty = "data-dirty",
+  filled = "data-filled",
+  focused = "data-focused",
 }
 ```
 
 **stateAttributesMapping.ts**:
+
 ```typescript
-export const stateAttributesMapping: StateAttributesMapping<SwitchRoot.State> = {
-  ...fieldValidityMapping,
-  checked(value): Record<string, string> {
-    if (value) {
-      return { [SwitchRootDataAttributes.checked]: '' };
-    }
-    return { [SwitchRootDataAttributes.unchecked]: '' };
-  },
-};
+export const stateAttributesMapping: StateAttributesMapping<SwitchRoot.State> =
+  {
+    ...fieldValidityMapping,
+    checked(value): Record<string, string> {
+      if (value) {
+        return { [SwitchRootDataAttributes.checked]: "" };
+      }
+      return { [SwitchRootDataAttributes.unchecked]: "" };
+    },
+  };
 ```
 
 ## Slot/Customization Mechanism
@@ -204,7 +215,7 @@ export const SwitchThumb = React.forwardRef(function SwitchThumb(
   const state = useSwitchRootContext(); // Gets parent state
   const extendedState = { ...fieldState, ...state };
 
-  return useRenderElement('span', componentProps, {
+  return useRenderElement("span", componentProps, {
     state: extendedState,
     ref: forwardedRef,
     stateAttributesMapping,

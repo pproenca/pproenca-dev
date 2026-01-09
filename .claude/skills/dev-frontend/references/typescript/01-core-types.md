@@ -18,7 +18,7 @@ export type HeadlessComponentProps<
   RenderFunctionProps = HTMLProps,
 > = Omit<
   WithComponentEvent<React.ComponentPropsWithRef<ElementType>>,
-  'className' | 'color' | 'defaultValue' | 'defaultChecked'
+  "className" | "color" | "defaultValue" | "defaultChecked"
 > & {
   /**
    * CSS class applied to the element, or a function that
@@ -36,11 +36,14 @@ export type HeadlessComponentProps<
    * Style applied to the element, or a function that
    * returns a style object based on the component's state.
    */
-  style?: React.CSSProperties | ((state: State) => React.CSSProperties | undefined);
+  style?:
+    | React.CSSProperties
+    | ((state: State) => React.CSSProperties | undefined);
 };
 ```
 
 ### Key Features:
+
 - **Three generic parameters**: ElementType, State, RenderFunctionProps
 - **Omits problematic native props**: 'className', 'color', 'defaultValue', 'defaultChecked'
 - **Function className/style**: Can be state-dependent
@@ -80,22 +83,25 @@ export type HTMLProps<T = any> = React.HTMLAttributes<T> & {
 
 ```typescript
 export type StateAttributesMapping<State> = {
-  [Property in keyof State]?: (state: State[Property]) => Record<string, string> | null;
+  [Property in keyof State]?: (
+    state: State[Property],
+  ) => Record<string, string> | null;
 };
 ```
 
 ### Example Usage:
+
 ```typescript
 const stateAttributesMapping: StateAttributesMapping<ButtonState> = {
   disabled(value) {
-    return value ? { 'data-disabled': '' } : null;
+    return value ? { "data-disabled": "" } : null;
   },
   pressed(value) {
-    return value ? { 'data-pressed': '' } : null;
+    return value ? { "data-pressed": "" } : null;
   },
   // Value-based attribute
   orientation(value) {
-    return { 'data-orientation': value };
+    return { "data-orientation": value };
   },
 };
 ```
@@ -105,10 +111,11 @@ const stateAttributesMapping: StateAttributesMapping<ButtonState> = {
 ## 5. WithComponentEvent - Event Handler Extension
 
 ```typescript
-export type ComponentEvent<E extends React.SyntheticEvent<Element, Event>> = E & {
-  preventDefaultHandler: () => void;
-  readonly defaultHandlerPrevented?: boolean;
-};
+export type ComponentEvent<E extends React.SyntheticEvent<Element, Event>> =
+  E & {
+    preventDefaultHandler: () => void;
+    readonly defaultHandlerPrevented?: boolean;
+  };
 
 type WithPreventDefaultHandler<T> = T extends (event: infer E) => any
   ? E extends React.SyntheticEvent<Element, Event>
@@ -127,6 +134,7 @@ export type WithComponentEvent<T> = {
 ```
 
 ### What This Does:
+
 - Adds `preventDefaultHandler()` to all event handlers
 - Allows consumers to prevent headless component's default event handling
 - Preserves original event types with extension
@@ -136,7 +144,7 @@ export type WithComponentEvent<T> = {
 ## 6. TransitionStatus - Animation States
 
 ```typescript
-export type TransitionStatus = 'starting' | 'ending' | 'idle' | undefined;
+export type TransitionStatus = "starting" | "ending" | "idle" | undefined;
 ```
 
 ---
@@ -144,7 +152,7 @@ export type TransitionStatus = 'starting' | 'ending' | 'idle' | undefined;
 ## 7. Orientation Type
 
 ```typescript
-export type Orientation = 'horizontal' | 'vertical';
+export type Orientation = "horizontal" | "vertical";
 ```
 
 ---
@@ -164,7 +172,8 @@ export type Simplify<T> = T extends Function ? T : { [K in keyof T]: T[K] };
 ## 9. RequiredExcept - Partial Required Helper
 
 ```typescript
-export type RequiredExcept<T, K extends keyof T> = Required<Omit<T, K>> & Pick<T, K>;
+export type RequiredExcept<T, K extends keyof T> = Required<Omit<T, K>> &
+  Pick<T, K>;
 ```
 
 ---
@@ -200,12 +209,14 @@ export interface NonNativeButtonProps {
 ## 11. RenderFunctionProps - Tag-Based Props
 
 ```typescript
-type RenderFunctionProps<TagName> = TagName extends keyof React.JSX.IntrinsicElements
-  ? React.JSX.IntrinsicElements[TagName]
-  : React.HTMLAttributes<any>;
+type RenderFunctionProps<TagName> =
+  TagName extends keyof React.JSX.IntrinsicElements
+    ? React.JSX.IntrinsicElements[TagName]
+    : React.HTMLAttributes<any>;
 ```
 
 ### What This Does:
+
 - If TagName is a valid HTML tag, returns that tag's props
 - Otherwise falls back to generic HTMLAttributes
 

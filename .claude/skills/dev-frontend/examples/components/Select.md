@@ -71,8 +71,8 @@ type SelectValueType<Value, Multiple extends boolean | undefined> = Multiple ext
 ## Store Pattern with External Selectors
 
 ```typescript
-import { useStore, Store } from '../utils/store';
-import { selectors, type State as StoreState } from '../store';
+import { useStore, Store } from "../utils/store";
+import { selectors, type State as StoreState } from "../store";
 
 const store = useRefWithInit(
   () =>
@@ -111,7 +111,7 @@ const selectedIndex = useStore(store, selectors.selectedIndex);
 ```typescript
 const click = useClick(floatingContext, {
   enabled: !readOnly && !disabled,
-  event: 'mousedown',
+  event: "mousedown",
 });
 
 const dismiss = useDismiss(floatingContext, {
@@ -126,11 +126,11 @@ const listNavigation = useListNavigation(floatingContext, {
   disabledIndices: EMPTY_ARRAY as number[],
   onNavigate(nextActiveIndex) {
     if (nextActiveIndex === null && !open) {
-      return;  // Retain highlight while transitioning out
+      return; // Retain highlight while transitioning out
     }
-    store.set('activeIndex', nextActiveIndex);
+    store.set("activeIndex", nextActiveIndex);
   },
-  focusItemOnHover: false,  // Custom implementation
+  focusItemOnHover: false, // Custom implementation
 });
 
 const typeahead = useTypeahead(floatingContext, {
@@ -140,10 +140,10 @@ const typeahead = useTypeahead(floatingContext, {
   selectedIndex,
   onMatch(index) {
     if (open) {
-      store.set('activeIndex', index);
+      store.set("activeIndex", index);
     } else {
       // Typeahead while closed changes value directly!
-      setValue(valuesRef.current[index], createChangeEventDetails('none'));
+      setValue(valuesRef.current[index], createChangeEventDetails("none"));
     }
   },
 });
@@ -215,7 +215,12 @@ export const SelectItem = React.memo(
     forwardedRef: React.ForwardedRef<HTMLDivElement>,
   ) {
     const highlighted = useStore(store, selectors.isActive, listItem.index);
-    const selected = useStore(store, selectors.isSelected, listItem.index, value);
+    const selected = useStore(
+      store,
+      selectors.isSelected,
+      listItem.index,
+      value,
+    );
 
     // ... complex selection logic
   }),
@@ -350,6 +355,7 @@ useValueChanged(value, () => {
 ## Complexity Warning
 
 Select is the second most complex component due to:
+
 - Generic type parameters with conditional types
 - Multiple value serialization strategies
 - Browser autofill handling

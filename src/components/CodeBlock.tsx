@@ -1,19 +1,52 @@
+import * as React from "react";
 import { CopyButton } from "./CopyButton";
 
-interface CodeBlockProps {
+/** Props for the CodeBlock component */
+export interface CodeBlockProps {
+  /** The raw code string (used for copying) */
   children: string;
+  /** Pre-rendered HTML for light theme */
   lightHtml: string;
+  /** Pre-rendered HTML for dark theme */
   darkHtml: string;
+  /** Ref to the container div element */
+  ref?: React.Ref<HTMLDivElement>;
+  /** Additional class names */
+  className?: string;
+  /** Accessible label for the code block */
+  "aria-label"?: string;
 }
 
-export function CodeBlock({ children, lightHtml, darkHtml }: CodeBlockProps) {
+/**
+ * A code block with syntax highlighting and copy functionality.
+ * Uses role="figure" for accessibility with an optional aria-label.
+ */
+export function CodeBlock({
+  children,
+  lightHtml,
+  darkHtml,
+  ref,
+  className,
+  "aria-label": ariaLabel,
+}: CodeBlockProps) {
   return (
-    <div className="terminal-window group">
+    <div
+      ref={ref}
+      className={className ?? "terminal-window group"}
+      role="figure"
+      aria-label={ariaLabel ?? "Code example"}
+    >
       <div className="terminal-header">
         <div className="terminal-dots">
-          <span className="terminal-dot terminal-dot-red" />
-          <span className="terminal-dot terminal-dot-yellow" />
-          <span className="terminal-dot terminal-dot-green" />
+          <span className="terminal-dot terminal-dot-red" aria-hidden="true" />
+          <span
+            className="terminal-dot terminal-dot-yellow"
+            aria-hidden="true"
+          />
+          <span
+            className="terminal-dot terminal-dot-green"
+            aria-hidden="true"
+          />
         </div>
         <CopyButton code={children} />
       </div>

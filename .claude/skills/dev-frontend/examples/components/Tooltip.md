@@ -58,18 +58,24 @@ Complex logic for adjacent tooltip transitions:
 // 2) Closing because another tooltip opened (reason === 'none')
 useIsoLayoutEffect(() => {
   if (
-    (transitionStatus === 'ending' && lastOpenChangeReason === REASONS.none) ||
-    (transitionStatus !== 'ending' && isInstantPhase)
+    (transitionStatus === "ending" && lastOpenChangeReason === REASONS.none) ||
+    (transitionStatus !== "ending" && isInstantPhase)
   ) {
-    if (instantType !== 'delay') {
+    if (instantType !== "delay") {
       previousInstantTypeRef.current = instantType;
     }
-    store.set('instantType', 'delay');
+    store.set("instantType", "delay");
   } else if (previousInstantTypeRef.current !== null) {
-    store.set('instantType', previousInstantTypeRef.current);
+    store.set("instantType", previousInstantTypeRef.current);
     previousInstantTypeRef.current = null;
   }
-}, [transitionStatus, isInstantPhase, lastOpenChangeReason, instantType, store]);
+}, [
+  transitionStatus,
+  isInstantPhase,
+  lastOpenChangeReason,
+  instantType,
+  store,
+]);
 ```
 
 **Pattern**: Preserve instant type during transitions, restore after.
@@ -133,10 +139,13 @@ When false (default), users can hover over the tooltip content without it closin
 export interface TooltipRootProps<Payload = unknown> {
   defaultOpen?: boolean;
   open?: boolean;
-  onOpenChange?: (open: boolean, eventDetails: TooltipRoot.ChangeEventDetails) => void;
+  onOpenChange?: (
+    open: boolean,
+    eventDetails: TooltipRoot.ChangeEventDetails,
+  ) => void;
   onOpenChangeComplete?: (open: boolean) => void;
   disableHoverablePopup?: boolean;
-  trackCursorAxis?: 'none' | 'x' | 'y' | 'both';
+  trackCursorAxis?: "none" | "x" | "y" | "both";
   actionsRef?: React.RefObject<TooltipRoot.Actions>;
   disabled?: boolean;
   handle?: TooltipHandle<Payload>;
@@ -155,7 +164,7 @@ export type TooltipRootChangeEventReason =
   | typeof REASONS.triggerPress
   | typeof REASONS.outsidePress
   | typeof REASONS.escapeKey
-  | typeof REASONS.disabled      // Unique to Tooltip!
+  | typeof REASONS.disabled // Unique to Tooltip!
   | typeof REASONS.imperativeAction
   | typeof REASONS.none;
 ```
@@ -182,7 +191,8 @@ Tooltip uses the store pattern but with less complexity than Menu:
 ```typescript
 const store = TooltipStore.useStore<Payload>(handle?.store, {
   open: openProp ?? defaultOpen,
-  activeTriggerId: triggerIdProp !== undefined ? triggerIdProp : defaultTriggerIdProp,
+  activeTriggerId:
+    triggerIdProp !== undefined ? triggerIdProp : defaultTriggerIdProp,
 });
 ```
 

@@ -58,8 +58,8 @@ export type AccordionValue = (any | null)[];
 const [value, setValue] = useControlled({
   controlled: valueProp,
   default: defaultValue,
-  name: 'Accordion',
-  state: 'value',
+  name: "Accordion",
+  state: "value",
 });
 
 const handleValueChange = useStableCallback((newValue, nextOpen) => {
@@ -86,22 +86,34 @@ const handleValueChange = useStableCallback((newValue, nextOpen) => {
 ## Props Interface
 
 ```typescript
-export interface AccordionRootProps extends HeadlessComponentProps<'div', AccordionRoot.State> {
+export interface AccordionRootProps extends HeadlessComponentProps<
+  "div",
+  AccordionRoot.State
+> {
   value?: AccordionValue;
   defaultValue?: AccordionValue;
   disabled?: boolean;
   hiddenUntilFound?: boolean;
   keepMounted?: boolean;
   loopFocus?: boolean;
-  onValueChange?: (value: AccordionValue, eventDetails: AccordionRootChangeEventDetails) => void;
+  onValueChange?: (
+    value: AccordionValue,
+    eventDetails: AccordionRootChangeEventDetails,
+  ) => void;
   multiple?: boolean;
   orientation?: Orientation;
 }
 
-export interface AccordionItemProps extends HeadlessComponentProps<'div', AccordionItem.State> {
-  value?: any;  // Identifies this item in the array
+export interface AccordionItemProps extends HeadlessComponentProps<
+  "div",
+  AccordionItem.State
+> {
+  value?: any; // Identifies this item in the array
   disabled?: boolean;
-  onOpenChange?: (open: boolean, eventDetails: AccordionItem.ChangeEventDetails) => void;
+  onOpenChange?: (
+    open: boolean,
+    eventDetails: AccordionItem.ChangeEventDetails,
+  ) => void;
 }
 ```
 
@@ -136,6 +148,7 @@ If no `value` prop is provided, a unique ID is generated automatically.
 ## Dual Context Pattern
 
 AccordionItem provides two contexts:
+
 1. `CollapsibleRootContext` - For Trigger/Panel (collapsible behavior)
 2. `AccordionItemContext` - For accordion-specific state
 
@@ -195,6 +208,7 @@ Individual items inherit accessibility from Collapsible (trigger = button, panel
 ## Key Pattern: Hook Composition
 
 Accordion demonstrates composition of multiple hooks:
+
 - `useControlled` - Value management
 - `useCollapsibleRoot` - Collapsible behavior (reused)
 - `useCompositeListItem` - Index tracking

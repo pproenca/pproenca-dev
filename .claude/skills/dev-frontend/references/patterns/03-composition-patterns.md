@@ -158,12 +158,12 @@ function useAccordionItem(params) {
 
 ```typescript
 // Pattern: Component-specific hooks
-useDialogRoot()       // Dialog state management
-usePopoverRoot()      // Popover with positioning
-useTooltipRoot()      // Tooltip with delay management
-useCollapsibleRoot()  // Collapsible animation logic
-useSliderRoot()       // Slider value management
-useNumberFieldRoot()  // Number formatting and stepping
+useDialogRoot(); // Dialog state management
+usePopoverRoot(); // Popover with positioning
+useTooltipRoot(); // Tooltip with delay management
+useCollapsibleRoot(); // Collapsible animation logic
+useSliderRoot(); // Slider value management
+useNumberFieldRoot(); // Number formatting and stepping
 ```
 
 ---
@@ -352,14 +352,14 @@ export const SelectPositioner = React.forwardRef(function SelectPositioner(...) 
 
 ```typescript
 interface PositionerProps {
-  side?: 'top' | 'bottom' | 'left' | 'right';
+  side?: "top" | "bottom" | "left" | "right";
   sideOffset?: number;
-  align?: 'start' | 'center' | 'end';
+  align?: "start" | "center" | "end";
   alignOffset?: number;
   collisionBoundary?: Element | Element[];
   collisionPadding?: number | Partial<Record<Side, number>>;
   arrowPadding?: number;
-  sticky?: 'partial' | 'always';
+  sticky?: "partial" | "always";
   keepMounted?: boolean;
 }
 ```
@@ -509,7 +509,7 @@ class ToastManager {
   }
 
   private notify() {
-    this.listeners.forEach(l => l(this.toasts));
+    this.listeners.forEach((l) => l(this.toasts));
   }
 }
 ```

@@ -25,13 +25,13 @@ const state = {
 function useTransitionStatus(open: boolean) {
   const [mounted, setMounted] = useState(open);
   const [transitionStatus, setTransitionStatus] = useState<
-    'starting' | 'ending' | undefined
+    "starting" | "ending" | undefined
   >(undefined);
 
   useLayoutEffect(() => {
     if (open) {
       setMounted(true);
-      setTransitionStatus('starting');
+      setTransitionStatus("starting");
 
       // Clear after one frame (CSS transition starts)
       requestAnimationFrame(() => {
@@ -40,7 +40,7 @@ function useTransitionStatus(open: boolean) {
         });
       });
     } else {
-      setTransitionStatus('ending');
+      setTransitionStatus("ending");
     }
   }, [open]);
 
@@ -116,18 +116,18 @@ return (
 ```typescript
 // Listen for animation/transition end to unmount
 useEffect(() => {
-  if (transitionStatus !== 'ending') return;
+  if (transitionStatus !== "ending") return;
 
   const handleEnd = () => {
     setMounted(false);
   };
 
-  element.addEventListener('transitionend', handleEnd);
-  element.addEventListener('animationend', handleEnd);
+  element.addEventListener("transitionend", handleEnd);
+  element.addEventListener("animationend", handleEnd);
 
   return () => {
-    element.removeEventListener('transitionend', handleEnd);
-    element.removeEventListener('animationend', handleEnd);
+    element.removeEventListener("transitionend", handleEnd);
+    element.removeEventListener("animationend", handleEnd);
   };
 }, [transitionStatus]);
 ```
@@ -226,11 +226,11 @@ const state = {
 
 ```typescript
 // Synchronous state for hover animation coordination
-import { flushSync } from 'react-dom';
+import { flushSync } from "react-dom";
 
 const handleMouseEnter = () => {
   flushSync(() => {
-    setInstantType('hover');
+    setInstantType("hover");
   });
   setOpen(true);
 };
@@ -295,13 +295,13 @@ const setFixedSize = () => {
 
 const clearFixedSize = () => {
   if (viewportRef.current) {
-    viewportRef.current.style.width = '';
-    viewportRef.current.style.height = '';
+    viewportRef.current.style.width = "";
+    viewportRef.current.style.height = "";
   }
 };
 
 const handleClose = () => {
-  setFixedSize();  // Lock current size
+  setFixedSize(); // Lock current size
   setOpen(false);
 
   // Clear after animation
@@ -321,8 +321,8 @@ interface SwipeState {
   startY: number;
   currentX: number;
   currentY: number;
-  direction: 'left' | 'right' | 'up' | 'down' | null;
-  locked: boolean;  // Direction locked after threshold
+  direction: "left" | "right" | "up" | "down" | null;
+  locked: boolean; // Direction locked after threshold
 }
 
 const handleTouchStart = (e: TouchEvent) => {
@@ -342,11 +342,16 @@ const handleTouchMove = (e: TouchEvent) => {
 
   // Lock direction after threshold
   if (!swipeState.locked && (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10)) {
-    const direction = Math.abs(deltaX) > Math.abs(deltaY)
-      ? (deltaX > 0 ? 'right' : 'left')
-      : (deltaY > 0 ? 'down' : 'up');
+    const direction =
+      Math.abs(deltaX) > Math.abs(deltaY)
+        ? deltaX > 0
+          ? "right"
+          : "left"
+        : deltaY > 0
+          ? "down"
+          : "up";
 
-    setSwipeState(prev => ({
+    setSwipeState((prev) => ({
       ...prev,
       direction,
       locked: true,
@@ -355,7 +360,7 @@ const handleTouchMove = (e: TouchEvent) => {
 
   // Apply movement
   if (swipeState.locked && isAllowedDirection(swipeState.direction)) {
-    setSwipeState(prev => ({
+    setSwipeState((prev) => ({
       ...prev,
       currentX: deltaX,
       currentY: deltaY,
@@ -369,7 +374,7 @@ const handleTouchEnd = () => {
     onDismiss();
   } else {
     // Snap back
-    setSwipeState(prev => ({ ...prev, currentX: 0, currentY: 0 }));
+    setSwipeState((prev) => ({ ...prev, currentX: 0, currentY: 0 }));
   }
 };
 ```
@@ -505,13 +510,13 @@ Avoid flash for fast operations:
 ```typescript
 // Avatar delays fallback rendering
 interface AvatarProps {
-  fallbackDelay?: number;  // Default: 0
+  fallbackDelay?: number; // Default: 0
 }
 
 const [showFallback, setShowFallback] = useState(false);
 
 useEffect(() => {
-  if (loadingStatus === 'error') {
+  if (loadingStatus === "error") {
     const timeout = setTimeout(() => {
       setShowFallback(true);
     }, fallbackDelay);
@@ -521,7 +526,7 @@ useEffect(() => {
 }, [loadingStatus, fallbackDelay]);
 
 // Fallback only renders after delay
-const fallbackElement = useRenderElement('span', fallbackProps, {
+const fallbackElement = useRenderElement("span", fallbackProps, {
   enabled: showFallback,
 });
 ```

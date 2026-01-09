@@ -1,6 +1,7 @@
 # Hook Patterns
 
 ## Table of Contents
+
 - [useState](#usestate)
 - [useReducer](#usereducer)
 - [useContext](#usecontext)
@@ -26,19 +27,21 @@ const [value, setValue] = useState(() => computeInitial()); // lazy init
 ```
 
 **Update patterns:**
+
 ```tsx
-setValue(newValue);                    // replace
-setValue(prev => prev + 1);            // functional update (for derived)
-setValue({ ...obj, key: newVal });     // object spread (immutable)
-setValue([...arr, newItem]);           // array spread
-setValue(arr.filter(x => x.id !== id)); // filter
-setValue(arr.map(x => x.id === id ? {...x, done: true} : x)); // map update
+setValue(newValue); // replace
+setValue((prev) => prev + 1); // functional update (for derived)
+setValue({ ...obj, key: newVal }); // object spread (immutable)
+setValue([...arr, newItem]); // array spread
+setValue(arr.filter((x) => x.id !== id)); // filter
+setValue(arr.map((x) => (x.id === id ? { ...x, done: true } : x))); // map update
 ```
 
 **Lazy initialization** - use when initial value is expensive:
+
 ```tsx
 const [data, setData] = useState(() => {
-  return JSON.parse(localStorage.getItem('key'));
+  return JSON.parse(localStorage.getItem("key"));
 });
 ```
 
@@ -51,25 +54,29 @@ Better than useState when: complex state logic, multiple sub-values, or next sta
 ```tsx
 function reducer(state, action) {
   switch (action.type) {
-    case 'increment': return { count: state.count + 1 };
-    case 'set': return { count: action.payload };
-    default: throw new Error(`Unknown action: ${action.type}`);
+    case "increment":
+      return { count: state.count + 1 };
+    case "set":
+      return { count: action.payload };
+    default:
+      throw new Error(`Unknown action: ${action.type}`);
   }
 }
 
 const [state, dispatch] = useReducer(reducer, { count: 0 });
-dispatch({ type: 'increment' });
-dispatch({ type: 'set', payload: 5 });
+dispatch({ type: "increment" });
+dispatch({ type: "set", payload: 5 });
 ```
 
 **With TypeScript:**
+
 ```tsx
 type State = { count: number };
-type Action = 
-  | { type: 'increment' }
-  | { type: 'set'; payload: number };
+type Action = { type: "increment" } | { type: "set"; payload: number };
 
-function reducer(state: State, action: Action): State { /* ... */ }
+function reducer(state: State, action: Action): State {
+  /* ... */
+}
 ```
 
 ---
@@ -77,18 +84,17 @@ function reducer(state: State, action: Action): State { /* ... */ }
 ## useContext
 
 ```tsx
-const ThemeContext = createContext<Theme>('light');
+const ThemeContext = createContext<Theme>("light");
 
 // Provider (React 19: use Context directly)
-<ThemeContext value={theme}>
-  {children}
-</ThemeContext>
+<ThemeContext value={theme}>{children}</ThemeContext>;
 
 // Consumer
 const theme = useContext(ThemeContext);
 ```
 
 **Pattern: Context + Reducer**
+
 ```tsx
 const StateContext = createContext(null);
 const DispatchContext = createContext(null);
@@ -97,9 +103,7 @@ function Provider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <StateContext value={state}>
-      <DispatchContext value={dispatch}>
-        {children}
-      </DispatchContext>
+      <DispatchContext value={dispatch}>{children}</DispatchContext>
     </StateContext>
   );
 }
@@ -110,23 +114,28 @@ function Provider({ children }) {
 ## useRef
 
 **DOM refs:**
+
 ```tsx
 const inputRef = useRef<HTMLInputElement>(null);
-<input ref={inputRef} />
+<input ref={inputRef} />;
 inputRef.current?.focus();
 ```
 
 **Mutable values (no re-render on change):**
+
 ```tsx
 const intervalRef = useRef<number | null>(null);
 intervalRef.current = window.setInterval(() => {}, 1000);
 ```
 
 **Previous value pattern:**
+
 ```tsx
 function usePrevious<T>(value: T): T | undefined {
   const ref = useRef<T>();
-  useEffect(() => { ref.current = value; });
+  useEffect(() => {
+    ref.current = value;
+  });
   return ref.current;
 }
 ```
@@ -138,24 +147,23 @@ function usePrevious<T>(value: T): T | undefined {
 Cache expensive calculations. Re-runs when dependencies change.
 
 ```tsx
-const filtered = useMemo(
-  () => items.filter(item => item.active),
-  [items]
-);
+const filtered = useMemo(() => items.filter((item) => item.active), [items]);
 
 const sorted = useMemo(
   () => [...items].sort((a, b) => a.name.localeCompare(b.name)),
-  [items]
+  [items],
 );
 ```
 
 **When to use:**
+
 - Filtering/sorting large arrays
 - Complex object transformations
 - Computationally expensive operations
 - Stabilizing objects/arrays for child component props
 
 **When NOT to use:**
+
 - Simple calculations
 - Primitives
 - When deps change every render anyway
@@ -168,10 +176,10 @@ Cache function definitions. Use to prevent child re-renders.
 
 ```tsx
 const handleClick = useCallback((id: string) => {
-  setItems(items => items.filter(item => item.id !== id));
+  setItems((items) => items.filter((item) => item.id !== id));
 }, []); // stable reference
 
-<ChildComponent onClick={handleClick} /> // won't cause re-render
+<ChildComponent onClick={handleClick} />; // won't cause re-render
 ```
 
 Equivalent to: `useMemo(() => fn, deps)`
@@ -186,7 +194,7 @@ Equivalent to: `useMemo(() => fn, deps)`
 useEffect(() => {
   // setup
   const subscription = api.subscribe(id);
-  
+
   return () => {
     // cleanup (runs before next effect and on unmount)
     subscription.unsubscribe();
@@ -195,9 +203,12 @@ useEffect(() => {
 ```
 
 **Common patterns:**
+
 ```tsx
 // Run once on mount
-useEffect(() => { analytics.pageView(); }, []);
+useEffect(() => {
+  analytics.pageView();
+}, []);
 
 // Sync with external store
 useEffect(() => {
@@ -229,7 +240,7 @@ function handleChange(value) {
 
 return (
   <>
-    <input onChange={e => handleChange(e.target.value)} />
+    <input onChange={(e) => handleChange(e.target.value)} />
     {isPending && <Spinner />}
     <Results query={searchQuery} />
   </>
@@ -237,6 +248,7 @@ return (
 ```
 
 **React 19: Async transitions**
+
 ```tsx
 startTransition(async () => {
   const data = await fetchData();
@@ -271,14 +283,14 @@ const [state, formAction, isPending] = useActionState(
     if (error) return { error };
     return { success: true };
   },
-  { error: null, success: false }
+  { error: null, success: false },
 );
 
 <form action={formAction}>
   <input name="email" />
   <button disabled={isPending}>Submit</button>
   {state.error && <p>{state.error}</p>}
-</form>
+</form>;
 ```
 
 **Signature:** `(action, initialState, permalink?) => [state, action, isPending]`
@@ -294,7 +306,7 @@ Action receives: `(previousState, formData) => newState`
 ```tsx
 const [optimisticLikes, addOptimisticLike] = useOptimistic(
   likes,
-  (current, newLike) => [...current, newLike]
+  (current, newLike) => [...current, newLike],
 );
 
 async function handleLike() {
@@ -312,7 +324,7 @@ Automatically reverts on error.
 **React 19** (react-dom): Access parent form state.
 
 ```tsx
-import { useFormStatus } from 'react-dom';
+import { useFormStatus } from "react-dom";
 
 function SubmitButton() {
   const { pending, data, method, action } = useFormStatus();
@@ -322,7 +334,7 @@ function SubmitButton() {
 // Must be child of <form>
 <form action={action}>
   <SubmitButton />
-</form>
+</form>;
 ```
 
 ---
@@ -332,12 +344,12 @@ function SubmitButton() {
 **React 19**: Read resources in render.
 
 ```tsx
-import { use } from 'react';
+import { use } from "react";
 
 // Read promise (suspends)
 function Comments({ commentsPromise }) {
   const comments = use(commentsPromise);
-  return comments.map(c => <p key={c.id}>{c.text}</p>);
+  return comments.map((c) => <p key={c.id}>{c.text}</p>);
 }
 
 // Read context conditionally
@@ -349,6 +361,7 @@ function Heading({ children }) {
 ```
 
 **Caveats:**
+
 - Promise must come from Suspense-compatible source (framework/cache)
 - Don't create promise in render
 - Can call conditionally (unlike hooks)
@@ -389,8 +402,8 @@ function useOnClickOutside(ref: RefObject<HTMLElement>, handler: () => void) {
     const listener = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) handler();
     };
-    document.addEventListener('mousedown', listener);
-    return () => document.removeEventListener('mousedown', listener);
+    document.addEventListener("mousedown", listener);
+    return () => document.removeEventListener("mousedown", listener);
   }, [ref, handler]);
 }
 ```

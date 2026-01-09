@@ -18,14 +18,21 @@ interface ButtonCommonProps {
 
 // Discriminated union based on nativeButton
 interface ButtonNativeProps
-  extends NativeButtonProps, ButtonCommonProps,
-    Omit<HeadlessComponentProps<'button', ButtonState>, 'disabled'> {
+  extends
+    NativeButtonProps,
+    ButtonCommonProps,
+    Omit<HeadlessComponentProps<"button", ButtonState>, "disabled"> {
   nativeButton?: true;
 }
 
 interface ButtonNonNativeProps
-  extends NonNativeButtonProps, ButtonCommonProps,
-    Omit<HeadlessComponentProps<'button', ButtonState>, NonNativeAttributeKeys | 'disabled'> {
+  extends
+    NonNativeButtonProps,
+    ButtonCommonProps,
+    Omit<
+      HeadlessComponentProps<"button", ButtonState>,
+      NonNativeAttributeKeys | "disabled"
+    > {
   nativeButton: false;
 }
 
@@ -68,7 +75,7 @@ const { getButtonProps, buttonRef } = useButton({
   native: nativeButton,
 });
 
-return useRenderElement('button', componentProps, {
+return useRenderElement("button", componentProps, {
   state,
   ref: [forwardedRef, buttonRef],
   props: [elementProps, getButtonProps],
@@ -78,6 +85,7 @@ return useRenderElement('button', componentProps, {
 ## Event Handling
 
 Handled in `useButton` hook:
+
 - `onClick`: Prevents default if disabled
 - `onMouseDown`: Blocked if disabled
 - `onKeyDown`: Adds keyboard accessibility for non-native buttons (Enter/Space)
@@ -103,7 +111,7 @@ focusableWhenDisabledProps, // includes aria-disabled, tabIndex
 
 ```typescript
 export enum ButtonDataAttributes {
-  disabled = 'data-disabled',
+  disabled = "data-disabled",
 }
 ```
 
@@ -118,6 +126,7 @@ render?: ComponentRenderFn<RenderFunctionProps, State> | React.ReactElement;
 ```
 
 Can be:
+
 1. A React element: `<Button render={<a href="/" />} />`
 2. A render function: `<Button render={(props, state) => <a {...props} />} />`
 

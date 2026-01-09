@@ -41,14 +41,15 @@ dialog/
 Dialog uses a custom store instead of useState:
 
 ```typescript
-import { DialogStore } from '../store/DialogStore';
+import { DialogStore } from "../store/DialogStore";
 
 const store = useRefWithInit(() => {
   return (
     handle?.store ??
     new DialogStore<Payload>({
       open: openProp ?? defaultOpen,
-      activeTriggerId: triggerIdProp !== undefined ? triggerIdProp : defaultTriggerIdProp,
+      activeTriggerId:
+        triggerIdProp !== undefined ? triggerIdProp : defaultTriggerIdProp,
       modal,
       disablePointerDismissal,
       nested,
@@ -57,10 +58,10 @@ const store = useRefWithInit(() => {
 }).current;
 
 // Controlled prop sync
-store.useControlledProp('open', openProp, defaultOpen);
-store.useControlledProp('activeTriggerId', triggerIdProp, defaultTriggerIdProp);
+store.useControlledProp("open", openProp, defaultOpen);
+store.useControlledProp("activeTriggerId", triggerIdProp, defaultTriggerIdProp);
 store.useSyncedValues({ disablePointerDismissal, nested, modal });
-store.useContextCallback('onOpenChange', onOpenChange);
+store.useContextCallback("onOpenChange", onOpenChange);
 ```
 
 **Why**: Dialog has many interconnected state values. A store centralizes updates and enables external handles.
@@ -104,6 +105,7 @@ modal?: boolean | 'trap-focus';
 ```
 
 Three modes:
+
 - `true`: Full modal (focus trap + scroll lock + outside interaction disabled)
 - `false`: Non-modal (all interactions allowed)
 - `'trap-focus'`: Focus trapped but scroll/outside interactions allowed
@@ -115,7 +117,7 @@ const parentDialogRootContext = useDialogRootContext(true);
 const nested = Boolean(parentDialogRootContext);
 
 // In state:
-nestedOpenDialogCount: store.useState('nestedOpenDialogCount');
+nestedOpenDialogCount: store.useState("nestedOpenDialogCount");
 nestedDialogOpen: nestedOpenDialogCount > 0;
 ```
 
@@ -148,10 +150,10 @@ return (
 
 ```typescript
 function defaultInitialFocus(interactionType: InteractionType) {
-  if (interactionType === 'touch') {
-    return store.context.popupRef.current;  // Focus popup, not first tabbable
+  if (interactionType === "touch") {
+    return store.context.popupRef.current; // Focus popup, not first tabbable
   }
-  return true;  // Default behavior
+  return true; // Default behavior
 }
 ```
 
@@ -190,7 +192,7 @@ export interface DialogRootActions {
 ```typescript
 export type DialogRootChangeEventDetails =
   ChangeEventDetails<DialogRoot.ChangeEventReason> & {
-    preventUnmountOnClose(): void;  // Custom method!
+    preventUnmountOnClose(): void; // Custom method!
   };
 ```
 
@@ -220,11 +222,13 @@ Exposes `--nested-dialogs` CSS variable for styling based on nesting depth.
 ## Anti-Pattern Warning
 
 Dialog's complexity shows when NOT to use this architecture:
+
 - Simple state → useState
 - Few values → Context
 - Complex interconnected state → Store pattern
 
 Most components should NOT use stores. Dialog is exceptional due to:
+
 - Many interdependent state values
 - External handle requirement
 - Nested dialog coordination

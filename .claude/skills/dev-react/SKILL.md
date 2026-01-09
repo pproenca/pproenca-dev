@@ -8,17 +8,20 @@ description: React 19 best practices and patterns. Use when writing React compon
 ## Core Rules (MUST follow)
 
 ### Purity
+
 - Components/hooks must be **idempotent**: same inputs → same output
 - **No side effects in render** - only in event handlers or useEffect
 - **Never mutate** props, state, hook args/returns, or values after JSX use
 - Local mutation during render is OK (arrays built in component body)
 
 ### Hooks
+
 - Call **only at top level** - never in loops, conditions, or nested functions
 - Call **only from React functions** - components or custom hooks
 - Never pass hooks as values
 
 ### State Structure
+
 1. **Group related** - merge vars that always change together
 2. **No contradictions** - use status enum vs multiple booleans
 3. **No redundant state** - derive from existing state/props
@@ -28,6 +31,7 @@ description: React 19 best practices and patterns. Use when writing React compon
 ## React 19 Features
 
 ### Actions (async transitions)
+
 ```tsx
 // Form with useActionState - handles pending/error automatically
 const [error, submitAction, isPending] = useActionState(
@@ -37,17 +41,18 @@ const [error, submitAction, isPending] = useActionState(
     redirect("/success");
     return null;
   },
-  null
+  null,
 );
 
 <form action={submitAction}>
   <input name="name" />
   <button disabled={isPending}>Submit</button>
   {error && <p>{error}</p>}
-</form>
+</form>;
 ```
 
 ### useTransition for async
+
 ```tsx
 const [isPending, startTransition] = useTransition();
 
@@ -60,16 +65,18 @@ const handleClick = () => {
 ```
 
 ### useOptimistic
+
 ```tsx
 const [optimisticName, setOptimisticName] = useOptimistic(currentName);
 
 const submitAction = async (formData) => {
   setOptimisticName(formData.get("name")); // instant UI update
-  await updateName(formData.get("name"));  // server call
+  await updateName(formData.get("name")); // server call
 };
 ```
 
 ### use() API
+
 ```tsx
 // Read promises (suspends until resolved)
 const data = use(dataPromise); // must come from cache/framework
@@ -81,6 +88,7 @@ if (condition) {
 ```
 
 ### ref as prop (no forwardRef needed)
+
 ```tsx
 function MyInput({ placeholder, ref }) {
   return <input placeholder={placeholder} ref={ref} />;
@@ -88,35 +96,45 @@ function MyInput({ placeholder, ref }) {
 ```
 
 ### Context as provider
+
 ```tsx
-<ThemeContext value="dark">  {/* not ThemeContext.Provider */}
+<ThemeContext value="dark">
+  {" "}
+  {/* not ThemeContext.Provider */}
   {children}
 </ThemeContext>
 ```
 
 ### Ref cleanup functions
+
 ```tsx
-<input ref={(node) => {
-  // setup
-  return () => { /* cleanup on unmount */ };
-}} />
+<input
+  ref={(node) => {
+    // setup
+    return () => {
+      /* cleanup on unmount */
+    };
+  }}
+/>
 ```
 
 ## Anti-Patterns
 
 ### ❌ useEffect for derived state
+
 ```tsx
 // BAD
-const [fullName, setFullName] = useState('');
+const [fullName, setFullName] = useState("");
 useEffect(() => {
-  setFullName(firstName + ' ' + lastName);
+  setFullName(firstName + " " + lastName);
 }, [firstName, lastName]);
 
 // GOOD - calculate during render
-const fullName = firstName + ' ' + lastName;
+const fullName = firstName + " " + lastName;
 ```
 
 ### ❌ useEffect for event responses
+
 ```tsx
 // BAD - effect for user action
 useEffect(() => {
@@ -131,15 +149,19 @@ function handleSubmit() {
 ```
 
 ### ❌ useEffect to reset state on prop change
+
 ```tsx
 // BAD
-useEffect(() => { setComment(''); }, [userId]);
+useEffect(() => {
+  setComment("");
+}, [userId]);
 
 // GOOD - use key to reset
-<Profile userId={userId} key={userId} />
+<Profile userId={userId} key={userId} />;
 ```
 
 ### ❌ Manual isPending/isSending state
+
 ```tsx
 // BAD
 const [isPending, setIsPending] = useState(false);

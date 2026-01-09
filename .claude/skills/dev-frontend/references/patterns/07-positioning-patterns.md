@@ -6,28 +6,28 @@ Foundation for all positioned elements:
 
 ```typescript
 const positioning = useAnchorPositioning({
-  anchor: triggerElement,        // What to position relative to
-  positionerRef,                 // Ref to positioned element
-  side: 'bottom',                // 'top' | 'bottom' | 'left' | 'right'
-  sideOffset: 0,                 // Gap from anchor
-  align: 'start',                // 'start' | 'center' | 'end'
-  alignOffset: 0,                // Offset along alignment axis
-  collisionBoundary,             // Element(s) to avoid
-  collisionPadding: 0,           // Padding from boundary
-  arrowPadding: 0,               // Min distance from arrow to edge
-  sticky: 'partial',             // 'partial' | 'always'
-  trackAnchor: true,             // Update on anchor move
-  mounted,                       // Only position when mounted
+  anchor: triggerElement, // What to position relative to
+  positionerRef, // Ref to positioned element
+  side: "bottom", // 'top' | 'bottom' | 'left' | 'right'
+  sideOffset: 0, // Gap from anchor
+  align: "start", // 'start' | 'center' | 'end'
+  alignOffset: 0, // Offset along alignment axis
+  collisionBoundary, // Element(s) to avoid
+  collisionPadding: 0, // Padding from boundary
+  arrowPadding: 0, // Min distance from arrow to edge
+  sticky: "partial", // 'partial' | 'always'
+  trackAnchor: true, // Update on anchor move
+  mounted, // Only position when mounted
 });
 
 // Returns
 const {
-  styles,           // Position styles
-  arrowStyles,      // Arrow position styles
-  arrowRef,         // Ref for arrow element
-  side,             // Computed side (may flip)
-  align,            // Computed align (may shift)
-  arrowUncentered,  // Arrow at edge of popup
+  styles, // Position styles
+  arrowStyles, // Arrow position styles
+  arrowRef, // Ref for arrow element
+  side, // Computed side (may flip)
+  align, // Computed align (may shift)
+  arrowUncentered, // Arrow at edge of popup
 } = positioning;
 ```
 
@@ -214,22 +214,22 @@ useEffect(() => {
 
   // Track scroll
   const scrollParents = getScrollParents(anchor);
-  scrollParents.forEach(parent => {
-    parent.addEventListener('scroll', updatePosition);
+  scrollParents.forEach((parent) => {
+    parent.addEventListener("scroll", updatePosition);
   });
 
   // Track resize
-  window.addEventListener('resize', updatePosition);
+  window.addEventListener("resize", updatePosition);
 
   // Track anchor resize
   const resizeObserver = new ResizeObserver(updatePosition);
   resizeObserver.observe(anchor);
 
   return () => {
-    scrollParents.forEach(parent => {
-      parent.removeEventListener('scroll', updatePosition);
+    scrollParents.forEach((parent) => {
+      parent.removeEventListener("scroll", updatePosition);
     });
-    window.removeEventListener('resize', updatePosition);
+    window.removeEventListener("resize", updatePosition);
     resizeObserver.disconnect();
   };
 }, [trackAnchor, mounted, anchor]);
@@ -275,7 +275,7 @@ const nested = parentNodeId != null;
 // Used for coordination
 const { events } = useFloatingTree();
 
-events.emit('menuopen', { nodeId, parentNodeId });
+events.emit("menuopen", { nodeId, parentNodeId });
 ```
 
 ---
@@ -311,7 +311,7 @@ Tooltip follows cursor:
 
 ```typescript
 interface TooltipProps {
-  trackCursor?: boolean;  // Follow cursor
+  trackCursor?: boolean; // Follow cursor
 }
 
 // Implementation
@@ -324,8 +324,8 @@ useEffect(() => {
     setCursorPosition({ x: e.clientX, y: e.clientY });
   };
 
-  window.addEventListener('mousemove', handleMouseMove);
-  return () => window.removeEventListener('mousemove', handleMouseMove);
+  window.addEventListener("mousemove", handleMouseMove);
+  return () => window.removeEventListener("mousemove", handleMouseMove);
 }, [trackCursor, open]);
 
 // Use cursor as virtual anchor

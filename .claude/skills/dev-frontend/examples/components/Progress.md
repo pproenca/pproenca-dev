@@ -61,11 +61,11 @@ export const ProgressRoot = React.forwardRef(function ProgressRoot(
 ## Status Derived from Value
 
 ```typescript
-export type ProgressStatus = 'indeterminate' | 'progressing' | 'complete';
+export type ProgressStatus = "indeterminate" | "progressing" | "complete";
 
-let status: ProgressStatus = 'indeterminate';
+let status: ProgressStatus = "indeterminate";
 if (Number.isFinite(value)) {
-  status = value === max ? 'complete' : 'progressing';
+  status = value === max ? "complete" : "progressing";
 }
 ```
 
@@ -80,11 +80,11 @@ function formatValue(
   format?: Intl.NumberFormatOptions,
 ): string {
   if (value == null) {
-    return '';
+    return "";
   }
 
   if (!format) {
-    return formatNumber(value / 100, locale, { style: 'percent' });
+    return formatNumber(value / 100, locale, { style: "percent" });
   }
 
   return formatNumber(value, locale, format);
@@ -99,12 +99,12 @@ const formattedValue = formatValue(value, locale, formatOptionsRef.current);
 
 ```typescript
 const defaultProps: HTMLProps = {
-  'aria-labelledby': labelId,
-  'aria-valuemax': max,
-  'aria-valuemin': min,
-  'aria-valuenow': value ?? undefined,
-  'aria-valuetext': getAriaValueText(formattedValue, value),
-  role: 'progressbar',
+  "aria-labelledby": labelId,
+  "aria-valuemax": max,
+  "aria-valuemin": min,
+  "aria-valuenow": value ?? undefined,
+  "aria-valuetext": getAriaValueText(formattedValue, value),
+  role: "progressbar",
 };
 ```
 
@@ -113,9 +113,12 @@ const defaultProps: HTMLProps = {
 ## Custom Aria Value Text
 
 ```typescript
-function getDefaultAriaValueText(formattedValue: string | null, value: number | null) {
+function getDefaultAriaValueText(
+  formattedValue: string | null,
+  value: number | null,
+) {
   if (value == null) {
-    return 'indeterminate progress';
+    return "indeterminate progress";
   }
 
   return formattedValue || `${value}%`;
@@ -126,7 +129,10 @@ interface ProgressRootProps {
    * Accepts a function which returns a string value that provides
    * a human-readable text alternative for the current value.
    */
-  getAriaValueText?: (formattedValue: string | null, value: number | null) => string;
+  getAriaValueText?: (
+    formattedValue: string | null,
+    value: number | null,
+  ) => string;
 }
 ```
 
@@ -165,21 +171,23 @@ export const ProgressIndicator = React.forwardRef(function ProgressIndicator(
   const { max, min, value, state } = useProgressRootContext();
 
   const percentageValue =
-    Number.isFinite(value) && value !== null ? valueToPercent(value, min, max) : null;
+    Number.isFinite(value) && value !== null
+      ? valueToPercent(value, min, max)
+      : null;
 
   const getStyles = React.useCallback(() => {
     if (percentageValue == null) {
-      return {};  // Indeterminate - no width
+      return {}; // Indeterminate - no width
     }
 
     return {
       insetInlineStart: 0,
-      height: 'inherit',
+      height: "inherit",
       width: `${percentageValue}%`,
     };
   }, [percentageValue]);
 
-  const element = useRenderElement('div', componentProps, {
+  const element = useRenderElement("div", componentProps, {
     state,
     ref: forwardedRef,
     props: [{ style: getStyles() }, elementProps],
@@ -214,11 +222,11 @@ const state: ProgressRoot.State = React.useMemo(
 ```typescript
 // In stateAttributesMapping.ts
 export const progressStateAttributesMapping = {
-  status: 'data-status',
+  status: "data-status",
 };
 
 // Usage in component:
-const element = useRenderElement('div', componentProps, {
+const element = useRenderElement("div", componentProps, {
   state,
   stateAttributesMapping: progressStateAttributesMapping,
 });
@@ -226,7 +234,7 @@ const element = useRenderElement('div', componentProps, {
 // Renders: <div data-status="progressing">
 ```
 
-**Pattern**: State object maps to data-* attributes for CSS styling.
+**Pattern**: State object maps to data-\* attributes for CSS styling.
 
 ## Context Structure
 
@@ -255,20 +263,21 @@ export interface ProgressRootContext {
 
 ## Key Difference from Slider
 
-| Aspect | Progress | Slider |
-|--------|----------|--------|
-| Interaction | Read-only | Interactive |
-| Value control | External only | User can change |
-| Hidden input | None | Per thumb |
-| Keyboard | None | Full support |
-| State complexity | Minimal | Extensive |
-| Form integration | None | Full field support |
+| Aspect           | Progress      | Slider             |
+| ---------------- | ------------- | ------------------ |
+| Interaction      | Read-only     | Interactive        |
+| Value control    | External only | User can change    |
+| Hidden input     | None          | Per thumb          |
+| Keyboard         | None          | Full support       |
+| State complexity | Minimal       | Extensive          |
+| Form integration | None          | Full field support |
 
 **Pattern**: Progress is the "display" version, Slider is the "input" version.
 
 ## Anti-Pattern: Not Over-Engineering
 
 Progress shows restraint:
+
 - No store pattern (not needed)
 - No complex state machine
 - No event handlers

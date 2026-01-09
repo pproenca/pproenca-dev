@@ -123,6 +123,7 @@ const typeahead = useTypeahead(floatingRootContext, {
 ## Complex setOpen Logic
 
 The `setOpen` function is ~100 lines handling:
+
 - Event cancellation
 - FloatingEvents emission
 - Touch interaction guards
@@ -158,12 +159,12 @@ export type MenuRootChangeEventReason =
   | typeof REASONS.triggerPress
   | typeof REASONS.outsidePress
   | typeof REASONS.focusOut
-  | typeof REASONS.listNavigation     // Unique!
+  | typeof REASONS.listNavigation // Unique!
   | typeof REASONS.escapeKey
-  | typeof REASONS.itemPress          // Unique!
+  | typeof REASONS.itemPress // Unique!
   | typeof REASONS.closePress
-  | typeof REASONS.siblingOpen        // Unique!
-  | typeof REASONS.cancelOpen         // Unique!
+  | typeof REASONS.siblingOpen // Unique!
+  | typeof REASONS.cancelOpen // Unique!
   | typeof REASONS.imperativeAction
   | typeof REASONS.none;
 ```
@@ -216,18 +217,14 @@ Only top-level menus wrap in FloatingTree.
 ## Item Props Distribution
 
 ```typescript
-const { getReferenceProps, getFloatingProps, getItemProps, getTriggerProps } = useInteractions([
-  dismiss,
-  role,
-  listNavigation,
-  typeahead,
-]);
+const { getReferenceProps, getFloatingProps, getItemProps, getTriggerProps } =
+  useInteractions([dismiss, role, listNavigation, typeahead]);
 
 const itemProps = React.useMemo(() => getItemProps(), [getItemProps]);
 
 store.useSyncedValues({
   // ...
-  itemProps,  // Distributed to all menu items
+  itemProps, // Distributed to all menu items
 });
 ```
 
@@ -245,6 +242,7 @@ store.useSyncedValues({
 ## Complexity Warning
 
 Menu is the most complex component in the library due to:
+
 - Multiple parent contexts to consume
 - Submenu nesting
 - Menubar integration

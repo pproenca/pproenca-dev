@@ -50,7 +50,7 @@ Standard props for all components:
 export interface HeadlessComponentProps<
   ElementType extends React.ElementType,
   State,
-> extends Omit<React.ComponentPropsWithoutRef<ElementType>, 'className'> {
+> extends Omit<React.ComponentPropsWithoutRef<ElementType>, "className"> {
   className?: string | ((state: State) => string);
   render?:
     | React.ReactElement<Record<string, unknown>>
@@ -58,9 +58,12 @@ export interface HeadlessComponentProps<
 }
 
 // Usage
-export interface ButtonProps extends HeadlessComponentProps<'button', ButtonState> {
+export interface ButtonProps extends HeadlessComponentProps<
+  "button",
+  ButtonState
+> {
   disabled?: boolean;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
 }
 ```
 
@@ -72,8 +75,10 @@ Components with multiple type parameters:
 
 ```typescript
 // Select with Value and Multiple generics
-export interface SelectRootProps<Value, Multiple extends boolean = false>
-  extends HeadlessComponentProps<'div', SelectRootState<Value, Multiple>> {
+export interface SelectRootProps<
+  Value,
+  Multiple extends boolean = false,
+> extends HeadlessComponentProps<"div", SelectRootState<Value, Multiple>> {
   value?: Multiple extends true ? Value[] : Value;
   defaultValue?: Multiple extends true ? Value[] : Value;
   onValueChange?: (
@@ -84,8 +89,9 @@ export interface SelectRootProps<Value, Multiple extends boolean = false>
 }
 
 // Conditional type based on Multiple
-type SelectValue<Value, Multiple extends boolean> =
-  Multiple extends true ? Value[] : Value;
+type SelectValue<Value, Multiple extends boolean> = Multiple extends true
+  ? Value[]
+  : Value;
 
 // Function signature
 export function SelectRoot<Value, Multiple extends boolean = false>(
@@ -101,15 +107,20 @@ Provide defaults while allowing override:
 
 ```typescript
 // Default to string if not specified
-export interface ComboboxRootProps<Value = string>
-  extends HeadlessComponentProps<'div', ComboboxRootState<Value>> {
+export interface ComboboxRootProps<
+  Value = string,
+> extends HeadlessComponentProps<"div", ComboboxRootState<Value>> {
   value?: Value;
   onValueChange?: (value: Value) => void;
 }
 
 // Usage
-<Combobox.Root>  {/* Value is string */}
-<Combobox.Root<number>>  {/* Value is number */}
+<Combobox.Root>{
+  /* Value is string */
+}<Combobox.Root<number>>;
+{
+  /* Value is number */
+}
 ```
 
 ---
@@ -121,13 +132,15 @@ Different shapes based on parent context:
 ```typescript
 // Menu parent type varies by context
 type MenuParentContext =
-  | { type: 'menu'; closeParent: () => void; nested: true }
-  | { type: 'menubar'; closeParent: () => void; nested: true }
-  | { type: 'context-menu'; closeParent: () => void; nested: true }
-  | { type: 'root'; nested: false };
+  | { type: "menu"; closeParent: () => void; nested: true }
+  | { type: "menubar"; closeParent: () => void; nested: true }
+  | { type: "context-menu"; closeParent: () => void; nested: true }
+  | { type: "root"; nested: false };
 
 // Type guard
-function isNestedMenu(ctx: MenuParentContext): ctx is MenuParentContext & { nested: true } {
+function isNestedMenu(
+  ctx: MenuParentContext,
+): ctx is MenuParentContext & { nested: true } {
   return ctx.nested;
 }
 ```
@@ -167,13 +180,13 @@ Different signatures for different use cases:
 // Autocomplete items: flat or grouped
 export function AutocompleteRoot<Value>(
   props: AutocompleteRootProps<Value> & {
-    items: Value[];  // Flat list
+    items: Value[]; // Flat list
   },
 ): React.ReactElement;
 
 export function AutocompleteRoot<Value>(
   props: AutocompleteRootProps<Value> & {
-    items: AutocompleteItemGroup<Value>[];  // Grouped list
+    items: AutocompleteItemGroup<Value>[]; // Grouped list
     getGroupItems: (group: AutocompleteItemGroup<Value>) => Value[];
     getGroupLabel: (group: AutocompleteItemGroup<Value>) => string;
   },
@@ -196,21 +209,25 @@ Optional vs required context:
 // Overloaded hook
 export function useDialogRootContext(): DialogRootContext;
 export function useDialogRootContext(optional: false): DialogRootContext;
-export function useDialogRootContext(optional: true): DialogRootContext | undefined;
-export function useDialogRootContext(optional?: boolean): DialogRootContext | undefined {
+export function useDialogRootContext(
+  optional: true,
+): DialogRootContext | undefined;
+export function useDialogRootContext(
+  optional?: boolean,
+): DialogRootContext | undefined {
   const context = React.useContext(DialogRootContext);
 
   if (!optional && context === undefined) {
-    throw new Error('useDialogRootContext must be used within DialogRoot');
+    throw new Error("useDialogRootContext must be used within DialogRoot");
   }
 
   return context;
 }
 
 // Usage
-const ctx = useDialogRootContext();           // Required, throws if missing
-const ctx = useDialogRootContext(false);      // Same as above
-const ctx = useDialogRootContext(true);       // Optional, returns undefined if missing
+const ctx = useDialogRootContext(); // Required, throws if missing
+const ctx = useDialogRootContext(false); // Same as above
+const ctx = useDialogRootContext(true); // Optional, returns undefined if missing
 ```
 
 ---
@@ -225,7 +242,7 @@ export interface RadioGroupRootState extends FieldRootState {
   disabled: boolean;
   readOnly: boolean;
   required: boolean;
-  orientation: 'horizontal' | 'vertical';
+  orientation: "horizontal" | "vertical";
 }
 
 // FieldRootState
@@ -253,12 +270,12 @@ interface OpenChangeDetails {
 }
 
 type OpenChangeReason =
-  | 'triggerPress'
-  | 'triggerHover'
-  | 'triggerFocus'
-  | 'escapeKey'
-  | 'outsidePress'
-  | 'focusOut';
+  | "triggerPress"
+  | "triggerHover"
+  | "triggerFocus"
+  | "escapeKey"
+  | "outsidePress"
+  | "focusOut";
 
 interface DialogRootProps {
   onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
@@ -296,9 +313,9 @@ export function useRenderElement<
 ): Enabled extends false ? null : React.ReactElement;
 
 // Usage
-const el1 = useRenderElement('div', props, { enabled: true });  // ReactElement
-const el2 = useRenderElement('div', props, { enabled: false }); // null
-const el3 = useRenderElement('div', props, { enabled: someCondition }); // ReactElement | null
+const el1 = useRenderElement("div", props, { enabled: true }); // ReactElement
+const el2 = useRenderElement("div", props, { enabled: false }); // null
+const el3 = useRenderElement("div", props, { enabled: someCondition }); // ReactElement | null
 ```
 
 ---
@@ -337,7 +354,7 @@ Various ref patterns:
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(props, forwardedRef) {
     // forwardedRef: React.ForwardedRef<HTMLButtonElement>
-  }
+  },
 );
 
 // Internal ref
@@ -349,7 +366,7 @@ const setElement = React.useCallback((element: HTMLElement | null) => {
 }, []);
 
 // Multiple refs to merge
-ref: [forwardedRef, rootRef, setElement]
+ref: [forwardedRef, rootRef, setElement];
 ```
 
 ---
@@ -360,16 +377,18 @@ Type-safe state to attributes:
 
 ```typescript
 type StateAttributesMapping<State> = {
-  [K in keyof State]?: (value: State[K]) => Record<string, string | undefined> | null;
+  [K in keyof State]?: (
+    value: State[K],
+  ) => Record<string, string | undefined> | null;
 };
 
 // Usage
 const stateAttributesMapping: StateAttributesMapping<ButtonState> = {
   disabled(value) {
-    return value ? { 'data-disabled': '' } : null;
+    return value ? { "data-disabled": "" } : null;
   },
   pressed(value) {
-    return { 'data-pressed': value ? 'true' : 'false' };
+    return { "data-pressed": value ? "true" : "false" };
   },
 };
 ```
@@ -457,7 +476,7 @@ const [values, setValues] = useState<string[]>([]);
 State machine for async states:
 
 ```typescript
-type LoadingStatus = 'idle' | 'loading' | 'loaded' | 'error';
+type LoadingStatus = "idle" | "loading" | "loaded" | "error";
 
 interface AvatarState {
   loadingStatus: LoadingStatus;

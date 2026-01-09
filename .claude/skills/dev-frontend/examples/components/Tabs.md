@@ -65,10 +65,15 @@ const getTabIdByPanelValue = React.useCallback(
 ## Activation Direction Tracking
 
 ```typescript
-export type TabsTabActivationDirection = 'left' | 'right' | 'up' | 'down' | 'none';
+export type TabsTabActivationDirection =
+  | "left"
+  | "right"
+  | "up"
+  | "down"
+  | "none";
 
 const [tabActivationDirection, setTabActivationDirection] =
-  React.useState<TabsTab.ActivationDirection>('none');
+  React.useState<TabsTab.ActivationDirection>("none");
 
 // Exposed in state for styling:
 const state: TabsRoot.State = {
@@ -92,7 +97,9 @@ useIsoLayoutEffect(() => {
 
   // Honor explicit defaultValue even if disabled
   const shouldHonorExplicitDefaultSelection =
-    hasExplicitDefaultValueProp && selectionIsDisabled && value === defaultValueProp;
+    hasExplicitDefaultValueProp &&
+    selectionIsDisabled &&
+    value === defaultValueProp;
 
   if (shouldHonorExplicitDefaultSelection) {
     return;
@@ -113,23 +120,20 @@ useIsoLayoutEffect(() => {
 ## Tab Component: useCompositeItem
 
 ```typescript
-const {
-  compositeProps,
-  compositeRef,
-  index,
-} = useCompositeItem<TabsTab.Metadata>({
-  metadata: tabMetadata,
-});
+const { compositeProps, compositeRef, index } =
+  useCompositeItem<TabsTab.Metadata>({
+    metadata: tabMetadata,
+  });
 
-const element = useRenderElement('button', componentProps, {
+const element = useRenderElement("button", componentProps, {
   state,
   ref: [forwardedRef, buttonRef, compositeRef],
   props: [
     compositeProps,
     {
-      role: 'tab',
-      'aria-controls': tabPanelId,
-      'aria-selected': active,
+      role: "tab",
+      "aria-controls": tabPanelId,
+      "aria-selected": active,
       // ...
     },
     elementProps,
@@ -182,7 +186,7 @@ Metadata travels with the DOM element via CompositeItem.
 ```typescript
 export type TabsRootChangeEventDetails = ChangeEventDetails<
   TabsRoot.ChangeEventReason,
-  { activationDirection: TabsTab.ActivationDirection }  // Extended!
+  { activationDirection: TabsTab.ActivationDirection } // Extended!
 >;
 ```
 
@@ -202,8 +206,8 @@ export type TabsRootChangeEventDetails = ChangeEventDetails<
 Tabs uses Maps instead of arrays for O(1) lookups:
 
 ```typescript
-new Map<TabsTab.Value | number, string>()  // Panel registration
-new Map<Node, CompositeMetadata<TabsTab.Metadata> | null>()  // Tab registration
+new Map<TabsTab.Value | number, string>(); // Panel registration
+new Map<Node, CompositeMetadata<TabsTab.Metadata> | null>(); // Tab registration
 ```
 
 This scales better than array searches for many tabs.
