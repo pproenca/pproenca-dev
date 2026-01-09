@@ -1,6 +1,6 @@
 import * as React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Tweet } from "react-tweet";
+import { TweetEmbed } from "./TweetEmbed";
 import { CodeBlock } from "./CodeBlock";
 import { getHighlighter } from "@/lib/shiki";
 
@@ -40,7 +40,7 @@ async function Code({ children, className }: CodeProps) {
 const components = {
   pre: ({ children }: PreProps) => <>{children}</>,
   code: Code,
-  Tweet,
+  Tweet: TweetEmbed,
 };
 
 interface MDXContentProps {
