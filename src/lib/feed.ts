@@ -8,7 +8,7 @@ export function createFeed(): Feed {
   const feed = new Feed({
     title: SITE_CONFIG.title,
     description: SITE_CONFIG.description,
-    id: SITE_CONFIG.url,
+    id: `${SITE_CONFIG.url}/`,
     link: SITE_CONFIG.url,
     language: "en",
     favicon: `${SITE_CONFIG.url}/favicon.ico`,
@@ -31,7 +31,7 @@ export function createFeed(): Feed {
       link: url,
       description: post.frontmatter.description,
       date: new Date(post.frontmatter.date),
-      category: post.frontmatter.categories.map((name) => ({ name })),
+      category: post.frontmatter.categories.map((name) => ({ name, term: name })),
     });
   }
 
