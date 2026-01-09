@@ -1,18 +1,6 @@
 import type { NextConfig } from "next";
-import withSerwistInit from "@serwist/next";
-
-const withSerwist = withSerwistInit({
-  swSrc: "src/app/sw.ts",
-  swDest: "public/sw.js",
-  disable: process.env.NODE_ENV !== "production",
-});
 
 const nextConfig: NextConfig = {
-  // Use webpack for builds (Serwist doesn't support Turbopack yet)
-  // See: https://github.com/serwist/serwist/issues/54
-  turbopack: {
-    root: process.cwd(),
-  },
   // Note: Next.js bundles polyfills (Array.at, Object.hasOwn, etc.) regardless
   // of browserslist. This is a known limitation with no official workaround.
   // See: https://github.com/vercel/next.js/discussions/64330
@@ -35,4 +23,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSerwist(nextConfig);
+export default nextConfig;
