@@ -5,9 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev          # Start dev server with Turbopack (http://localhost:3000)
-npm run build        # Generate sitemap + build static site to out/
-npm run lint         # Run ESLint
+pnpm dev             # Start dev server with Turbopack (http://localhost:3000)
+pnpm build           # Generate sitemap + build static site to out/
+pnpm lint            # Run ESLint
+pnpm format          # Auto-format code with Prettier
+pnpm clean           # Remove build artifacts (.next, out, .turbo, caches)
 ```
 
 ## Architecture
