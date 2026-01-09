@@ -1,5 +1,5 @@
 ---
-name: dev-react-19
+name: dev-react
 description: React 19 best practices and patterns. Use when writing React components, hooks, forms, or server components. Enforces purity rules, proper state structure, correct hook usage, Actions pattern, and avoids common useEffect mistakes.
 ---
 
