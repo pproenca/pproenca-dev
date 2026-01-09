@@ -30,7 +30,7 @@ export function CopyButton({ code, ref, className }: CopyButtonProps) {
     };
   }, []);
 
-  const handleCopy = React.useCallback(async () => {
+  const handleCopy = async () => {
     await navigator.clipboard.writeText(code);
     setCopied(true);
 
@@ -44,7 +44,7 @@ export function CopyButton({ code, ref, className }: CopyButtonProps) {
       setCopied(false);
       timerRef.current = null;
     }, 2000);
-  }, [code]);
+  };
 
   return (
     <>

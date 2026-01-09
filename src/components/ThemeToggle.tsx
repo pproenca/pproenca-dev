@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
 
 const emptySubscribe = () => () => {};
 
@@ -20,26 +19,15 @@ export interface ThemeToggleProps {
  */
 export function ThemeToggle({ ref, className }: ThemeToggleProps) {
   const { setTheme, resolvedTheme } = useTheme();
-  const mounted = useSyncExternalStore(
+  const mounted = React.useSyncExternalStore(
     emptySubscribe,
     () => true,
     () => false,
   );
 
-  const handleToggle = React.useCallback(() => {
+  const handleToggle = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  }, [setTheme, resolvedTheme]);
-
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
-      // Explicit Enter/Space handling for consistency
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        handleToggle();
-      }
-    },
-    [handleToggle],
-  );
+  };
 
   if (!mounted) {
     return (
@@ -62,7 +50,6 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
     <button
       ref={ref}
       onClick={handleToggle}
-      onKeyDown={handleKeyDown}
       className={
         className ??
         "rounded-md p-2 text-text-secondary transition-colors duration-200 hover:text-accent"

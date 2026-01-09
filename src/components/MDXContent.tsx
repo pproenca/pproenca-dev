@@ -1,10 +1,20 @@
+import * as React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { CodeBlock } from "./CodeBlock";
 import { getHighlighter } from "@/lib/shiki";
 
+/** Props for the Code component */
 interface CodeProps {
+  /** The code content to render */
   children?: string;
+  /** Language class name (e.g., "language-typescript") */
   className?: string;
+}
+
+/** Props for the Pre component (pass-through wrapper) */
+interface PreProps {
+  /** Child elements to render */
+  children?: React.ReactNode;
 }
 
 async function Code({ children, className }: CodeProps) {
@@ -32,14 +42,20 @@ async function Code({ children, className }: CodeProps) {
 }
 
 const components = {
-  pre: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
+  pre: ({ children }: PreProps) => <>{children}</>,
   code: Code,
 };
 
+/** Props for the MDXContent component */
 interface MDXContentProps {
+  /** The raw MDX source to render */
   source: string;
 }
 
+/**
+ * Renders MDX content with syntax-highlighted code blocks.
+ * Uses custom Code component for fenced code blocks.
+ */
 export function MDXContent({ source }: MDXContentProps) {
   return (
     <div className="prose max-w-none">

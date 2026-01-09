@@ -37,16 +37,10 @@ export function CodeBlock({
       aria-label={ariaLabel ?? "Code example"}
     >
       <div className="terminal-header">
-        <div className="terminal-dots">
-          <span className="terminal-dot terminal-dot-red" aria-hidden="true" />
-          <span
-            className="terminal-dot terminal-dot-yellow"
-            aria-hidden="true"
-          />
-          <span
-            className="terminal-dot terminal-dot-green"
-            aria-hidden="true"
-          />
+        <div className="terminal-dots" aria-hidden="true">
+          <span className="terminal-dot terminal-dot-red" />
+          <span className="terminal-dot terminal-dot-yellow" />
+          <span className="terminal-dot terminal-dot-green" />
         </div>
         <CopyButton code={children} />
       </div>

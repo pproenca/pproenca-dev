@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect, useTransition, useRef } from "react";
 
 // Check if notifications are supported (computed once on client)
 const checkSupported = () =>
@@ -22,19 +21,19 @@ export interface SubscribeButtonProps {
  * Uses aria-disabled for accessibility (keeps focus) and data-* for CSS styling.
  */
 export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isSupported] = useState(checkSupported);
-  const [isReady, setIsReady] = useState(false);
+  const [isSubscribed, setIsSubscribed] = React.useState(false);
+  const [isReady, setIsReady] = React.useState(false);
+  const isSupported = checkSupported();
 
   // Track initialization to prevent double-init (React Strict Mode, HMR)
-  const isInitialized = useRef(false);
+  const isInitialized = React.useRef(false);
   // Store OneSignal instance for use in handlers
-  const oneSignalRef = useRef<typeof import("react-onesignal").default | null>(
-    null,
-  );
+  const oneSignalRef = React.useRef<
+    typeof import("react-onesignal").default | null
+  >(null);
 
   // Self-initialize OneSignal SDK on mount
-  useEffect(() => {
+  React.useEffect(() => {
     const appId = process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID;
 
     if (!isSupported || !appId) {
@@ -99,9 +98,9 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
   }, [isSupported]);
 
   // useTransition for async operations (React 19 pattern)
-  const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = React.useTransition();
 
-  const handleSubscribe = React.useCallback(() => {
+  const handleSubscribe = () => {
     if (isPending) return; // Manual prevention for aria-disabled
 
     startTransition(async () => {
@@ -121,7 +120,7 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
         console.error("Subscribe error:", error);
       }
     });
-  }, [isPending]);
+  };
 
   if (!isSupported || !isReady) return null;
 
@@ -152,7 +151,7 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
         </>
       ) : (
         <>
-          <BellPlusIcon className="h-4 w-4" />
+          <BellIcon className="h-4 w-4" showPlus />
           Get notified of new posts
         </>
       )}
@@ -160,26 +159,15 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
   );
 }
 
-function BellIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-      />
-    </svg>
-  );
+/** Props for the BellIcon component */
+interface BellIconProps {
+  /** Additional class names */
+  className?: string;
+  /** Whether to show the plus indicator */
+  showPlus?: boolean;
 }
 
-function BellPlusIcon({ className }: { className?: string }) {
+function BellIcon({ className, showPlus }: BellIconProps) {
   return (
     <svg
       className={className}
@@ -194,12 +182,14 @@ function BellPlusIcon({ className }: { className?: string }) {
         strokeWidth={2}
         d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
       />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M12 6v3m0 0v3m0-3h3m-3 0H9"
-      />
+      {showPlus && (
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 6v3m0 0v3m0-3h3m-3 0H9"
+        />
+      )}
     </svg>
   );
 }

@@ -1,3 +1,4 @@
+/** Site footer with copyright notice. */
 export function Footer() {
   return (
     <footer className="border-t border-border-subtle/30">

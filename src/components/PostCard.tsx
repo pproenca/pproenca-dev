@@ -2,10 +2,13 @@ import Link from "next/link";
 import { PostMeta } from "@/lib/posts";
 import { CategoryBadge } from "./CategoryBadge";
 
+/** Props for the PostCard component */
 interface PostCardProps {
+  /** The post metadata to display */
   post: PostMeta;
 }
 
+/** Displays a post preview with title, date, description, and categories. */
 export function PostCard({ post }: PostCardProps) {
   const { slug, frontmatter } = post;
 

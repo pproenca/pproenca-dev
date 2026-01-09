@@ -20,6 +20,7 @@ const socialLinks = [
   },
 ] as const;
 
+/** Site header with navigation links and social icons. */
 export function Header() {
   return (
     <header className="sticky top-0 z-10 border-b border-border-subtle/50 bg-bg-deep/80 backdrop-blur-sm">
