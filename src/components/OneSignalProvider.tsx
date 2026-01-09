@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
-
-// Module-level flag to prevent multiple initializations
-let isInitialized = false;
+import { useEffect, useRef } from "react";
 
 export function OneSignalProvider() {
+  // Track initialization within React's data flow (handles Strict Mode, HMR)
+  const isInitialized = useRef(false);
+
   useEffect(() => {
     const appId = process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID;
 
@@ -19,10 +19,10 @@ export function OneSignalProvider() {
     }
 
     // Prevent multiple initializations (React Strict Mode, HMR)
-    if (isInitialized) {
+    if (isInitialized.current) {
       return;
     }
-    isInitialized = true;
+    isInitialized.current = true;
 
     const initOneSignal = async () => {
       try {

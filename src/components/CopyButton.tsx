@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface CopyButtonProps {
   code: string;
@@ -9,10 +9,16 @@ interface CopyButtonProps {
 export function CopyButton({ code }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
+  // Reset copied state after 2 seconds with proper cleanup
+  useEffect(() => {
+    if (!copied) return;
+    const timer = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
   const handleCopy = async () => {
     await navigator.clipboard.writeText(code);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (

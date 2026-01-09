@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useTransition } from "react";
 
 // Access the global OneSignal object set by react-onesignal
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,51 +17,72 @@ export function SubscribeButton() {
   const [isSupported] = useState(checkSupported);
   const [isReady, setIsReady] = useState(false);
 
+  // Condition-based waiting with exponential backoff (replaces polling)
   useEffect(() => {
     if (!isSupported || !process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID) return;
 
-    // Poll until OneSignal is initialized on window
-    const checkReady = setInterval(() => {
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    const checkReady = (attempt = 0) => {
+      if (cancelled || attempt > 20) return; // Max ~10s with backoff
+
       const OneSignal = getOneSignal();
       if (OneSignal?.Notifications) {
-        clearInterval(checkReady);
         setIsReady(true);
         setIsSubscribed(OneSignal.Notifications.permission);
-      }
-    }, 500);
-
-    // Cleanup after 10 seconds
-    setTimeout(() => clearInterval(checkReady), 10000);
-
-    return () => clearInterval(checkReady);
-  }, [isSupported]);
-
-  const handleSubscribe = useCallback(async () => {
-    try {
-      const OneSignal = getOneSignal();
-      if (!OneSignal?.Slidedown) {
-        console.error("OneSignal not ready");
         return;
       }
-      await OneSignal.Slidedown.promptPush();
 
-      // Check subscription status after prompt
-      if (OneSignal?.Notifications) {
-        setIsSubscribed(OneSignal.Notifications.permission);
+      // Exponential backoff: 100ms, 200ms, 400ms... capped at 1000ms
+      const delay = Math.min(100 * Math.pow(2, attempt), 1000);
+      timeoutId = setTimeout(() => checkReady(attempt + 1), delay);
+    };
+
+    checkReady();
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [isSupported]);
+
+  // useTransition for async operations (React 19 pattern)
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubscribe = () => {
+    startTransition(async () => {
+      try {
+        const OneSignal = getOneSignal();
+        if (!OneSignal?.Slidedown) {
+          console.error("OneSignal not ready");
+          return;
+        }
+        await OneSignal.Slidedown.promptPush();
+
+        // Check subscription status after prompt
+        if (OneSignal?.Notifications) {
+          setIsSubscribed(OneSignal.Notifications.permission);
+        }
+      } catch (error) {
+        console.error("Subscribe error:", error);
       }
-    } catch (error) {
-      console.error("Subscribe error:", error);
-    }
-  }, []);
+    });
+  };
 
   if (!isSupported || !isReady) return null;
 
   return (
     <button
       onClick={handleSubscribe}
-      className="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent/90 transition-colors"
+      disabled={isPending}
+      className="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent/90 disabled:opacity-50"
     >
-      {isSubscribed ? (
+      {isPending ? (
+        <>
+          <span className="h-4 w-4 animate-pulse">...</span>
+          Subscribing...
+        </>
+      ) : isSubscribed ? (
         <>
           <BellIcon className="h-4 w-4" />
           Subscribed
