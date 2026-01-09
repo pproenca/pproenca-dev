@@ -465,3 +465,88 @@ pre code {
   background-color: var(--color-accent);
   color: var(--color-bg-deep);
 }
+
+/* ========================================
+   Tweet Embed - Literary Integration
+   ======================================== */
+
+.react-tweet-theme {
+  /* Typography - match site system */
+  --tweet-font-family: inherit;
+  --tweet-body-font-size: 1rem;
+  --tweet-body-line-height: 1.75;
+  --tweet-header-font-size: 0.875rem;
+  --tweet-info-font-size: 0.75rem;
+  --tweet-actions-font-size: 0.75rem;
+
+  /* Transparent container - no card */
+  --tweet-bg-color: transparent;
+  --tweet-bg-color-hover: transparent;
+  --tweet-border: none;
+
+  /* Colors match site */
+  --tweet-font-color: var(--color-text-primary);
+  --tweet-font-color-secondary: var(--color-text-secondary);
+
+  /* Accent for links */
+  --tweet-color-blue-primary: var(--color-accent);
+  --tweet-color-blue-primary-hover: var(--color-accent-muted);
+  --tweet-color-blue-secondary: var(--color-accent);
+  --tweet-color-blue-secondary-hover: var(--color-accent-muted);
+
+  /* Muted action colors */
+  --tweet-color-red-primary: var(--color-text-tertiary);
+  --tweet-color-green-primary: var(--color-text-tertiary);
+
+  /* Near-invisible provenance */
+  --tweet-twitter-icon-color: var(--color-border-subtle);
+  --tweet-verified-blue-color: var(--color-text-tertiary);
+}
+
+/* Dark mode - same philosophy */
+.dark .react-tweet-theme {
+  --tweet-bg-color: transparent;
+  --tweet-bg-color-hover: transparent;
+  --tweet-border: none;
+  --tweet-font-color: var(--color-text-primary);
+  --tweet-font-color-secondary: var(--color-text-secondary);
+  --tweet-twitter-icon-color: var(--color-border-subtle);
+}
+
+/* Integration into prose - blockquote rhythm */
+.prose .react-tweet-theme {
+  margin-left: 0;
+  margin-right: auto;
+  margin-top: var(--spacing-golden-4);
+  margin-bottom: var(--spacing-golden-4);
+  padding-left: var(--spacing-golden-3);
+  border-left: 2px solid var(--color-border-subtle);
+  max-width: 100%;
+  /* Force overrides - CSS variables alone don't override module styles */
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  border-top: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+}
+
+/* Author name - use serif like headings */
+.react-tweet-theme [data-testid="User-Name"] a {
+  font-family: var(--font-serif) !important;
+  font-weight: 400;
+}
+
+/* Hide action stats */
+.react-tweet-theme [class*="tweet-actions"] {
+  display: none !important;
+}
+
+/* Clean link styling */
+.react-tweet-theme a {
+  text-decoration: none !important;
+}
+
+/* Reduce X icon visibility */
+.react-tweet-theme svg[viewBox="0 0 24 24"]:not([class*="avatar"]) {
+  opacity: 0.4;
+}
