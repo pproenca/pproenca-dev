@@ -37,15 +37,18 @@ export function OneSignalProvider() {
         console.log("OneSignal: Initialized successfully");
       } catch (error) {
         // Push service errors are expected on localhost (non-HTTPS)
-        if (
-          process.env.NODE_ENV === "development" &&
-          error instanceof Error &&
-          error.message.includes("push service")
-        ) {
-          console.log(
-            "OneSignal: Push registration skipped on localhost (requires HTTPS)",
-          );
-          return;
+        // These manifest as AbortError or messages about push service
+        if (process.env.NODE_ENV === "development" && error instanceof Error) {
+          const isExpectedError =
+            error.name === "AbortError" ||
+            error.message.includes("push service") ||
+            error.message.includes("Registration failed");
+          if (isExpectedError) {
+            console.log(
+              "OneSignal: Push registration skipped on localhost (requires HTTPS)",
+            );
+            return;
+          }
         }
         console.error("OneSignal: Initialization failed", error);
       }
