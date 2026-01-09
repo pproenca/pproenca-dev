@@ -5,27 +5,6 @@ const nextConfig: NextConfig = {
   // of browserslist. This is a known limitation with no official workaround.
   // See: https://github.com/vercel/next.js/discussions/64330
   // The browserslist in package.json still optimizes other transpilation.
-  async headers() {
-    return [
-      {
-        source: "/OneSignalSDKWorker.js",
-        headers: [
-          {
-            key: "Content-Type",
-            value: "application/javascript; charset=utf-8",
-          },
-          {
-            key: "Cache-Control",
-            value: "no-cache, no-store, must-revalidate",
-          },
-          {
-            key: "Service-Worker-Allowed",
-            value: "/",
-          },
-        ],
-      },
-    ];
-  },
   async redirects() {
     return [
       // /posts index redirects to homepage
