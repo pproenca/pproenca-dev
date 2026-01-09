@@ -1,0 +1,22 @@
+---
+title: "How I Won a Coding Competition in 48 Hours With Claude Code"
+date: "2025-01-09"
+description: "I found a WebCodecs competition 2 days before the deadline. AI made the impossible possible—but not in the way you might think."
+categories: ["AI", "Software Development"]
+---
+
+I found out about the WebCodecs Node.js challenge two days before the deadline. The task: implement the WebCodecs API in Node.js. I'd never written a Node.js addon in C++. I would have laughed at the idea of entering if I didn't have Claude Code.
+
+I ended up as one of seven people who got working solutions, each winning $1,500. Here's what I learned.
+
+AI is a force multiplier, but you still need strategy. My first iteration was chaos. I turned the WebCodecs IDL into C++ bindings, wrote some tests, and felt productive. I wasn't. The tests passed, but they were testing my broken implementation, not correct behavior.
+
+The lesson from management applies here: trust but verify. Claude will tell you things are going well when they're not. Passing tests feel like progress. They can be a lie.
+
+My second iteration was different. I spent time building guardrails first. I made the spec file as detailed as possible before writing code. I focused on one method at a time. The rule became: always have something working, no matter how small.
+
+I joked at the start that I wanted to run into a memory segmentation fault. Two days later, guess what I was debugging? I asked Claude for common C++ failure patterns and the tools experienced developers use. That led me to the `leaks` tool on macOS. I updated my CLAUDE.md with failure patterns and created a dedicated debugging skill. Everything moved faster after that.
+
+The real unlock wasn't Claude writing code for me. It was using Claude to query documentation, understand unfamiliar territory, and build the scaffolding that kept me on track. AI didn't replace my thinking. It compressed the time between not knowing and knowing enough to act.
+
+Forty-eight hours. One segfault. One lesson: AI multiplies what you bring to it.
