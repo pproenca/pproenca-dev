@@ -22,6 +22,7 @@ The current implementation uses some manual approaches where Next.js provides op
 **Proposed:** Native `src/app/sitemap.ts` using Next.js conventions
 
 Benefits:
+
 - Removes 96 lines of custom code
 - Type-safe with `MetadataRoute.Sitemap`
 - Auto-generated at build time
@@ -33,6 +34,7 @@ Benefits:
 **Proposed:** Native `src/app/robots.ts` using Next.js conventions
 
 Benefits:
+
 - Type-safe with `MetadataRoute.Robots`
 - Can reference `SITE_CONFIG.url` for consistency
 - Auto-generated at build time
@@ -40,6 +42,7 @@ Benefits:
 ### Priority 3: Accessibility Improvements (A11y)
 
 **Current state (already good):**
+
 - Skip link present with proper focus styling
 - Semantic HTML (`<header>`, `<nav>`, `<main>`, `<footer>`, `<article>`)
 - `lang="en"` on html element
@@ -48,6 +51,7 @@ Benefits:
 - Reduced motion media query support
 
 **Proposed improvements:**
+
 - Add `aria-hidden="true"` to decorative SVG icons (redundant with aria-label but best practice)
 - Add `role="img"` to inline SVGs with aria-label for better screen reader support
 
@@ -57,6 +61,7 @@ Benefits:
 **Proposed:** Add `favicon.ico` for legacy browser support
 
 Benefits:
+
 - Better browser compatibility
 - Some crawlers specifically look for favicon.ico
 
@@ -72,13 +77,13 @@ The following were evaluated but are not recommended:
 
 ## Impact Assessment
 
-| Area | Change Impact | Code Change |
-|------|--------------|-------------|
-| Performance | Minimal (already optimized) | None |
-| SEO | Improved maintainability | sitemap.ts, robots.ts |
-| Accessibility | Minor improvements | SVG attributes |
-| Code Reduction | -96 lines custom code | Remove generate-sitemap.mjs |
-| Visual | None | None |
+| Area           | Change Impact               | Code Change                 |
+| -------------- | --------------------------- | --------------------------- |
+| Performance    | Minimal (already optimized) | None                        |
+| SEO            | Improved maintainability    | sitemap.ts, robots.ts       |
+| Accessibility  | Minor improvements          | SVG attributes              |
+| Code Reduction | -96 lines custom code       | Remove generate-sitemap.mjs |
+| Visual         | None                        | None                        |
 
 ## Risks
 

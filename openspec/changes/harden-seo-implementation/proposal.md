@@ -11,14 +11,17 @@ The existing SEO implementation has three gaps identified from Next.js 16 docume
 ## What Changes
 
 ### Security Hardening
+
 - Sanitize JSON-LD output by replacing `<` with `\u003c` per Next.js docs
 - Add optional `schema-dts` types for compile-time JSON-LD validation
 
 ### Performance Optimization
+
 - Wrap `getPostBySlug` with React `cache()` to deduplicate requests
 - Apply same pattern to category fetching functions
 
 ### Generated OG Images
+
 - Add `opengraph-image.tsx` to post routes for dynamic article images
 - Use `ImageResponse` from `next/og` to generate branded images with post title
 

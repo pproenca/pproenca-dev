@@ -48,13 +48,13 @@ Your content here...
 
 ### Frontmatter Fields
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `title` | Yes | Post title |
-| `date` | Yes | Publication date (YYYY-MM-DD) |
-| `description` | Yes | Brief description for SEO |
-| `categories` | Yes | Array of category names |
-| `draft` | No | Set to `true` to hide from listing |
+| Field         | Required | Description                        |
+| ------------- | -------- | ---------------------------------- |
+| `title`       | Yes      | Post title                         |
+| `date`        | Yes      | Publication date (YYYY-MM-DD)      |
+| `description` | Yes      | Brief description for SEO          |
+| `categories`  | Yes      | Array of category names            |
+| `draft`       | No       | Set to `true` to hide from listing |
 
 ## Deployment
 
@@ -67,6 +67,7 @@ Your content here...
 ### GitHub Pages
 
 1. Add to `next.config.ts`:
+
    ```ts
    const nextConfig: NextConfig = {
      output: "export",
@@ -76,6 +77,7 @@ Your content here...
    ```
 
 2. Create `.github/workflows/deploy.yml`:
+
    ```yaml
    name: Deploy to GitHub Pages
 

@@ -8,15 +8,15 @@ Comprehensive audit and migration of custom CSS in `globals.css` to Tailwind CSS
 
 ### globals.css Breakdown (446 lines)
 
-| Section | Lines | Can Convert | Strategy |
-|---------|-------|-------------|----------|
-| Tailwind v4 setup | 1-21 | N/A | Already v4 compliant |
-| CSS variables (:root/.dark) | 23-71 | Partial | Define in `@theme` |
-| Body styles | 73-91 | Yes | Move to layout.tsx |
-| Prose overrides | 93-193 | Partial | Keep prose vars, refactor selectors |
-| Code blocks | 195-221 | Minimal | Keep (Shiki integration) |
-| Terminal window | 223-412 | Partial | Use `@variant dark`, define colors in `@theme` |
-| Focus/Accessibility | 414-446 | Minimal | Keep (pseudo-selectors) |
+| Section                     | Lines   | Can Convert | Strategy                                       |
+| --------------------------- | ------- | ----------- | ---------------------------------------------- |
+| Tailwind v4 setup           | 1-21    | N/A         | Already v4 compliant                           |
+| CSS variables (:root/.dark) | 23-71   | Partial     | Define in `@theme`                             |
+| Body styles                 | 73-91   | Yes         | Move to layout.tsx                             |
+| Prose overrides             | 93-193  | Partial     | Keep prose vars, refactor selectors            |
+| Code blocks                 | 195-221 | Minimal     | Keep (Shiki integration)                       |
+| Terminal window             | 223-412 | Partial     | Use `@variant dark`, define colors in `@theme` |
+| Focus/Accessibility         | 414-446 | Minimal     | Keep (pseudo-selectors)                        |
 
 ### What CAN Be Converted
 
@@ -70,6 +70,7 @@ Comprehensive audit and migration of custom CSS in `globals.css` to Tailwind CSS
 ## Visual Parity Guarantee
 
 This proposal explicitly maintains visual identity:
+
 - No color value changes
 - No spacing changes
 - No typography changes

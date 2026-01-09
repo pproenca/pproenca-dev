@@ -27,36 +27,38 @@ This design transforms the blog's visual layer while preserving all structural p
 ## Color System Deep Dive
 
 ### Light Mode: "Aged Paper"
+
 The goal is to replicate the warm, non-fatiguing quality of e-ink displays.
 
-| Token | Value | Purpose |
-|-------|-------|---------|
-| `--color-bg-deep` | `#f4f1e8` | Main background - aged paper |
-| `--color-bg-surface` | `#ebe6d9` | Cards, elevated surfaces |
-| `--color-bg-elevated` | `#e2dccf` | Code blocks, inputs |
-| `--color-text-primary` | `#3d3731` | Body text - warm black |
-| `--color-text-secondary` | `#6b6459` | Metadata, captions |
-| `--color-text-tertiary` | `#9a948a` | Hints, disabled |
-| `--color-accent` | `#9a7b4f` | Links, emphasis |
-| `--color-accent-muted` | `#7a6342` | Hover states |
-| `--color-border-subtle` | `#ddd7cb` | Light dividers |
-| `--color-border-visible` | `#ccc5b8` | Stronger dividers |
+| Token                    | Value     | Purpose                      |
+| ------------------------ | --------- | ---------------------------- |
+| `--color-bg-deep`        | `#f4f1e8` | Main background - aged paper |
+| `--color-bg-surface`     | `#ebe6d9` | Cards, elevated surfaces     |
+| `--color-bg-elevated`    | `#e2dccf` | Code blocks, inputs          |
+| `--color-text-primary`   | `#3d3731` | Body text - warm black       |
+| `--color-text-secondary` | `#6b6459` | Metadata, captions           |
+| `--color-text-tertiary`  | `#9a948a` | Hints, disabled              |
+| `--color-accent`         | `#9a7b4f` | Links, emphasis              |
+| `--color-accent-muted`   | `#7a6342` | Hover states                 |
+| `--color-border-subtle`  | `#ddd7cb` | Light dividers               |
+| `--color-border-visible` | `#ccc5b8` | Stronger dividers            |
 
 ### Dark Mode: "Night Reading"
+
 Optimized for OLED screens and nighttime reading.
 
-| Token | Value | Purpose |
-|-------|-------|---------|
-| `--color-bg-deep` | `#0a0908` | True black (OLED) |
-| `--color-bg-surface` | `#141210` | Slight elevation |
-| `--color-bg-elevated` | `#1e1b17` | Code blocks |
-| `--color-text-primary` | `#d4cfc4` | Cream text (not white) |
-| `--color-text-secondary` | `#9a958c` | Muted text |
-| `--color-text-tertiary` | `#5a5650` | Tertiary text |
-| `--color-accent` | `#a89060` | Soft gold links |
-| `--color-accent-muted` | `#87734d` | Hover states |
-| `--color-border-subtle` | `#252220` | Subtle dividers |
-| `--color-border-visible` | `#353230` | Visible dividers |
+| Token                    | Value     | Purpose                |
+| ------------------------ | --------- | ---------------------- |
+| `--color-bg-deep`        | `#0a0908` | True black (OLED)      |
+| `--color-bg-surface`     | `#141210` | Slight elevation       |
+| `--color-bg-elevated`    | `#1e1b17` | Code blocks            |
+| `--color-text-primary`   | `#d4cfc4` | Cream text (not white) |
+| `--color-text-secondary` | `#9a958c` | Muted text             |
+| `--color-text-tertiary`  | `#5a5650` | Tertiary text          |
+| `--color-accent`         | `#a89060` | Soft gold links        |
+| `--color-accent-muted`   | `#87734d` | Hover states           |
+| `--color-border-subtle`  | `#252220` | Subtle dividers        |
+| `--color-border-visible` | `#353230` | Visible dividers       |
 
 ## Typography Decisions
 
@@ -75,7 +77,9 @@ Maintain golden ratio spacing (`--spacing-golden-3`) but paragraphs get extra `m
 The 680px max-width yields ~65-70 characters per line at 18px, within optimal 45-75ch range.
 
 ### Font Stack (Unchanged)
+
 The current fonts work perfectly for this aesthetic:
+
 - **Libre Baskerville**: Classic, literary serif - ideal for e-reader feel
 - **Source Sans 3**: Clean UI text
 - **JetBrains Mono**: Code blocks
@@ -83,6 +87,7 @@ The current fonts work perfectly for this aesthetic:
 ## Paper Texture Implementation
 
 ### Light Mode Only
+
 Apply subtle noise texture to mimic paper grain. Dark mode stays clean for OLED.
 
 ```css
@@ -91,7 +96,7 @@ Apply subtle noise texture to mimic paper grain. Dark mode stays clean for OLED.
 }
 
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   background: var(--paper-texture);
@@ -108,22 +113,27 @@ body::before {
 ## Code Block Treatment
 
 ### Design Principle
+
 Code should feel like it's printed on the same paper, not a jarring "terminal" break.
 
 **Light Mode:**
+
 - Background: Slightly darker paper `#e2dccf`
 - Border: Warm, soft edge
 - No terminal chrome (dots removed or muted)
 - Typography: Maintain JetBrains Mono
 
 **Dark Mode:**
+
 - Background: Elevated dark `#1e1b17`
 - Subtle warm border
 - Minimal chrome
 - Good contrast without being harsh
 
 ### Terminal Window Modifications
+
 The current macOS-style terminal is too "digital" for the e-reader feel. Options:
+
 1. **Remove chrome entirely**: Just code on paper
 2. **Mute chrome**: Make dots very subtle, almost invisible
 3. **Book-style**: Replace dots with subtle page number or section marker
@@ -133,21 +143,25 @@ Recommendation: Option 2 (mute chrome) - preserves functionality while reducing 
 ## UI Element Treatments
 
 ### Header
+
 - More transparent, less sticky presence
 - Text slightly smaller
 - Navigation fades when reading (optional enhancement)
 
 ### Footer
+
 - Very light treatment
 - Nearly invisible divider
 - Small, unobtrusive text
 
 ### Links
+
 - Underline by default (book convention)
 - Muted color, not screaming for attention
 - Clear hover state without being flashy
 
 ### Blockquotes
+
 - Indented, italic (book style)
 - Very subtle left border or none
 - Clear attribution styling
@@ -155,27 +169,35 @@ Recommendation: Option 2 (mute chrome) - preserves functionality while reducing 
 ## Accessibility Considerations
 
 ### Color Contrast
+
 All color combinations tested for WCAG AA compliance:
+
 - Primary text on background: 7:1+ ratio
 - Secondary text: 4.5:1+ ratio
 - Accent on background: 4.5:1+ ratio
 
 ### Reduced Motion
+
 Paper texture animation (if any) respects `prefers-reduced-motion`.
 
 ### Dark Mode Preference
+
 System preference respected via `next-themes`.
 
 ## Trade-offs Considered
 
 ### Why Not True E-ink Simulation?
+
 True e-ink has limited gray levels and no real "dark mode." We prioritize:
+
 - Reading comfort (the goal of e-ink)
 - Modern UX expectations (dark mode)
 - Performance (no heavy filters)
 
 ### Why Keep Golden Ratio Spacing?
+
 The current spacing system is mathematically elegant and works well. No need to replace what works.
 
 ### Why Not Change Fonts?
+
 Libre Baskerville is excellent for this aesthetic. Changing fonts would be change for change's sake.

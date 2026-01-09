@@ -3,6 +3,7 @@
 Core principles from Google's official Search documentation.
 
 ## Table of Contents
+
 1. [Search Essentials](#search-essentials)
 2. [E-E-A-T Framework](#e-e-a-t-framework)
 3. [Helpful Content Guidelines](#helpful-content-guidelines)
@@ -14,11 +15,13 @@ Core principles from Google's official Search documentation.
 ## Search Essentials
 
 ### Three Pillars
+
 1. **Technical Requirements** - What Google needs from a web page to show it in Search
 2. **Spam Policies** - Behaviors that lead to lower ranking or omission
 3. **Key Best Practices** - Factors that improve search appearance
 
 ### Core Best Practices
+
 - Create helpful, reliable, people-first content
 - Use words people would search for in titles, headings, alt text, link text
 - Make links crawlable (`<a href="...">`)
@@ -34,12 +37,14 @@ Core principles from Google's official Search documentation.
 Trust is the most important factor. The others contribute to trust.
 
 ### Demonstrating E-E-A-T
+
 - **Experience**: First-hand experience with the topic (actually used a product, visited a place)
 - **Expertise**: Depth of knowledge demonstrated in content
 - **Authoritativeness**: Recognition as a go-to source
 - **Trustworthiness**: Accuracy, honesty, safety, reliability
 
 ### Content Self-Assessment Questions
+
 1. Does content provide original information, reporting, research, or analysis?
 2. Does content provide substantial, complete description of the topic?
 3. Does content provide insightful analysis beyond the obvious?
@@ -53,6 +58,7 @@ Trust is the most important factor. The others contribute to trust.
 ## Helpful Content Guidelines
 
 ### People-First Content Checklist
+
 - [ ] Do you have an audience that would find this useful if they came directly to you?
 - [ ] Does content clearly demonstrate first-hand expertise?
 - [ ] Does your site have a primary purpose or focus?
@@ -60,6 +66,7 @@ Trust is the most important factor. The others contribute to trust.
 - [ ] Will readers have a satisfying experience?
 
 ### Search Engine-First Warning Signs (Avoid These)
+
 - [ ] Content primarily to attract search engine visits
 - [ ] Producing lots of content on different topics hoping some performs
 - [ ] Using automation to produce content on many topics
@@ -70,6 +77,7 @@ Trust is the most important factor. The others contribute to trust.
 - [ ] Entering a niche without real expertise
 
 ### AI-Generated Content Policy
+
 - **Not automatically spam** - Google focuses on content quality, not production method
 - **Spam violation**: Using AI with primary purpose of manipulating search rankings
 - **Acceptable**: Using AI to help produce helpful, original, people-first content
@@ -80,6 +88,7 @@ Trust is the most important factor. The others contribute to trust.
 ## Technical Requirements
 
 ### Minimum Requirements for Indexing
+
 1. Page not blocked by robots.txt
 2. Page returns HTTP 200 status
 3. Page has indexable content (not just images/video without text)
@@ -88,11 +97,13 @@ Trust is the most important factor. The others contribute to trust.
 ### JavaScript SEO (Critical for Next.js)
 
 Google processes JavaScript in three phases:
+
 1. **Crawling** - Fetches HTML
 2. **Rendering** - Executes JavaScript (may be delayed)
 3. **Indexing** - Indexes rendered content
 
 **Best Practices:**
+
 ```javascript
 // ✅ Use History API for routing (not hash fragments)
 window.history.pushState({}, '', '/new-page')
@@ -107,7 +118,7 @@ window.history.pushState({}, '', '/new-page')
 if (!product.exists) {
   // Option 1: Redirect to 404 page
   window.location.href = '/not-found';
-  
+
   // Option 2: Add noindex dynamically
   const meta = document.createElement('meta');
   meta.name = 'robots';
@@ -117,26 +128,31 @@ if (!product.exists) {
 ```
 
 **Server-Side Rendering Benefits:**
+
 - Faster initial content delivery
 - Content visible without JavaScript execution
 - Better for crawlers that don't execute JS
 - Improved Core Web Vitals (LCP)
 
 ### URL Structure
+
 - Use descriptive, human-readable URLs
 - URLs appear in breadcrumbs in search results
 - Group related content in directories
+
 ```
 ✅ https://example.com/blog/nextjs-seo-guide
 ❌ https://example.com/p/123456
 ```
 
 ### Canonicalization
+
 - Specify canonical URL when content accessible via multiple URLs
 - Use `rel="canonical"` link element
 - Google will try to canonicalize automatically if you don't
 
 ### Mobile-First Indexing
+
 - Google primarily uses mobile version for indexing
 - Ensure content parity between mobile and desktop
 - Use same meta tags on both versions
@@ -148,17 +164,17 @@ if (!product.exists) {
 
 Based on Google's guidance, these have little to no impact:
 
-| Myth | Reality |
-|------|---------|
-| Meta keywords | Google doesn't use the keywords meta tag |
-| Keyword stuffing | Violates spam policies |
-| Keywords in domain name | Hardly any ranking effect |
-| Domain TLD (.com vs .io) | Only matters for country targeting |
-| Minimum/maximum content length | No magical word count target |
-| Subdomains vs subdirectories | Do what makes sense for your business |
-| Number/order of headings | Doesn't matter to Google |
-| E-E-A-T as ranking factor | It's a framework, not a direct signal |
-| Duplicate content "penalty" | Not a penalty, just inefficient |
+| Myth                           | Reality                                  |
+| ------------------------------ | ---------------------------------------- |
+| Meta keywords                  | Google doesn't use the keywords meta tag |
+| Keyword stuffing               | Violates spam policies                   |
+| Keywords in domain name        | Hardly any ranking effect                |
+| Domain TLD (.com vs .io)       | Only matters for country targeting       |
+| Minimum/maximum content length | No magical word count target             |
+| Subdomains vs subdirectories   | Do what makes sense for your business    |
+| Number/order of headings       | Doesn't matter to Google                 |
+| E-E-A-T as ranking factor      | It's a framework, not a direct signal    |
+| Duplicate content "penalty"    | Not a penalty, just inefficient          |
 
 ---
 

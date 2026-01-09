@@ -74,19 +74,19 @@ Mapped to Tailwind custom values: `golden-1` through `golden-6`
 
 ### Files Modified
 
-| File | Changes |
-|------|---------|
-| `src/app/globals.css` | Golden ratio spacing vars, paper colors, typography refinement |
-| `src/app/layout.tsx` | Adjust container and main spacing with golden classes |
-| `src/app/page.tsx` | Apply golden spacing to post list |
-| `src/app/posts/[slug]/page.tsx` | Refine article typography and spacing |
-| `src/app/about/page.tsx` | Apply consistent golden spacing |
-| `src/app/categories/page.tsx` | Apply golden spacing to category grid |
-| `src/app/categories/[slug]/page.tsx` | Match category page styling |
-| `src/components/Header.tsx` | Refine header proportions |
-| `src/components/Footer.tsx` | Balance footer with header |
-| `src/components/PostCard.tsx` | Apply golden spacing within cards |
-| `src/components/CategoryBadge.tsx` | Harmonize badge proportions |
+| File                                 | Changes                                                        |
+| ------------------------------------ | -------------------------------------------------------------- |
+| `src/app/globals.css`                | Golden ratio spacing vars, paper colors, typography refinement |
+| `src/app/layout.tsx`                 | Adjust container and main spacing with golden classes          |
+| `src/app/page.tsx`                   | Apply golden spacing to post list                              |
+| `src/app/posts/[slug]/page.tsx`      | Refine article typography and spacing                          |
+| `src/app/about/page.tsx`             | Apply consistent golden spacing                                |
+| `src/app/categories/page.tsx`        | Apply golden spacing to category grid                          |
+| `src/app/categories/[slug]/page.tsx` | Match category page styling                                    |
+| `src/components/Header.tsx`          | Refine header proportions                                      |
+| `src/components/Footer.tsx`          | Balance footer with header                                     |
+| `src/components/PostCard.tsx`        | Apply golden spacing within cards                              |
+| `src/components/CategoryBadge.tsx`   | Harmonize badge proportions                                    |
 
 ### No New Files
 
@@ -97,6 +97,7 @@ All changes will be to existing files. No new components or utilities needed.
 ### 1. CSS Custom Properties for Golden Scale
 
 Add to `globals.css` within `@theme inline`:
+
 ```css
 @theme inline {
   /* Golden ratio spacing scale */
@@ -114,17 +115,19 @@ This enables Tailwind classes like `p-golden-3`, `mt-golden-4`, etc.
 ### 2. Paper Color Palette
 
 Warm the light mode background:
+
 ```css
 :root {
-  --color-bg-deep: #FDFBF7;      /* Warm paper cream */
-  --color-bg-surface: #FAF8F3;   /* Slightly darker cream */
-  --color-bg-elevated: #F5F3EE;  /* Card backgrounds */
+  --color-bg-deep: #fdfbf7; /* Warm paper cream */
+  --color-bg-surface: #faf8f3; /* Slightly darker cream */
+  --color-bg-elevated: #f5f3ee; /* Card backgrounds */
 }
 ```
 
 ### 3. Component Refactoring
 
 Replace arbitrary spacing values with golden scale:
+
 - `mt-3` → `mt-golden-2` (13px)
 - `mt-12` → `mt-golden-5` (55px)
 - `py-8` → `py-golden-4` (34px)
@@ -138,14 +141,14 @@ Replace arbitrary spacing values with golden scale:
 
 ## Visual Changes Summary
 
-| Element | Before | After |
-|---------|--------|-------|
-| Background (light) | Pure white #fff | Warm cream #FDFBF7 |
-| Content width | max-w-3xl (48rem) | max-w-[680px] (optimal 65-75ch) |
-| Header height | h-14 (56px) | h-[55px] (φ⁴) |
-| Section spacing | mt-12 (48px) | mt-golden-5 (55px) |
-| Paragraph gap | mt-3 (12px) | mt-golden-2 (13px) |
-| Card gap | space-y-12 | space-y-golden-5 |
+| Element            | Before            | After                           |
+| ------------------ | ----------------- | ------------------------------- |
+| Background (light) | Pure white #fff   | Warm cream #FDFBF7              |
+| Content width      | max-w-3xl (48rem) | max-w-[680px] (optimal 65-75ch) |
+| Header height      | h-14 (56px)       | h-[55px] (φ⁴)                   |
+| Section spacing    | mt-12 (48px)      | mt-golden-5 (55px)              |
+| Paragraph gap      | mt-3 (12px)       | mt-golden-2 (13px)              |
+| Card gap           | space-y-12        | space-y-golden-5                |
 
 ## Success Criteria
 
@@ -157,11 +160,11 @@ Replace arbitrary spacing values with golden scale:
 
 ## Risks and Mitigations
 
-| Risk | Mitigation |
-|------|------------|
-| Golden spacing too rigid | Allow mixing with standard Tailwind for fine-tuning |
-| Paper colors too warm | Test across multiple monitors, keep subtle |
-| Breaking mobile responsiveness | Test at all breakpoints, adjust as needed |
+| Risk                           | Mitigation                                          |
+| ------------------------------ | --------------------------------------------------- |
+| Golden spacing too rigid       | Allow mixing with standard Tailwind for fine-tuning |
+| Paper colors too warm          | Test across multiple monitors, keep subtle          |
+| Breaking mobile responsiveness | Test at all breakpoints, adjust as needed           |
 
 ## Open Questions
 

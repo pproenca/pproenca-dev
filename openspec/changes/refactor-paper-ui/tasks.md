@@ -109,18 +109,18 @@ npm run dev
 
 ## File Change Summary
 
-| File | Type |
-|------|------|
-| `src/app/globals.css` | Modify |
-| `src/app/layout.tsx` | Modify |
-| `src/app/page.tsx` | Modify |
-| `src/app/posts/[slug]/page.tsx` | Modify |
-| `src/app/about/page.tsx` | Modify |
-| `src/app/categories/page.tsx` | Modify |
+| File                                 | Type   |
+| ------------------------------------ | ------ |
+| `src/app/globals.css`                | Modify |
+| `src/app/layout.tsx`                 | Modify |
+| `src/app/page.tsx`                   | Modify |
+| `src/app/posts/[slug]/page.tsx`      | Modify |
+| `src/app/about/page.tsx`             | Modify |
+| `src/app/categories/page.tsx`        | Modify |
 | `src/app/categories/[slug]/page.tsx` | Modify |
-| `src/components/Header.tsx` | Modify |
-| `src/components/Footer.tsx` | Modify |
-| `src/components/PostCard.tsx` | Modify |
-| `src/components/CategoryBadge.tsx` | Modify |
+| `src/components/Header.tsx`          | Modify |
+| `src/components/Footer.tsx`          | Modify |
+| `src/components/PostCard.tsx`        | Modify |
+| `src/components/CategoryBadge.tsx`   | Modify |
 
 **Total: 11 files modified, 0 files created, 0 files deleted**

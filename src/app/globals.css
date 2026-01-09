@@ -12,12 +12,12 @@
 @theme inline {
   /* Golden ratio spacing scale (Fibonacci-based)
      φ ≈ 1.618 creates naturally pleasing proportions */
-  --spacing-golden-1: 0.5rem;      /* 8px  - micro gaps */
-  --spacing-golden-2: 0.8125rem;   /* 13px - small margins */
-  --spacing-golden-3: 1.3125rem;   /* 21px - standard rhythm */
-  --spacing-golden-4: 2.125rem;    /* 34px - section margins */
-  --spacing-golden-5: 3.4375rem;   /* 55px - major breaks */
-  --spacing-golden-6: 5.5625rem;   /* 89px - page-level */
+  --spacing-golden-1: 0.5rem; /* 8px  - micro gaps */
+  --spacing-golden-2: 0.8125rem; /* 13px - small margins */
+  --spacing-golden-3: 1.3125rem; /* 21px - standard rhythm */
+  --spacing-golden-4: 2.125rem; /* 34px - section margins */
+  --spacing-golden-5: 3.4375rem; /* 55px - major breaks */
+  --spacing-golden-6: 5.5625rem; /* 89px - page-level */
 
   /* Theme colors - reference CSS variables for dark mode switching
      Enables cleaner syntax: bg-bg-deep instead of bg-(--color-bg-deep) */
@@ -100,7 +100,7 @@ body {
 
 /* Paper texture overlay - light mode only */
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   background: var(--paper-texture);
@@ -168,7 +168,9 @@ body::before {
   text-decoration: underline;
   text-decoration-color: var(--color-accent-muted);
   text-underline-offset: 2px;
-  transition: color var(--transition-base), text-decoration-color var(--transition-base);
+  transition:
+    color var(--transition-base),
+    text-decoration-color var(--transition-base);
 }
 
 .prose a:hover {
@@ -252,7 +254,9 @@ pre code {
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -2px rgba(0, 0, 0, 0.1),
     0 0 0 1px rgba(0, 0, 0, 0.05);
-  transition: box-shadow var(--transition-base), transform var(--transition-base);
+  transition:
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
 
   @variant dark {
     box-shadow:

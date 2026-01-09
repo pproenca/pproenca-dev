@@ -3,6 +3,7 @@
 ## Aesthetic Philosophy
 
 The "Literary Nightfall" design draws inspiration from:
+
 - **Analog reading**: The warmth of aged paper under lamplight
 - **Editorial print**: The refined typography of literary magazines
 - **Japanese design**: Ma (間) — the beauty of negative space
@@ -28,33 +29,36 @@ Each layer adds warmth, not just lightness. This creates a sense of paper stacke
 
 #### Color Rationale
 
-| Color | Hex | Purpose | Why This Specific Shade |
-|-------|-----|---------|------------------------|
-| bg-deep | #0f0d0b | Page background | Warm black — brown undertone prevents cold harshness |
-| bg-surface | #1a1714 | Card backgrounds | 10% warmer than bg-deep, subtle elevation |
-| bg-elevated | #241f1a | Code blocks, highlights | Maximum warmth while maintaining contrast |
-| text-primary | #e8e2d9 | Body text | Cream white — easier on eyes than pure white |
-| text-secondary | #a69f94 | Meta text | Visible but clearly subordinate |
-| text-tertiary | #6b635a | Timestamps | Present but not demanding attention |
-| accent | #c9a962 | Links, highlights | Warm gold — premium feel, good visibility |
-| accent-muted | #8b7355 | Hover states | Subdued version for larger elements |
+| Color          | Hex     | Purpose                 | Why This Specific Shade                              |
+| -------------- | ------- | ----------------------- | ---------------------------------------------------- |
+| bg-deep        | #0f0d0b | Page background         | Warm black — brown undertone prevents cold harshness |
+| bg-surface     | #1a1714 | Card backgrounds        | 10% warmer than bg-deep, subtle elevation            |
+| bg-elevated    | #241f1a | Code blocks, highlights | Maximum warmth while maintaining contrast            |
+| text-primary   | #e8e2d9 | Body text               | Cream white — easier on eyes than pure white         |
+| text-secondary | #a69f94 | Meta text               | Visible but clearly subordinate                      |
+| text-tertiary  | #6b635a | Timestamps              | Present but not demanding attention                  |
+| accent         | #c9a962 | Links, highlights       | Warm gold — premium feel, good visibility            |
+| accent-muted   | #8b7355 | Hover states            | Subdued version for larger elements                  |
 
 ### Typography Stack
 
 #### Font Choices
 
 **Display/Headings: Libre Baskerville**
+
 - Classic Baskerville revival with excellent screen rendering
 - Conveys literary credibility without being stuffy
 - Fallback: Georgia, Times New Roman, serif
 
 **Body: Source Sans 3**
+
 - Humanist sans-serif designed for long-form reading
 - Excellent x-height for screen readability
 - Open apertures reduce eye strain
 - Fallback: system-ui, sans-serif
 
 **Code: JetBrains Mono**
+
 - Already a warm, rounded monospace
 - Good differentiation between similar characters
 - Ligature support for code beauty
@@ -239,6 +243,7 @@ Syntax colors (warm palette):
 ### Contrast Ratios
 
 All text meets WCAG AA standards:
+
 - Primary text (#e8e2d9) on deep bg (#0f0d0b): 12.5:1 ✓
 - Secondary text (#a69f94) on deep bg: 6.2:1 ✓
 - Tertiary text (#6b635a) on deep bg: 3.5:1 ✓ (only for non-essential text)
@@ -291,6 +296,7 @@ src/
 ## Visual Reference
 
 The design aims for the reading experience of:
+
 - iA Writer's focus mode
 - Instapaper's typography
 - The Paris Review's editorial elegance

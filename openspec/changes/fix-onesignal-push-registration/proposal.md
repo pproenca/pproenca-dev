@@ -14,6 +14,7 @@ Push notification permission is granted via the browser, but **no subscribers ar
 ### Root Cause
 
 OneSignal requires `OneSignalSDKWorker.js` in the public folder to:
+
 1. Register push subscription endpoints with OneSignal servers
 2. Handle incoming push notifications
 3. Manage the push subscription lifecycle
@@ -22,13 +23,13 @@ Without this file, OneSignal SDK initializes but cannot complete the subscriptio
 
 ## Current State
 
-| Component | Status |
-|-----------|--------|
-| `react-onesignal` package | Installed (v3.4.6) |
-| `OneSignalProvider` | Initializes SDK, missing service worker path |
-| `SubscribeButton` | Uses native `Notification.requestPermission()` (bypasses OneSignal) |
-| `public/OneSignalSDKWorker.js` | **Missing** |
-| `public/sw.js` | Present (Serwist PWA caching - separate concern) |
+| Component                      | Status                                                              |
+| ------------------------------ | ------------------------------------------------------------------- |
+| `react-onesignal` package      | Installed (v3.4.6)                                                  |
+| `OneSignalProvider`            | Initializes SDK, missing service worker path                        |
+| `SubscribeButton`              | Uses native `Notification.requestPermission()` (bypasses OneSignal) |
+| `public/OneSignalSDKWorker.js` | **Missing**                                                         |
+| `public/sw.js`                 | Present (Serwist PWA caching - separate concern)                    |
 
 ## Proposed Solution
 

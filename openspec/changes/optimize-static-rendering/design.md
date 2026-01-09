@@ -23,6 +23,7 @@ The CodeBlock component is marked as `"use client"` solely because it uses `useS
 ```
 
 The client boundary at CodeBlock forces React to:
+
 1. Ship the component code to the browser
 2. Hydrate the entire component tree
 3. Re-render after hydration
@@ -42,6 +43,7 @@ The client boundary at CodeBlock forces React to:
 ```
 
 Benefits:
+
 - CodeBlock renders fully at build time
 - Only CopyButton hydrates on client
 - Syntax-highlighted HTML is static
@@ -68,7 +70,11 @@ export function CopyButton({ code }: CopyButtonProps) {
   };
 
   return (
-    <button onClick={handleCopy} className="terminal-copy" aria-label="Copy code">
+    <button
+      onClick={handleCopy}
+      className="terminal-copy"
+      aria-label="Copy code"
+    >
       {/* SVG icons */}
     </button>
   );
@@ -87,7 +93,12 @@ interface CodeBlockProps {
   darkHtml: string;
 }
 
-export function CodeBlock({ children, className, lightHtml, darkHtml }: CodeBlockProps) {
+export function CodeBlock({
+  children,
+  className,
+  lightHtml,
+  darkHtml,
+}: CodeBlockProps) {
   return (
     <div className="terminal-window group">
       <div className="terminal-header">
@@ -124,6 +135,7 @@ Could use a vanilla JS inline script instead of a React client component:
 ```
 
 **Rejected because**:
+
 - Loses React's clean state management for feedback UI
 - Inline scripts complicate CSP policies
 - Harder to maintain consistent behavior
@@ -131,21 +143,23 @@ Could use a vanilla JS inline script instead of a React client component:
 ### Alternative: No Refactor
 
 Could accept the current architecture since:
+
 - CodeBlock is small
 - Only 3 client components total
 
 **Rejected because**:
+
 - Clear optimization opportunity
 - Aligns with static-first principles stated in project.md
 - Educational value in demonstrating Server/Client component boundaries
 
 ## Performance Impact
 
-| Metric | Before | After |
-|--------|--------|-------|
-| Client components | 3 | 3 |
-| Lines requiring hydration | ~90 (CodeBlock) | ~25 (CopyButton) |
-| Static HTML | Partial | Full (except button) |
+| Metric                    | Before          | After                |
+| ------------------------- | --------------- | -------------------- |
+| Client components         | 3               | 3                    |
+| Lines requiring hydration | ~90 (CodeBlock) | ~25 (CopyButton)     |
+| Static HTML               | Partial         | Full (except button) |
 
 ## Testing Strategy
 

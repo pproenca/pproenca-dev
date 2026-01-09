@@ -29,6 +29,7 @@ After:
 ### Type Safety
 
 The custom script has no type checking:
+
 ```javascript
 // scripts/generate-sitemap.mjs - No types
 function generateSitemap() {
@@ -38,6 +39,7 @@ function generateSitemap() {
 ```
 
 Native approach has full TypeScript support:
+
 ```typescript
 // src/app/sitemap.ts - Type-checked
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -48,13 +50,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 ### Maintenance Burden
 
-| Aspect | Custom Script | Native Convention |
-|--------|--------------|-------------------|
-| Dependencies | gray-matter (duplicated) | Uses existing lib |
-| Build integration | npm script chaining | Automatic |
-| Testing | Manual verification | Next.js handles |
-| Type safety | None | Full TypeScript |
-| Updates | Manual sync | Auto-updated |
+| Aspect            | Custom Script            | Native Convention |
+| ----------------- | ------------------------ | ----------------- |
+| Dependencies      | gray-matter (duplicated) | Uses existing lib |
+| Build integration | npm script chaining      | Automatic         |
+| Testing           | Manual verification      | Next.js handles   |
+| Type safety       | None                     | Full TypeScript   |
+| Updates           | Manual sync              | Auto-updated      |
 
 ### Code Duplication
 
@@ -64,21 +66,22 @@ The custom script duplicates logic from `src/lib/posts.ts`:
 // scripts/generate-sitemap.mjs
 function getAllPosts() {
   const fileNames = fs.readdirSync(postsDirectory);
-  return fileNames
-    .filter((fileName) => fileName.endsWith(".mdx"))
-    // ... duplicated logic
+  return fileNames.filter((fileName) => fileName.endsWith(".mdx"));
+  // ... duplicated logic
 }
 ```
 
 Native approach reuses existing code:
+
 ```typescript
 // src/app/sitemap.ts
-import { getAllPosts } from '@/lib/posts';
+import { getAllPosts } from "@/lib/posts";
 ```
 
 ## Sitemap Output Comparison
 
 ### Current Output (scripts/generate-sitemap.mjs)
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -93,6 +96,7 @@ import { getAllPosts } from '@/lib/posts';
 ```
 
 ### Native Output (src/app/sitemap.ts)
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -107,6 +111,7 @@ import { getAllPosts } from '@/lib/posts';
 ```
 
 Minor differences (both valid):
+
 - Native uses `changefrequency` (correct spelling per sitemap spec)
 - Native omits trailing slash on root URL
 - Both are valid and parsed identically by search engines
@@ -114,6 +119,7 @@ Minor differences (both valid):
 ## Robots.txt Comparison
 
 ### Current (public/robots.txt)
+
 ```
 User-agent: *
 Allow: /
@@ -125,6 +131,7 @@ Host: https://pproenca.dev
 ```
 
 ### Native Output (src/app/robots.ts)
+
 ```
 User-Agent: *
 Allow: /
@@ -140,6 +147,7 @@ Functionally identical - case difference in "User-Agent" is insignificant per RF
 ## Accessibility Improvements
 
 ### Current SVG Pattern
+
 ```tsx
 <a aria-label="X (Twitter)">
   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -149,15 +157,22 @@ Functionally identical - case difference in "User-Agent" is insignificant per RF
 ```
 
 ### Improved Pattern
+
 ```tsx
 <a aria-label="X (Twitter)">
-  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+  <svg
+    className="h-4 w-4"
+    fill="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
     <path d="..." />
   </svg>
 </a>
 ```
 
 Why `aria-hidden="true"`?
+
 - The SVG is decorative (the `<a>` has the accessible name via `aria-label`)
 - Without `aria-hidden`, some screen readers may announce SVG content
 - This is a defense-in-depth accessibility pattern
@@ -172,16 +187,17 @@ Why `aria-hidden="true"`?
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|------------|
-| Sitemap URLs differ | Low | Low | Compare before/after |
-| Build fails | Very Low | Medium | Test locally first |
-| SEO ranking impact | None | N/A | Output is identical |
-| Accessibility regression | None | N/A | Improvements only |
+| Risk                     | Likelihood | Impact | Mitigation           |
+| ------------------------ | ---------- | ------ | -------------------- |
+| Sitemap URLs differ      | Low        | Low    | Compare before/after |
+| Build fails              | Very Low   | Medium | Test locally first   |
+| SEO ranking impact       | None       | N/A    | Output is identical  |
+| Accessibility regression | None       | N/A    | Improvements only    |
 
 ## Rollback Plan
 
 If issues arise:
+
 1. Restore `scripts/generate-sitemap.mjs` from git
 2. Restore `public/robots.txt` from git
 3. Revert package.json build script

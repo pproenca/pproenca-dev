@@ -34,9 +34,7 @@ export default function CategoriesPage() {
             href={`/categories/${categoryToSlug(name)}`}
             className="flex items-center gap-golden-1 rounded-lg border border-border-visible px-golden-2 py-golden-1 transition-colors duration-200 hover:border-accent hover:text-accent"
           >
-            <span className="font-medium text-text-primary">
-              {name}
-            </span>
+            <span className="font-medium text-text-primary">{name}</span>
             <span className="rounded-full border border-border-subtle px-2 py-0.5 text-sm text-text-tertiary">
               {count}
             </span>
@@ -45,9 +43,7 @@ export default function CategoriesPage() {
       </div>
 
       {categories.length === 0 && (
-        <p className="mt-golden-4 text-text-tertiary">
-          No categories found.
-        </p>
+        <p className="mt-golden-4 text-text-tertiary">No categories found.</p>
       )}
     </div>
   );

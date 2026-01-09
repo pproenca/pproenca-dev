@@ -7,6 +7,7 @@
 Tailwind utility classes MUST use v4 native parentheses syntax `(--variable-name)` for CSS variable references. The legacy v3 bracket syntax `[var(--variable-name)]` SHALL NOT be used.
 
 **Acceptance Criteria:**
+
 - CSS variables in arbitrary values MUST use parentheses syntax
 - All theme color references SHALL use consistent v4 syntax
 - Build process MUST complete without style warnings
@@ -18,6 +19,7 @@ Tailwind utility classes MUST use v4 native parentheses syntax `(--variable-name
 **Then** the syntax SHALL follow v4 pattern: `text-(--color-text-primary)`
 
 **Example:**
+
 ```tsx
 // Correct v4 syntax
 <span className="text-(--color-accent)">Accent text</span>
@@ -30,6 +32,7 @@ Tailwind utility classes MUST use v4 native parentheses syntax `(--variable-name
 **Then** the syntax SHALL follow v4 pattern: `bg-(--color-bg-deep)/95`
 
 **Example:**
+
 ```tsx
 // Correct v4 syntax
 <header className="bg-(--color-bg-deep)/95">...</header>
@@ -42,6 +45,7 @@ Tailwind utility classes MUST use v4 native parentheses syntax `(--variable-name
 **Then** the syntax SHALL follow v4 pattern: `border-(--color-border-subtle)`
 
 **Example:**
+
 ```tsx
 // Correct v4 syntax
 <div className="border border-(--color-border-subtle)">...</div>

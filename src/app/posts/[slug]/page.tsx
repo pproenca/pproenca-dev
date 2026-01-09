@@ -126,10 +126,7 @@ export default async function PostPage({ params }: PageProps) {
             {SITE_CONFIG.author.name}
           </a>
           <span className="mx-2">&middot;</span>
-          <time
-            dateTime={frontmatter.date}
-            className="entry-date"
-          >
+          <time dateTime={frontmatter.date} className="entry-date">
             {new Date(frontmatter.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",

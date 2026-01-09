@@ -126,6 +126,7 @@
 ## Rollback Plan
 
 If visual regression detected:
+
 1. Revert globals.css changes
 2. Revert layout.tsx changes
 3. Investigate specific failing rule

@@ -1,16 +1,19 @@
 # Design: TypeScript Style Guide Refactoring
 
 ## Context
+
 This codebase is a Next.js 16 static blog using TypeScript in strict mode. While functional, the code does not fully follow Google's TypeScript Style Guide conventions. This refactoring brings the codebase into alignment without changing behavior.
 
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Align all TypeScript with Google Style Guide (dev-ts)
 - Maintain full backwards compatibility (no behavior changes)
 - Keep changes minimal and focused on style
 
 **Non-Goals:**
+
 - Adding new features
 - Refactoring architecture
 - Adding tests (no test framework configured)
@@ -30,6 +33,7 @@ export default HomePage;
 ```
 
 **Alternatives considered:**
+
 - Pure default exports: Violates Google Style Guide
 - Pure named exports: Breaks Next.js routing
 - Wrapper function: Unnecessary indirection
@@ -41,6 +45,7 @@ export default HomePage;
 **Why:** The current `let highlighter: Highlighter | null = null` pattern is standard for lazy singletons. While `let` is discouraged, this is the idiomatic pattern for module-level caching. Adding a comment explaining the pattern is sufficient.
 
 **Implementation:**
+
 ```typescript
 // Module-level cache for Shiki highlighter (lazy initialization)
 let highlighterInstance: Highlighter | null = null;
@@ -53,6 +58,7 @@ let highlighterInstance: Highlighter | null = null;
 **Why:** The gray-matter library returns `unknown` data. Full runtime validation would require a validation library (Zod, io-ts) which is over-engineering for this use case. Type assertions with comments explaining the trust boundary are acceptable per Google Style Guide ("Comment required if `any`/assertion used").
 
 **Implementation:**
+
 ```typescript
 // Frontmatter structure is validated by MDX file conventions
 const frontmatter = data as PostFrontmatter;
@@ -60,11 +66,11 @@ const frontmatter = data as PostFrontmatter;
 
 ## Risks / Trade-offs
 
-| Risk | Mitigation |
-|------|------------|
-| Breaking Next.js routing | Use dual export pattern (named + default) |
-| Introducing type errors | Run `tsc --noEmit` before each commit |
-| Build failures | Run full `npm run build` after all changes |
+| Risk                     | Mitigation                                 |
+| ------------------------ | ------------------------------------------ |
+| Breaking Next.js routing | Use dual export pattern (named + default)  |
+| Introducing type errors  | Run `tsc --noEmit` before each commit      |
+| Build failures           | Run full `npm run build` after all changes |
 
 ## Migration Plan
 

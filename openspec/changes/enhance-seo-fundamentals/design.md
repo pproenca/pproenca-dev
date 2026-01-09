@@ -5,12 +5,14 @@
 pproenca.dev is a statically exported Next.js 16 personal blog with MDX content. The site uses `output: "export"` mode, which affects how sitemap and robots.txt can be generated. The current approach uses a pre-build script for sitemap generation; this pattern should be preserved but enhanced.
 
 ### Constraints
+
 - Static export (`output: "export"`) - No server-side routes
 - Images unoptimized (for static hosting compatibility)
 - Content in `content/posts/` as MDX files
 - Tailwind CSS 4 with custom theming
 
 ### Stakeholders
+
 - Site owner (Pedro Proenca) - wants better search visibility
 - Search engines (Google, Bing) - need structured data and metadata
 - Social platforms (Twitter, LinkedIn) - need Open Graph data
@@ -19,6 +21,7 @@ pproenca.dev is a statically exported Next.js 16 personal blog with MDX content.
 ## Goals / Non-Goals
 
 ### Goals
+
 - Implement comprehensive JSON-LD structured data for rich results
 - Provide complete, accurate metadata on all pages
 - Enable proper crawling and indexing configuration
@@ -26,6 +29,7 @@ pproenca.dev is a statically exported Next.js 16 personal blog with MDX content.
 - Follow Google's official SEO guidance and E-E-A-T principles
 
 ### Non-Goals
+
 - Dynamic OG image generation (requires server runtime)
 - Analytics/tracking integration
 - Search Console integration (manual setup)
@@ -39,16 +43,18 @@ pproenca.dev is a statically exported Next.js 16 personal blog with MDX content.
 **Decision**: Create a reusable `JsonLd` component that accepts typed schema objects.
 
 **Rationale**:
+
 - Type-safe schema construction prevents errors
 - Reusable component keeps pages clean
 - Server component compatible (no client-side JS)
 
 **Implementation**:
+
 ```tsx
 // src/components/JsonLd.tsx
 type JsonLdProps = {
-  data: Record<string, unknown>
-}
+  data: Record<string, unknown>;
+};
 
 export function JsonLd({ data }: JsonLdProps) {
   return (
@@ -58,7 +64,7 @@ export function JsonLd({ data }: JsonLdProps) {
         __html: JSON.stringify(data),
       }}
     />
-  )
+  );
 }
 ```
 
@@ -67,6 +73,7 @@ export function JsonLd({ data }: JsonLdProps) {
 **Decision**: Keep pre-build script approach; enhance with `lastmod` accuracy.
 
 **Alternatives considered**:
+
 - `app/sitemap.ts` route handler - Doesn't work with static export
 - Third-party sitemap generators - Unnecessary dependency
 
@@ -83,6 +90,7 @@ export function JsonLd({ data }: JsonLdProps) {
 **Decision**: Use standard favicon set with apple-touch-icon and web manifest.
 
 **Files to add**:
+
 - `/public/favicon.ico` (existing, verify 32x32 and 16x16 sizes)
 - `/public/apple-touch-icon.png` (180x180)
 - `/public/favicon-32x32.png`
@@ -98,18 +106,18 @@ export function JsonLd({ data }: JsonLdProps) {
 ```tsx
 // src/lib/constants.ts
 export const SITE_CONFIG = {
-  name: 'pproenca.dev',
-  url: 'https://pproenca.dev',
+  name: "pproenca.dev",
+  url: "https://pproenca.dev",
   author: {
-    name: 'Pedro Proenca',
-    url: 'https://pproenca.dev/about',
-    twitter: '@ThePedroProenca',
-    github: 'https://github.com/pproenca',
-    linkedin: 'https://www.linkedin.com/in/pedro-proenca/',
-    jobTitle: 'Engineering Manager',
+    name: "Pedro Proenca",
+    url: "https://pproenca.dev/about",
+    twitter: "@ThePedroProenca",
+    github: "https://github.com/pproenca",
+    linkedin: "https://www.linkedin.com/in/pedro-proenca/",
+    jobTitle: "Engineering Manager",
   },
-  description: 'A personal blog about web development and technology.',
-}
+  description: "A personal blog about web development and technology.",
+};
 ```
 
 ### 6. Canonical URL Strategy
@@ -126,12 +134,12 @@ alternates: {
 
 ## Risks / Trade-offs
 
-| Risk | Mitigation |
-|------|------------|
-| Schema validation errors | Use Google Rich Results Test before deployment |
+| Risk                            | Mitigation                                     |
+| ------------------------------- | ---------------------------------------------- |
+| Schema validation errors        | Use Google Rich Results Test before deployment |
 | Breaking existing indexed pages | Ensure canonical URLs match existing structure |
-| Static export limitations | Accept that dynamic OG images aren't possible |
-| Icon placeholder quality | Document need for proper branded icons |
+| Static export limitations       | Accept that dynamic OG images aren't possible  |
+| Icon placeholder quality        | Document need for proper branded icons         |
 
 ## Migration Plan
 

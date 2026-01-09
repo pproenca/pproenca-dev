@@ -54,7 +54,7 @@ export function getAllPosts(): PostMeta[] {
     .sort(
       (a, b) =>
         new Date(b.frontmatter.date).getTime() -
-        new Date(a.frontmatter.date).getTime()
+        new Date(a.frontmatter.date).getTime(),
     );
 
   return posts;
@@ -99,7 +99,7 @@ export const getPostsByCategory = cache((category: string): PostMeta[] => {
   return posts.filter((post) =>
     post.frontmatter.categories
       .map((c) => c.toLowerCase())
-      .includes(category.toLowerCase())
+      .includes(category.toLowerCase()),
   );
 });
 

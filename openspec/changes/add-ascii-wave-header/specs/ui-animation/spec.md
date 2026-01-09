@@ -7,6 +7,7 @@
 The homepage header MUST animate with a staggered character reveal effect that evokes pages rustling.
 
 **Animation Parameters:**
+
 - Transform: `translateY(8px)` → `translateY(0)`
 - Opacity: `0` → `1`
 - Duration: 0.6s per character

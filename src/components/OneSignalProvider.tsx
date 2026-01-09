@@ -9,7 +9,7 @@ export function OneSignalProvider() {
     if (!appId) {
       if (process.env.NODE_ENV === "development") {
         console.log(
-          "OneSignal: Skipping - NEXT_PUBLIC_ONESIGNAL_APP_ID not set"
+          "OneSignal: Skipping - NEXT_PUBLIC_ONESIGNAL_APP_ID not set",
         );
       }
       return;

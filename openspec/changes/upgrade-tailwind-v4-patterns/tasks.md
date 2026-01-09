@@ -18,6 +18,7 @@ Migrate from Tailwind v3 arbitrary value syntax `[var(--*)]` to v4 native syntax
 **Action:** Replace `[var(--color-*)]` with `(--color-*)` pattern
 
 **Examples:**
+
 ```diff
 - border-[var(--color-border-subtle)]
 + border-(--color-border-subtle)
@@ -52,11 +53,13 @@ Migrate from Tailwind v3 arbitrary value syntax `[var(--*)]` to v4 native syntax
 - [x] Run full build to verify styles compile correctly
 
 **Commands:**
+
 ```bash
 npm run build
 ```
 
 **Validation:**
+
 - [x] Build completes without errors
 - [x] Check `out/` directory has generated CSS
 - [x] Verify no missing style warnings
@@ -68,11 +71,13 @@ npm run build
 - [x] Start dev server and visually check pages
 
 **Commands:**
+
 ```bash
 npm run dev
 ```
 
 **Validation:**
+
 - [x] Homepage renders correctly
 - [x] Theme toggle works (light/dark)
 - [x] Category pages render correctly
@@ -91,6 +96,7 @@ Tasks 1 and 2 can run in parallel. Task 3 depends on both completing. Task 4 dep
 ## Rollback Plan
 
 If issues arise:
+
 ```bash
 git checkout -- src/
 ```

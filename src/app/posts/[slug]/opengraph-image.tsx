@@ -25,77 +25,75 @@ export default async function Image({ params }: Props) {
   const title = post?.frontmatter.title ?? "Post Not Found";
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        background: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "60px",
+      }}
+    >
       <div
         style={{
-          background: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
-          width: "100%",
-          height: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "60px",
+          textAlign: "center",
+          maxWidth: "1000px",
         }}
       >
+        <h1
+          style={{
+            fontSize: title.length > 60 ? "48px" : "64px",
+            fontWeight: "bold",
+            color: "#ffffff",
+            lineHeight: 1.2,
+            marginBottom: "40px",
+          }}
+        >
+          {title}
+        </h1>
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            maxWidth: "1000px",
+            gap: "12px",
           }}
         >
-          <h1
+          <span
             style={{
-              fontSize: title.length > 60 ? "48px" : "64px",
-              fontWeight: "bold",
-              color: "#ffffff",
-              lineHeight: 1.2,
-              marginBottom: "40px",
+              fontSize: "28px",
+              color: "#d4a574",
             }}
           >
-            {title}
-          </h1>
-          <div
+            {SITE_CONFIG.name}
+          </span>
+          <span
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
+              fontSize: "28px",
+              color: "#666666",
             }}
           >
-            <span
-              style={{
-                fontSize: "28px",
-                color: "#d4a574",
-              }}
-            >
-              {SITE_CONFIG.name}
-            </span>
-            <span
-              style={{
-                fontSize: "28px",
-                color: "#666666",
-              }}
-            >
-              •
-            </span>
-            <span
-              style={{
-                fontSize: "28px",
-                color: "#888888",
-              }}
-            >
-              {SITE_CONFIG.author.name}
-            </span>
-          </div>
+            •
+          </span>
+          <span
+            style={{
+              fontSize: "28px",
+              color: "#888888",
+            }}
+          >
+            {SITE_CONFIG.author.name}
+          </span>
         </div>
       </div>
-    ),
+    </div>,
     {
       ...size,
-    }
+    },
   );
 }

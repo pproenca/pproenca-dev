@@ -3,6 +3,7 @@
 How to optimize for Google's AI features and LLM-powered search experiences.
 
 ## Table of Contents
+
 1. [AI Features Overview](#ai-features-overview)
 2. [Optimization Strategy](#optimization-strategy)
 3. [Content Guidelines](#content-guidelines)
@@ -18,17 +19,20 @@ How to optimize for Google's AI features and LLM-powered search experiences.
 ### Google's AI Search Features
 
 **AI Overviews**
+
 - Summarizes complex topics with links to sources
 - Appears when it adds value beyond regular results
 - Uses "query fan-out" to search multiple subtopics
 - Displays a diverse set of supporting links
 
 **AI Mode**
+
 - For queries needing exploration, reasoning, or comparisons
 - Handles nuanced questions that previously required multiple searches
 - Provides comprehensive AI-powered responses with source links
 
 ### Key Insight
+
 > "There are no additional requirements to appear in AI Overviews or AI Mode, nor other special optimizations necessary." — Google
 
 The same SEO fundamentals that work for traditional search work for AI features.
@@ -70,6 +74,7 @@ From Google's official guidance on AI search success:
 ### Writing for AI Search
 
 **What Works:**
+
 ```markdown
 ✅ Comprehensive answers to specific questions
 ✅ Clear structure with logical headings
@@ -80,6 +85,7 @@ From Google's official guidance on AI search success:
 ```
 
 **What Doesn't:**
+
 ```markdown
 ❌ Thin content rehashing other sources
 ❌ Keyword-stuffed articles
@@ -93,45 +99,56 @@ From Google's official guidance on AI search success:
 
 ```markdown
 # Clear, Descriptive Title
+
 Brief introduction explaining what the reader will learn.
 
 ## Answer the Core Question First
+
 Get to the point quickly. Users (and AI) want immediate answers.
 
 ## Provide Context and Depth
+
 Expand with examples, data, and expert analysis.
 
 ### Subsections for Complex Topics
+
 Break down complicated subjects logically.
 
 ## Practical Applications
+
 Show how information applies in real scenarios.
 
 ## Related Considerations
+
 Address related questions readers might have.
 
 ## Summary/Key Takeaways
+
 Reinforce main points for easy reference.
 ```
 
 ### Demonstrating E-E-A-T in AI Era
 
 **Experience:**
+
 - Include first-hand accounts and real examples
 - Share case studies from actual implementations
 - Document your process and results
 
 **Expertise:**
+
 - Display author credentials
 - Cite authoritative sources
 - Provide depth beyond surface-level content
 
 **Authoritativeness:**
+
 - Build topical authority with comprehensive coverage
 - Get cited/linked by other authoritative sources
 - Maintain consistent quality across site
 
 **Trustworthiness:**
+
 - Be accurate and fact-check claims
 - Update content when information changes
 - Be transparent about limitations/conflicts
@@ -143,6 +160,7 @@ Reinforce main points for easy reference.
 ### Standard SEO Requirements Still Apply
 
 To appear as a supporting link in AI features, pages must:
+
 - Be indexed by Google
 - Be eligible to appear in Search with a snippet
 - Not be blocked by robots.txt or noindex
@@ -174,17 +192,17 @@ export const metadata: Metadata = {
 ```tsx
 // ✅ Content in initial HTML (Server Components)
 export default async function Page() {
-  const content = await getContent()
-  return <article>{content}</article>
+  const content = await getContent();
+  return <article>{content}</article>;
 }
 
 // ❌ Avoid: Client-only content for SEO-critical pages
-'use client'
+("use client");
 export default function Page() {
-  const [content, setContent] = useState(null)
+  const [content, setContent] = useState(null);
   useEffect(() => {
-    fetchContent().then(setContent)  // Not in initial HTML
-  }, [])
+    fetchContent().then(setContent); // Not in initial HTML
+  }, []);
 }
 ```
 
@@ -203,6 +221,7 @@ export default function Page() {
 
 ```markdown
 ✅ DO:
+
 - Use AI to help research and outline
 - Use AI to improve drafts and clarity
 - Add your expertise and original insights
@@ -210,6 +229,7 @@ export default function Page() {
 - Edit for accuracy, voice, and quality
 
 ❌ DON'T:
+
 - Publish raw AI output without review
 - Mass-produce AI content to game rankings
 - Remove the human expertise element
@@ -220,6 +240,7 @@ export default function Page() {
 ### Disclosure Recommendations
 
 From Google:
+
 > "AI or automation disclosures are useful for content where someone might think 'How was this created?'"
 
 - Disclose AI use when readers would reasonably expect it
@@ -241,12 +262,12 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
     googleBot: {
-      'max-snippet': 150,  // Characters
-      'max-image-preview': 'standard',  // none | standard | large
-      'max-video-preview': 30,  // Seconds
+      "max-snippet": 150, // Characters
+      "max-image-preview": "standard", // none | standard | large
+      "max-video-preview": 30, // Seconds
     },
   },
-}
+};
 ```
 
 ### Blocking AI Features
@@ -290,6 +311,7 @@ Disallow: /
 ### Search Console Tracking
 
 AI feature traffic is included in standard Search Console reports:
+
 - **Performance Report** → "Web" search type
 - Clicks from AI Overviews and AI Mode included in overall metrics
 - No separate AI-specific reporting (yet)
@@ -297,9 +319,11 @@ AI feature traffic is included in standard Search Console reports:
 ### Quality Indicators
 
 From Google:
+
 > "When people click from search results pages with AI Overviews, these clicks are higher quality (users spend more time on site)."
 
 Track these metrics:
+
 - Time on page from search traffic
 - Bounce rate comparison
 - Engagement depth (scroll, interactions)
@@ -309,20 +333,20 @@ Track these metrics:
 
 ```tsx
 // Track with web-vitals and analytics
-import { onLCP, onINP, onCLS } from 'web-vitals'
+import { onLCP, onINP, onCLS } from "web-vitals";
 
 function sendToAnalytics({ name, value, id }) {
-  gtag('event', name, {
-    event_category: 'Web Vitals',
-    value: Math.round(name === 'CLS' ? value * 1000 : value),
+  gtag("event", name, {
+    event_category: "Web Vitals",
+    value: Math.round(name === "CLS" ? value * 1000 : value),
     event_label: id,
     non_interaction: true,
-  })
+  });
 }
 
-onLCP(sendToAnalytics)
-onINP(sendToAnalytics)
-onCLS(sendToAnalytics)
+onLCP(sendToAnalytics);
+onINP(sendToAnalytics);
+onCLS(sendToAnalytics);
 ```
 
 ---
@@ -339,6 +363,7 @@ onCLS(sendToAnalytics)
 ### The Future of SEO
 
 With AI search evolution:
+
 - **More opportunities for diverse sites** to appear in results
 - **Complex queries** now possible to answer well
 - **Quality signals** become more sophisticated

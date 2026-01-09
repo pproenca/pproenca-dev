@@ -32,6 +32,7 @@
 **Decision**: Keep OneSignal's service worker separate from Serwist's PWA worker.
 
 **Rationale**:
+
 - Serwist (`public/sw.js`) handles caching and PWA functionality
 - OneSignal (`public/OneSignalSDKWorker.js`) handles push notifications
 - Browsers support multiple service workers with different scopes
@@ -39,6 +40,7 @@
 - OneSignal's CDN worker is maintained by them
 
 **Alternative Rejected**: Integrating OneSignal into Serwist worker would require:
+
 - Manual maintenance of OneSignal's complex push handling code
 - Version tracking when OneSignal updates their SDK
 - Risk of breaking PWA caching or push functionality
@@ -48,6 +50,7 @@
 **Decision**: Use `OneSignal.Slidedown.promptPush()` instead of `Notification.requestPermission()`.
 
 **Rationale**:
+
 - Native API only grants browser permission
 - OneSignal's Slidedown registers the subscription with their servers
 - Provides consistent UX with OneSignal's permission flow
@@ -58,6 +61,7 @@
 **Decision**: Poll for OneSignal initialization before showing the subscribe button.
 
 **Rationale**:
+
 - OneSignal SDK initializes asynchronously
 - No reliable event fired when fully ready
 - Prevents user clicking before SDK can handle subscription
@@ -77,12 +81,12 @@
 
 ## Error Handling
 
-| Scenario | Handling |
-|----------|----------|
-| Missing env var | Log warning, don't render button |
-| SDK init fails | Log error, don't render button |
-| Permission denied | Button remains in unsubscribed state |
-| Service worker registration fails | Subscription fails, log error |
+| Scenario                          | Handling                             |
+| --------------------------------- | ------------------------------------ |
+| Missing env var                   | Log warning, don't render button     |
+| SDK init fails                    | Log error, don't render button       |
+| Permission denied                 | Button remains in unsubscribed state |
+| Service worker registration fails | Subscription fails, log error        |
 
 ## Security Considerations
 

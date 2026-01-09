@@ -7,12 +7,14 @@ This personal blog (pproenca.dev) lacks several critical SEO fundamentals that l
 ## What Changes
 
 ### Structured Data (JSON-LD)
+
 - Add WebSite schema on homepage
 - Add Person schema on about page
 - Add Article schema on all blog posts
 - Add BreadcrumbList schema throughout site
 
 ### Enhanced Metadata
+
 - Add canonical URLs to all pages
 - Add complete robots configuration with googleBot directives
 - Add viewport configuration (separate from metadata in Next.js 15+)
@@ -20,12 +22,14 @@ This personal blog (pproenca.dev) lacks several critical SEO fundamentals that l
 - Complete Twitter card metadata
 
 ### Technical SEO Infrastructure
+
 - **BREAKING**: Convert static `public/sitemap.xml` to dynamic `app/sitemap.ts`
 - **BREAKING**: Convert static `public/robots.txt` to dynamic `app/robots.ts`
 - Add proper favicon set (apple-touch-icon, favicon-32x32, favicon-16x16)
 - Add site.webmanifest for PWA support
 
 ### Author Attribution
+
 - Add author metadata to root layout
 - Link posts to author profile for E-E-A-T signals
 

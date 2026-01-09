@@ -7,6 +7,7 @@
 The UI MUST use a golden ratio-based spacing scale for all margins, padding, and gaps.
 
 **Spacing Scale:**
+
 - `golden-1`: 8px (0.5rem)
 - `golden-2`: 13px (0.8125rem)
 - `golden-3`: 21px (1.3125rem)
@@ -36,6 +37,7 @@ The UI MUST use a golden ratio-based spacing scale for all margins, padding, and
 Light mode MUST use warm, paper-like background colors instead of pure white.
 
 **Color Values:**
+
 - Background deep: #FDFBF7 (warm cream)
 - Background surface: #FAF8F3 (slightly darker cream)
 - Background elevated: #F5F3EE (card backgrounds)

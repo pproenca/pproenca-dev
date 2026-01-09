@@ -21,30 +21,32 @@ The project uses Tailwind CSS v4 (`^4`) but retains v3 arbitrary value syntax `[
 ## Scope
 
 ### In Scope
+
 - Migrate `[var(--*)]` to `(--*)` syntax in all TSX files
 - Verify build passes after migration
 - No functional changes
 
 ### Out of Scope
+
 - Upgrading Tailwind package version (already v4)
 - Changing theme values or color definitions
 - Restructuring CSS architecture
 
 ## Affected Files
 
-| File | Occurrences |
-|------|-------------|
-| `src/components/Header.tsx` | 5 |
-| `src/components/CategoryBadge.tsx` | 1 |
-| `src/components/PostCard.tsx` | 3 |
-| `src/components/ThemeToggle.tsx` | 2 |
-| `src/components/MDXContent.tsx` | 1 |
-| `src/components/Footer.tsx` | 2 |
-| `src/app/categories/[slug]/page.tsx` | 3 |
-| `src/app/categories/page.tsx` | 6 |
-| `src/app/page.tsx` | 3 |
-| `src/app/about/page.tsx` | 1 |
-| `src/app/posts/[slug]/page.tsx` | 2 |
+| File                                 | Occurrences |
+| ------------------------------------ | ----------- |
+| `src/components/Header.tsx`          | 5           |
+| `src/components/CategoryBadge.tsx`   | 1           |
+| `src/components/PostCard.tsx`        | 3           |
+| `src/components/ThemeToggle.tsx`     | 2           |
+| `src/components/MDXContent.tsx`      | 1           |
+| `src/components/Footer.tsx`          | 2           |
+| `src/app/categories/[slug]/page.tsx` | 3           |
+| `src/app/categories/page.tsx`        | 6           |
+| `src/app/page.tsx`                   | 3           |
+| `src/app/about/page.tsx`             | 1           |
+| `src/app/posts/[slug]/page.tsx`      | 2           |
 
 ## Risk Assessment
 

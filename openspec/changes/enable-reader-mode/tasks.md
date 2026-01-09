@@ -13,6 +13,7 @@
 ### Verification Results
 
 HTML structure verified via browser inspection:
+
 - Single `<article>` element (no nesting) ✓
 - Author link with `rel="author"` attribute ✓
 - `.author-name` class present ✓

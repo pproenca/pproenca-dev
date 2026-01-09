@@ -3,6 +3,7 @@
 Complete reference for implementing structured data in Next.js applications.
 
 ## Table of Contents
+
 1. [Overview](#overview)
 2. [Article Schema](#article-schema)
 3. [Organization Schema](#organization-schema)
@@ -19,13 +20,16 @@ Complete reference for implementing structured data in Next.js applications.
 ## Overview
 
 ### Why Structured Data?
+
 - Helps Google understand page content
 - Enables rich results (stars, images, FAQs in search)
 - Can increase click-through rates by 20-30%
 - Required for some search features
 
 ### Formats
+
 Google supports three formats (JSON-LD recommended):
+
 1. **JSON-LD** (Recommended) - Script tag in head or body
 2. **Microdata** - HTML attributes
 3. **RDFa** - HTML attributes
@@ -40,7 +44,7 @@ export function JsonLd({ data }: { data: object }) {
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
-  )
+  );
 }
 ```
 
@@ -63,13 +67,15 @@ For blog posts, news articles, and editorial content.
   ],
   "datePublished": "2024-01-15T08:00:00+00:00",
   "dateModified": "2024-02-20T09:00:00+00:00",
-  "author": [{
-    "@type": "Person",
-    "name": "John Doe",
-    "url": "https://example.com/authors/john-doe",
-    "jobTitle": "Senior Developer",
-    "image": "https://example.com/authors/john-doe.jpg"
-  }],
+  "author": [
+    {
+      "@type": "Person",
+      "name": "John Doe",
+      "url": "https://example.com/authors/john-doe",
+      "jobTitle": "Senior Developer",
+      "image": "https://example.com/authors/john-doe.jpg"
+    }
+  ],
   "publisher": {
     "@type": "Organization",
     "name": "Example Blog",
@@ -120,10 +126,12 @@ Place on homepage to define company identity.
   },
   "description": "We build software solutions for modern businesses.",
   "foundingDate": "2020-01-01",
-  "founders": [{
-    "@type": "Person",
-    "name": "Jane Smith"
-  }],
+  "founders": [
+    {
+      "@type": "Person",
+      "name": "Jane Smith"
+    }
+  ],
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "123 Main St",
@@ -132,13 +140,15 @@ Place on homepage to define company identity.
     "postalCode": "94105",
     "addressCountry": "US"
   },
-  "contactPoint": [{
-    "@type": "ContactPoint",
-    "telephone": "+1-555-555-5555",
-    "contactType": "customer service",
-    "email": "support@example.com",
-    "availableLanguage": ["English", "Spanish"]
-  }],
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": "+1-555-555-5555",
+      "contactType": "customer service",
+      "email": "support@example.com",
+      "availableLanguage": ["English", "Spanish"]
+    }
+  ],
   "sameAs": [
     "https://twitter.com/example",
     "https://www.linkedin.com/company/example",
@@ -281,19 +291,21 @@ For e-commerce and product pages.
     "ratingValue": 4.8,
     "reviewCount": 127
   },
-  "review": [{
-    "@type": "Review",
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": 5,
-      "bestRating": 5
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Sarah Johnson"
-    },
-    "reviewBody": "Excellent product! Exceeded my expectations."
-  }]
+  "review": [
+    {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": 5,
+        "bestRating": 5
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Sarah Johnson"
+      },
+      "reviewBody": "Excellent product! Exceeded my expectations."
+    }
+  ]
 }
 ```
 
@@ -408,19 +420,20 @@ For site-wide search functionality.
 ## Validation & Testing
 
 ### Testing Tools
+
 1. **Google Rich Results Test**: https://search.google.com/test/rich-results
 2. **Schema Markup Validator**: https://validator.schema.org/
 3. **Google Search Console**: Check structured data errors
 
 ### Common Errors to Avoid
 
-| Error | Solution |
-|-------|----------|
-| Missing required field | Add all required properties for the schema type |
-| Invalid URL | Use absolute URLs with https |
-| Invalid date format | Use ISO 8601 format: `2024-01-15T08:00:00+00:00` |
-| Missing @context | Always include `"@context": "https://schema.org"` |
-| Mismatched content | Structured data must match visible page content |
+| Error                  | Solution                                          |
+| ---------------------- | ------------------------------------------------- |
+| Missing required field | Add all required properties for the schema type   |
+| Invalid URL            | Use absolute URLs with https                      |
+| Invalid date format    | Use ISO 8601 format: `2024-01-15T08:00:00+00:00`  |
+| Missing @context       | Always include `"@context": "https://schema.org"` |
+| Mismatched content     | Structured data must match visible page content   |
 
 ### Combining Multiple Schemas
 

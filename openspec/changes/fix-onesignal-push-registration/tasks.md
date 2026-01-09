@@ -2,12 +2,12 @@
 
 ## Overview
 
-| Task | File(s) | Status |
-|------|---------|--------|
-| 1. Create OneSignal service worker | `public/OneSignalSDKWorker.js` | Complete |
-| 2. Update OneSignalProvider | `src/components/OneSignalProvider.tsx` | Complete |
-| 3. Update SubscribeButton | `src/components/SubscribeButton.tsx` | Complete |
-| 4. Verify integration | Manual testing | Pending |
+| Task                               | File(s)                                | Status   |
+| ---------------------------------- | -------------------------------------- | -------- |
+| 1. Create OneSignal service worker | `public/OneSignalSDKWorker.js`         | Complete |
+| 2. Update OneSignalProvider        | `src/components/OneSignalProvider.tsx` | Complete |
+| 3. Update SubscribeButton          | `src/components/SubscribeButton.tsx`   | Complete |
+| 4. Verify integration              | Manual testing                         | Pending  |
 
 ## Tasks
 

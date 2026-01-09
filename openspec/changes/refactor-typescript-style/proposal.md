@@ -1,9 +1,11 @@
 # Change: Refactor TypeScript to Follow Google Style Guide
 
 ## Why
+
 The codebase uses TypeScript but does not fully adhere to Google's TypeScript Style Guide (dev-ts). Aligning with these conventions improves maintainability, catches bugs at compile time, and establishes consistent patterns for future development.
 
 ## What Changes
+
 - **Named exports only**: Convert all `export default function` to named exports
 - **Type annotations**: Replace type assertions (`as`) with properly typed functions and explicit interface annotations
 - **Module-level singleton**: Refactor mutable `let highlighter` to encapsulated getter pattern
@@ -12,6 +14,7 @@ The codebase uses TypeScript but does not fully adhere to Google's TypeScript St
 - **Readonly modifiers**: Add `readonly` to non-reassigned properties
 
 ## Impact
+
 - Affected specs: None (no functional behavior changes)
 - Affected code:
   - `src/lib/posts.ts` - Type assertions, exports

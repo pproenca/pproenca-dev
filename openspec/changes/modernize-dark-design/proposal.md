@@ -7,6 +7,7 @@ Transform the blog's dark mode into a refined, editorial reading experience that
 ## Problem Statement
 
 The current design uses generic Tailwind gray utilities (`gray-950`, `gray-800`, etc.) creating a flat, undifferentiated dark mode that:
+
 - Lacks visual hierarchy between content types
 - Uses harsh contrast that can cause eye strain during extended reading
 - Employs generic system/Geist fonts without typographic character
@@ -28,22 +29,22 @@ The current design uses generic Tailwind gray utilities (`gray-950`, `gray-800`,
 
 ```css
 /* Warm Dark Foundation */
---bg-deep: #0f0d0b;        /* Deep warm black - page base */
---bg-surface: #1a1714;      /* Elevated surface - cards */
---bg-elevated: #241f1a;     /* Highest elevation - code blocks */
+--bg-deep: #0f0d0b; /* Deep warm black - page base */
+--bg-surface: #1a1714; /* Elevated surface - cards */
+--bg-elevated: #241f1a; /* Highest elevation - code blocks */
 
 /* Warm Neutrals */
---text-primary: #e8e2d9;    /* Warm off-white - primary text */
---text-secondary: #a69f94;  /* Muted warm - secondary text */
---text-tertiary: #6b635a;   /* Subtle - timestamps, meta */
+--text-primary: #e8e2d9; /* Warm off-white - primary text */
+--text-secondary: #a69f94; /* Muted warm - secondary text */
+--text-tertiary: #6b635a; /* Subtle - timestamps, meta */
 
 /* Accent Colors */
---accent: #c9a962;          /* Warm gold - links, highlights */
---accent-muted: #8b7355;    /* Muted amber - hover states */
+--accent: #c9a962; /* Warm gold - links, highlights */
+--accent-muted: #8b7355; /* Muted amber - hover states */
 
 /* Borders & Dividers */
---border-subtle: #2a2420;   /* Subtle dividers */
---border-visible: #3d352d;  /* Visible borders */
+--border-subtle: #2a2420; /* Subtle dividers */
+--border-visible: #3d352d; /* Visible borders */
 ```
 
 ### Typography
@@ -77,6 +78,7 @@ The current design uses generic Tailwind gray utilities (`gray-950`, `gray-800`,
 ## Scope
 
 This proposal covers:
+
 - Global color system redesign (dark mode only, as requested)
 - Typography updates (fonts, sizing, spacing)
 - Component styling updates (Header, Footer, PostCard, CategoryBadge, MDXContent)
