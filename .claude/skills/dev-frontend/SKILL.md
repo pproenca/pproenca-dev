@@ -1,10 +1,9 @@
 ---
-name: Headless Component Quality
+name: dev-frontend
 description: This skill should be used when the user asks to "write a React component", "create a headless component", "build a form control", "add accessibility to a component", "implement controlled/uncontrolled pattern", "create compound component", "write TypeScript React code", or when writing any production-grade React/TypeScript component code. Provides Headless Component patterns for headless, accessible, type-safe components.
-version: 1.0.0
 ---
 
-# Headless Component Quality Standard
+# dev-frontend
 
 Write production-grade TypeScript + React headless components following Headless Component patterns - the same patterns powering enterprise React applications.
 
