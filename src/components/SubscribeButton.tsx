@@ -2,55 +2,53 @@
 
 import { useState, useEffect, useCallback } from "react";
 
+// Access the global OneSignal object set by react-onesignal
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getOneSignal = (): any => (typeof window !== "undefined" ? (window as any).OneSignal : null);
+
+// Check if notifications are supported (computed once on client)
+const checkSupported = () =>
+  typeof window !== "undefined" &&
+  "Notification" in window &&
+  "serviceWorker" in navigator;
+
 export function SubscribeButton() {
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isSupported, setIsSupported] = useState(false);
+  const [isSupported] = useState(checkSupported);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const supported =
-      typeof window !== "undefined" &&
-      "Notification" in window &&
-      "serviceWorker" in navigator;
+    if (!isSupported || !process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID) return;
 
-    setIsSupported(supported);
-
-    if (!supported || !process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID) return;
-
-    const checkOneSignal = async () => {
-      try {
-        const OneSignal = (await import("react-onesignal")).default;
-
-        // Poll until OneSignal is initialized
-        const checkReady = setInterval(() => {
-          try {
-            const permission = OneSignal.Notifications.permission;
-            clearInterval(checkReady);
-            setIsReady(true);
-            setIsSubscribed(permission);
-          } catch {
-            // Not ready yet
-          }
-        }, 500);
-
-        // Cleanup after 10 seconds
-        setTimeout(() => clearInterval(checkReady), 10000);
-      } catch {
-        // OneSignal not available
+    // Poll until OneSignal is initialized on window
+    const checkReady = setInterval(() => {
+      const OneSignal = getOneSignal();
+      if (OneSignal?.Notifications) {
+        clearInterval(checkReady);
+        setIsReady(true);
+        setIsSubscribed(OneSignal.Notifications.permission);
       }
-    };
+    }, 500);
 
-    checkOneSignal();
-  }, []);
+    // Cleanup after 10 seconds
+    setTimeout(() => clearInterval(checkReady), 10000);
+
+    return () => clearInterval(checkReady);
+  }, [isSupported]);
 
   const handleSubscribe = useCallback(async () => {
     try {
-      const OneSignal = (await import("react-onesignal")).default;
+      const OneSignal = getOneSignal();
+      if (!OneSignal?.Slidedown) {
+        console.error("OneSignal not ready");
+        return;
+      }
       await OneSignal.Slidedown.promptPush();
 
       // Check subscription status after prompt
-      const permission = OneSignal.Notifications.permission;
-      setIsSubscribed(permission);
+      if (OneSignal?.Notifications) {
+        setIsSubscribed(OneSignal.Notifications.permission);
+      }
     } catch (error) {
       console.error("Subscribe error:", error);
     }
