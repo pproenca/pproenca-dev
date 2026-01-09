@@ -6,6 +6,7 @@ import {
   JetBrains_Mono,
 } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { OneSignalProvider } from "@/components/OneSignalProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -87,6 +88,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": "/feed.xml",
+      "application/atom+xml": "/atom.xml",
+    },
   },
 };
 
@@ -116,6 +121,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>
+          <OneSignalProvider />
           <div className="flex min-h-screen flex-col">
             <Header />
             <main

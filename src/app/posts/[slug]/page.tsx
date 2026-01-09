@@ -4,6 +4,7 @@ import type { Article, BreadcrumbList, WithContext } from "schema-dts";
 import { getAllSlugs, getPostBySlug, categoryToSlug } from "@/lib/posts";
 import { MDXContent } from "@/components/MDXContent";
 import { JsonLd } from "@/components/JsonLd";
+import { SubscribeButton } from "@/components/SubscribeButton";
 import { SITE_CONFIG } from "@/lib/constants";
 import type { Metadata } from "next";
 
@@ -139,6 +140,13 @@ export default async function PostPage({ params }: PageProps) {
       </header>
 
       <MDXContent source={content} />
+
+      <aside className="mt-golden-6 border-t border-border pt-golden-5 text-center">
+        <p className="font-serif text-lg text-text-secondary mb-golden-3">
+          Enjoyed this post? Get notified when I publish new ones.
+        </p>
+        <SubscribeButton />
+      </aside>
 
       {frontmatter.categories && frontmatter.categories.length > 0 && (
         <footer className="mt-golden-6 border-t border-border pt-golden-4">
