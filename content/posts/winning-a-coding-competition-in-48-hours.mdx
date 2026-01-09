@@ -1,0 +1,56 @@
+---
+title: "I Won a Prize in a Competition 2 Days Before It Ended—With AI"
+date: "2025-01-09"
+description: "I found a WebCodecs competition 48 hours before the deadline. I'd never written C++ bindings. Here's what I learned about AI as a force multiplier."
+categories: ["AI", "Software Development"]
+---
+
+Two days. That's how much time I had when I stumbled across vjeux's WebCodecs Node.js challenge. Ten thousand dollars to implement the WebCodecs API server-side. The kind of challenge I would've scrolled past a year ago, thinking "that's not for me."
+
+But I had Claude Code. And that changed everything.
+
+I'd never written a Node.js addon in my life. C++ bindings to FFmpeg? Not exactly my Tuesday afternoon. But here's the thing about AI-assisted development — it compresses the "figuring out where to start" phase from days to hours. I pointed Claude at the documentation, asked questions, and within a couple of hours I understood enough about N-API and the addon architecture to actually begin.
+
+So I began. And I made every mistake possible.
+
+## The Shotgun Approach (Don't Do This)
+
+My first iteration was chaos. I grabbed the WebCodecs IDL spec and started converting it to the Node addon API plus C++ implementation. TDD, right? Write tests, make them pass, ship it. Except here's what I learned: TDD isn't enough when you don't have guardrails.
+
+I was making progress — tests were green, things were compiling — but I was building on sand. The tests were passing because they tested *my implementation*, not the *correct behaviour*. There's a difference, and it's the difference between feeling productive and actually being productive.
+
+## Build the Moat First
+
+Second iteration, I slowed down. Made the spec file as detailed as possible before writing a single line of implementation code. And instead of going shotgun across all the methods, I focused on one at a time.
+
+The rule I keep coming back to: always have something working, no matter how small. A working `VideoDecoder.configure()` is better than a half-broken implementation of five methods. You can build on working code. You can't build on "almost there."
+
+## Trust, But Verify
+
+Here's the uncomfortable truth about coding with AI: Claude will tell you everything's going well when it's not.
+
+Tests pass. The code looks clean. Claude says "great, that should work now." And you feel good. But those tests might just be validating your wrong implementation. I've seen this in management too — metrics can lie if you're measuring the wrong things.
+
+So I started treating AI output the way I'd treat a new hire's code: trust, but verify. Run it. Break it. Check the actual behaviour, not just the test results.
+
+## The Segfault I Manifested
+
+I made a joke early on. "I hope I run into a memory segmentation fault." Hours later later, guess what I was debugging?
+
+C++ doesn't forgive. And when you're a 'wannabe' Node.js developer suddenly playing in memory-managed territory, you're going to hurt yourself. What saved me was asking Claude to explain the most common failure patterns in C++ and what tools experienced developers use to debug them. I got a list, tried a few, and `leaks` on macOS became my new best friend.
+
+I updated my CLAUDE.md with these patterns — what failure looks like, what tool fixes it. Built a whole debugging skill around it. That's when things started moving fast.
+
+## The Win
+
+I submitted with a 96.8% test pass rate and a working Muxer/Demuxer. Seven of us got solutions working — something vjeux didn't think would happen at all. We split the $10k prize, $1.5k each.
+
+But the real takeaway isn't the money. It's this: AI didn't write this code for me. It made it *possible* for me to write it. The gap between "I could never do that" and "let me try" has collapsed. Not because the AI is magic, but because it handles the parts that used to stop me cold — the "how do I even start" paralysis, the documentation maze, the unknown unknowns.
+
+Two days. Zero Node addon experience. One working WebCodecs implementation.
+
+I'm not sure what I'll attempt next. But I'm pretty sure "that's not for me" isn't in my vocabulary anymore.
+
+---
+
+[Check out the repo](https://github.com/pproenca/node-webcodecs/)
