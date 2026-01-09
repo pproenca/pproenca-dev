@@ -48,7 +48,7 @@ export default function AboutPage() {
   } as const satisfies WithContext<Person>;
 
   return (
-    <div className="mx-auto max-w-[680px]">
+    <div>
       <JsonLd data={personSchema} />
       <h1 className="font-serif text-3xl font-bold text-text-primary">
         About

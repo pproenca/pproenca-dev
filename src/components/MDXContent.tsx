@@ -2,17 +2,9 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { CodeBlock } from "./CodeBlock";
 import { getHighlighter } from "@/lib/shiki";
 
-interface PreProps {
-  children?: React.ReactNode;
-}
-
 interface CodeProps {
   children?: string;
   className?: string;
-}
-
-async function Pre({ children }: PreProps) {
-  return <>{children}</>;
 }
 
 async function Code({ children, className }: CodeProps) {
@@ -40,7 +32,7 @@ async function Code({ children, className }: CodeProps) {
 }
 
 const components = {
-  pre: Pre,
+  pre: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
   code: Code,
 };
 

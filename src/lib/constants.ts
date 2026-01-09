@@ -14,7 +14,7 @@ export const SITE_CONFIG = {
     employer: "TrustedHousesitters",
   },
   social: {
-    twitter: "https://twitter.com/ThePedroProenca",
+    twitter: "https://x.com/ThePedroProenca",
     github: "https://github.com/pproenca",
     linkedin: "https://www.linkedin.com/in/pedro-proenca/",
   },
