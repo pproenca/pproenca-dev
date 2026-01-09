@@ -5,18 +5,11 @@ import { useTheme } from "next-themes";
 
 const emptySubscribe = () => () => {};
 
-/** Props for the ThemeToggle component */
 export interface ThemeToggleProps {
-  /** Ref to the underlying button element */
   ref?: React.Ref<HTMLButtonElement>;
-  /** Additional class names */
   className?: string;
 }
 
-/**
- * A toggle button that switches between light and dark themes.
- * Uses aria-pressed for accessibility and data-theme for CSS styling.
- */
 export function ThemeToggle({ ref, className }: ThemeToggleProps) {
   const { setTheme, resolvedTheme } = useTheme();
   const mounted = React.useSyncExternalStore(

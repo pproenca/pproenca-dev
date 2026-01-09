@@ -1,26 +1,15 @@
 import * as React from "react";
 import { CopyButton } from "./CopyButton";
 
-/** Props for the CodeBlock component */
 export interface CodeBlockProps {
-  /** The raw code string (used for copying) */
   children: string;
-  /** Pre-rendered HTML for light theme */
   lightHtml: string;
-  /** Pre-rendered HTML for dark theme */
   darkHtml: string;
-  /** Ref to the container div element */
   ref?: React.Ref<HTMLDivElement>;
-  /** Additional class names */
   className?: string;
-  /** Accessible label for the code block */
   "aria-label"?: string;
 }
 
-/**
- * A code block with syntax highlighting and copy functionality.
- * Uses role="figure" for accessibility with an optional aria-label.
- */
 export function CodeBlock({
   children,
   lightHtml,

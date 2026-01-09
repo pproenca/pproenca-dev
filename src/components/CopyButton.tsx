@@ -2,26 +2,16 @@
 
 import * as React from "react";
 
-/** Props for the CopyButton component */
 export interface CopyButtonProps {
-  /** The code string to copy to clipboard */
   code: string;
-  /** Ref to the underlying button element */
   ref?: React.Ref<HTMLButtonElement>;
-  /** Additional class names */
   className?: string;
 }
 
-/**
- * A button that copies code to the clipboard.
- * Uses aria-pressed for accessibility and data-copied for CSS styling.
- * Includes an aria-live region to announce copy confirmation.
- */
 export function CopyButton({ code, ref, className }: CopyButtonProps) {
   const [copied, setCopied] = React.useState(false);
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Cleanup timer on unmount
   React.useEffect(() => {
     return () => {
       if (timerRef.current) {
@@ -34,12 +24,10 @@ export function CopyButton({ code, ref, className }: CopyButtonProps) {
     await navigator.clipboard.writeText(code);
     setCopied(true);
 
-    // Clear any existing timer
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
 
-    // Reset after 2 seconds
     timerRef.current = setTimeout(() => {
       setCopied(false);
       timerRef.current = null;
@@ -88,7 +76,6 @@ export function CopyButton({ code, ref, className }: CopyButtonProps) {
           </svg>
         )}
       </button>
-      {/* Live region for screen reader announcement */}
       <span className="sr-only" aria-live="polite" aria-atomic="true">
         {copied ? "Code copied to clipboard" : ""}
       </span>

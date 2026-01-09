@@ -43,7 +43,6 @@ export function getAllPosts(): PostMeta[] {
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data } = matter(fileContents);
 
-      // Frontmatter structure is validated by MDX file conventions
       const frontmatter = data as PostFrontmatter;
       return {
         slug,
@@ -70,7 +69,6 @@ export const getPostBySlug = cache((slug: string): Post | null => {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
-  // Frontmatter structure is validated by MDX file conventions
   const frontmatter = data as PostFrontmatter;
   return {
     slug,

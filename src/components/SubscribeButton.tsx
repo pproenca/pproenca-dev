@@ -2,37 +2,26 @@
 
 import * as React from "react";
 
-// Check if notifications are supported (computed once on client)
 const checkSupported = () =>
   typeof window !== "undefined" &&
   "Notification" in window &&
   "serviceWorker" in navigator;
 
-/** Props for the SubscribeButton component */
 export interface SubscribeButtonProps {
-  /** Ref to the underlying button element */
   ref?: React.Ref<HTMLButtonElement>;
-  /** Additional class names */
   className?: string;
 }
 
-/**
- * A self-contained button that initializes OneSignal and subscribes users to push notifications.
- * Uses aria-disabled for accessibility (keeps focus) and data-* for CSS styling.
- */
 export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
   const [isSubscribed, setIsSubscribed] = React.useState(false);
   const [isReady, setIsReady] = React.useState(false);
   const isSupported = checkSupported();
 
-  // Track initialization to prevent double-init (React Strict Mode, HMR)
   const isInitialized = React.useRef(false);
-  // Store OneSignal instance for use in handlers
   const oneSignalRef = React.useRef<
     typeof import("react-onesignal").default | null
   >(null);
 
-  // Self-initialize OneSignal SDK on mount
   React.useEffect(() => {
     const appId = process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID;
 
@@ -45,7 +34,6 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
       return;
     }
 
-    // Prevent multiple initializations (React Strict Mode, HMR)
     if (isInitialized.current) {
       return;
     }
@@ -73,7 +61,6 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
           console.log("OneSignal: Initialized successfully");
         }
       } catch (error) {
-        // Push service errors are expected on localhost (non-HTTPS)
         if (process.env.NODE_ENV === "development" && error instanceof Error) {
           const isExpectedError =
             error.name === "AbortError" ||
@@ -97,11 +84,10 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
     };
   }, [isSupported]);
 
-  // useTransition for async operations (React 19 pattern)
   const [isPending, startTransition] = React.useTransition();
 
   const handleSubscribe = () => {
-    if (isPending) return; // Manual prevention for aria-disabled
+    if (isPending) return;
 
     startTransition(async () => {
       try {
@@ -112,7 +98,6 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
         }
         await OneSignal.Slidedown.promptPush();
 
-        // Check subscription status after prompt
         if (OneSignal?.Notifications) {
           setIsSubscribed(OneSignal.Notifications.permission);
         }
@@ -159,11 +144,8 @@ export function SubscribeButton({ ref, className }: SubscribeButtonProps) {
   );
 }
 
-/** Props for the BellIcon component */
 interface BellIconProps {
-  /** Additional class names */
   className?: string;
-  /** Whether to show the plus indicator */
   showPlus?: boolean;
 }
 
