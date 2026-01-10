@@ -124,7 +124,7 @@ export function MobileMenu({ navLinks, socialLinks }: MobileMenuProps) {
           <div className="shrink-0 border-t border-border-subtle/50 px-5 py-6">
             <div className="flex items-center justify-center gap-4">
               {socialLinks.map(({ href, label, icon }) => (
-                <a
+                <Link
                   key={href}
                   href={href}
                   target="_blank"
@@ -140,7 +140,7 @@ export function MobileMenu({ navLinks, socialLinks }: MobileMenuProps) {
                   >
                     <path d={icon} />
                   </svg>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

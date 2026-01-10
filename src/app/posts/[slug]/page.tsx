@@ -105,13 +105,13 @@ export default async function PostPage({ params }: PageProps) {
           {frontmatter.title}
         </Heading>
         <div className="mt-golden-2 text-text-tertiary">
-          <a
-            href={SITE_CONFIG.author.url}
+          <Link
+            href="/about"
             rel="author"
             className="author-name transition-colors hover:text-accent"
           >
             {SITE_CONFIG.author.name}
-          </a>
+          </Link>
           <span className="mx-2">&middot;</span>
           <time dateTime={frontmatter.date} className="entry-date">
             {formatPostDate(frontmatter.date)}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { TweetEmbed } from "./TweetEmbed";
 import { CodeBlock } from "./CodeBlock";
@@ -19,15 +20,20 @@ interface AnchorProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 function Anchor({ href, children, ...props }: AnchorProps) {
-  const isExternal = href?.startsWith("http");
+  if (!href) {
+    return <span {...props}>{children}</span>;
+  }
+
+  const isExternal = href.startsWith("http://") || href.startsWith("https://");
+
   return (
-    <a
+    <Link
       href={href}
       {...(isExternal && { target: "_blank", rel: "noopener noreferrer" })}
       {...props}
     >
       {children}
-    </a>
+    </Link>
   );
 }
 

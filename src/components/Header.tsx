@@ -61,7 +61,7 @@ export function Header({ className, ...props }: HeaderProps) {
           ))}
           <div className="flex items-center gap-2">
             {socialLinks.map(({ href, label, icon }) => (
-              <a
+              <Link
                 key={href}
                 href={href}
                 target="_blank"
@@ -77,7 +77,7 @@ export function Header({ className, ...props }: HeaderProps) {
                 >
                   <path d={icon} />
                 </svg>
-              </a>
+              </Link>
             ))}
           </div>
           <ThemeToggle />
