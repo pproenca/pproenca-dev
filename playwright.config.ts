@@ -9,10 +9,11 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
 
-  // HTML reporter with Speedboard for performance analysis
-  reporter: [['html', { open: 'never' }], ['list']],
+  // HTML reporter locally, with GitHub annotations in CI
+  reporter: process.env.CI
+    ? [['html', { open: 'never' }], ['github']]
+    : [['html', { open: 'never' }], ['list']],
 
   // Global settings
   use: {

@@ -495,9 +495,9 @@ pre code {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 1ms !important;
     scroll-behavior: auto !important;
   }
 }
@@ -581,6 +581,22 @@ pre code {
 /* Reduce X icon visibility */
 .react-tweet-theme svg[viewBox="0 0 24 24"]:not([class*="avatar"]) {
   opacity: 0.4;
+}
+
+/* Fix CLS from unsized tweet images */
+.react-tweet-theme img[src*="pbs.twimg.com/profile_images"] {
+  width: 48px;
+  height: 48px;
+  aspect-ratio: 1;
+}
+
+/* Reserve space for tweet media to prevent layout shifts */
+.react-tweet-theme img[src*="pbs.twimg.com/media"],
+.react-tweet-theme img[src*="pbs.twimg.com/amplify_video_thumb"] {
+  aspect-ratio: 16/9;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 /* ========================================

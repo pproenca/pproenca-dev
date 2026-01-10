@@ -67,7 +67,8 @@ export class HomePage extends BlogPage {
 
   constructor(page: Page) {
     super(page);
-    this.postCards = page.locator('article');
+    // Target only direct post card articles, not embedded tweet articles
+    this.postCards = page.locator('main article.group');
   }
 
   async getPostTitles(): Promise<string[]> {
@@ -91,10 +92,11 @@ export class PostPage extends BlogPage {
 
   constructor(page: Page) {
     super(page);
-    this.articleContent = page.locator('article');
-    this.codeBlocks = page.locator('pre');
-    this.postTitle = page.locator('h1');
-    this.postDate = page.locator('time');
+    // Target main article directly under main, not embedded tweet articles
+    this.articleContent = page.locator('main > article');
+    this.codeBlocks = page.locator('main > article pre');
+    this.postTitle = page.locator('main > article h1');
+    this.postDate = page.locator('main > article time');
   }
 
   async hasCodeHighlighting(): Promise<boolean> {
@@ -119,7 +121,8 @@ export class CategoryPage extends BlogPage {
     super(page);
     this.categoryLinks = page.locator('a[href^="/categories/"]');
     this.categoryHeading = page.locator('h1');
-    this.postCards = page.locator('article');
+    // Target only direct post card articles, not embedded tweet articles
+    this.postCards = page.locator('main article.group');
   }
 
   async getCategoryNames(): Promise<string[]> {

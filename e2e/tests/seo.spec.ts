@@ -41,17 +41,30 @@ test.describe('SEO Metadata', () => {
   test('post page has JSON-LD structured data', async ({ page }) => {
     await page.goto('/posts/winning-a-coding-competition-in-48-hours');
 
-    const jsonLd = page.locator('script[type="application/ld+json"]');
-    await expect(jsonLd).toBeAttached();
+    // Multiple JSON-LD scripts exist (Article + BreadcrumbList), target Article schema
+    const jsonLdScripts = page.locator('script[type="application/ld+json"]');
+    await expect(jsonLdScripts.first()).toBeAttached();
 
-    const content = await jsonLd.textContent();
-    expect(content).toBeTruthy();
+    // Find the Article schema (not BreadcrumbList)
+    const scriptsCount = await jsonLdScripts.count();
+    let articleData: Record<string, unknown> | null = null;
 
-    const data = JSON.parse(content!);
-    expect(data['@type']).toBe('BlogPosting');
-    expect(data.headline).toBeTruthy();
-    expect(data.datePublished).toBeTruthy();
-    expect(data.author).toBeTruthy();
+    for (let i = 0; i < scriptsCount; i++) {
+      const content = await jsonLdScripts.nth(i).textContent();
+      if (content) {
+        const data = JSON.parse(content);
+        if (data['@type'] === 'Article') {
+          articleData = data;
+          break;
+        }
+      }
+    }
+
+    expect(articleData).toBeTruthy();
+    expect(articleData!['@type']).toBe('Article');
+    expect(articleData!.headline).toBeTruthy();
+    expect(articleData!.datePublished).toBeTruthy();
+    expect(articleData!.author).toBeTruthy();
   });
 
   test('post page has meta title with post name', async ({ page }) => {
