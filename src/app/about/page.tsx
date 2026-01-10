@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Person, WithContext } from "schema-dts";
 import { JsonLd } from "@/components/JsonLd";
+import { Heading } from "@/components/elements";
 import { SITE_CONFIG } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -50,7 +51,9 @@ export default function AboutPage() {
   return (
     <div>
       <JsonLd data={personSchema} />
-      <h1 className="font-serif text-3xl font-bold text-text-primary">About</h1>
+      <Heading level={1} className="text-3xl">
+        About
+      </Heading>
 
       <div className="prose mt-golden-4 max-w-none">
         <p>

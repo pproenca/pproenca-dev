@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import {
   getAllCategorySlugs,
   getPostsByCategory,
@@ -6,8 +7,8 @@ import {
 } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
 import { JsonLd } from "@/components/JsonLd";
+import { Heading, Text } from "@/components/elements";
 import { SITE_CONFIG, buildBreadcrumbSchema } from "@/lib/constants";
-import type { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -61,12 +62,12 @@ export default async function CategoryPage({ params }: PageProps) {
   return (
     <div>
       <JsonLd data={breadcrumbSchema} />
-      <h1 className="font-serif text-3xl font-bold text-text-primary">
+      <Heading level={1} className="text-3xl">
         {category}
-      </h1>
-      <p className="mt-golden-2 text-text-secondary">
+      </Heading>
+      <Text className="mt-golden-2">
         {posts.length} {posts.length === 1 ? "post" : "posts"} in this category
-      </p>
+      </Text>
 
       <div className="mt-golden-5 space-y-golden-5">
         {posts.map((post) => (

@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { getAllCategories, categoryToSlug } from "@/lib/posts";
 import type { Metadata } from "next";
+import { getAllCategories, categoryToSlug } from "@/lib/posts";
+import { Heading, Text } from "@/components/elements";
 
 export const metadata: Metadata = {
   title: "Categories",
@@ -20,12 +21,10 @@ export default function CategoriesPage() {
 
   return (
     <div>
-      <h1 className="font-serif text-3xl font-bold text-text-primary">
+      <Heading level={1} className="text-3xl">
         Categories
-      </h1>
-      <p className="mt-golden-2 text-text-secondary">
-        Browse posts by category
-      </p>
+      </Heading>
+      <Text className="mt-golden-2">Browse posts by category</Text>
 
       <div className="mt-golden-4 flex flex-wrap gap-golden-2">
         {categories.map(({ name, count }) => (

@@ -1,9 +1,13 @@
 "use client";
 
+import { clsx } from "clsx/lite";
 import * as React from "react";
 import { useTheme } from "next-themes";
 
 const emptySubscribe = () => () => {};
+
+const baseStyles =
+  "rounded-md p-2 text-text-secondary transition-colors duration-base";
 
 export interface ThemeToggleProps {
   ref?: React.Ref<HTMLButtonElement>;
@@ -15,7 +19,7 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
   const mounted = React.useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false,
+    () => false
   );
 
   const handleToggle = () => {
@@ -26,13 +30,10 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
     return (
       <button
         ref={ref}
-        className={
-          className ??
-          "rounded-md p-2 text-text-secondary transition-colors duration-200 hover:text-text-primary"
-        }
+        className={clsx(baseStyles, "hover:text-text-primary", className)}
         aria-label="Toggle theme"
       >
-        <span className="h-5 w-5 block" />
+        <span className="block h-5 w-5" />
       </button>
     );
   }
@@ -43,10 +44,7 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
     <button
       ref={ref}
       onClick={handleToggle}
-      className={
-        className ??
-        "rounded-md p-2 text-text-secondary transition-colors duration-200 hover:text-accent"
-      }
+      className={clsx(baseStyles, "hover:text-accent", className)}
       aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
       aria-pressed={isDark}
       data-theme={isDark ? "dark" : "light"}

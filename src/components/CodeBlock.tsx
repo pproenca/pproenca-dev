@@ -1,5 +1,6 @@
 "use client";
 
+import { clsx } from "clsx/lite";
 import * as React from "react";
 
 interface CopyButtonProps {
@@ -91,12 +92,12 @@ export interface CodeBlockProps {
 export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
   function CodeBlock(
     { children, lightHtml, darkHtml, className, "aria-label": ariaLabel },
-    ref,
+    ref
   ) {
     return (
       <div
         ref={ref}
-        className={className ?? "terminal-window group"}
+        className={clsx("terminal-window group", className)}
         role="figure"
         aria-label={ariaLabel ?? "Code example"}
       >

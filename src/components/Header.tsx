@@ -1,6 +1,8 @@
+import { clsx } from "clsx/lite";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { SITE_CONFIG } from "@/lib/constants";
+import type { ComponentProps } from "react";
 
 const socialLinks = [
   {
@@ -20,13 +22,21 @@ const socialLinks = [
   },
 ] as const;
 
-export function Header() {
+type HeaderProps = ComponentProps<"header">;
+
+export function Header({ className, ...props }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-10 border-b border-border-subtle/50 bg-bg-deep/80 backdrop-blur-sm">
+    <header
+      className={clsx(
+        "sticky top-0 z-10 border-b border-border-subtle/50 bg-bg-deep/80 backdrop-blur-sm",
+        className
+      )}
+      {...props}
+    >
       <div className="mx-auto flex h-[50px] max-w-[680px] items-center justify-between px-golden-3">
         <Link
           href="/"
-          className="font-serif text-lg font-bold text-accent transition-colors duration-200 hover:text-accent-muted"
+          className="font-serif text-lg font-bold text-accent transition-colors duration-base hover:text-accent-muted"
         >
           pproenca.dev
         </Link>
@@ -34,19 +44,19 @@ export function Header() {
         <nav className="flex items-center gap-golden-3">
           <Link
             href="/"
-            className="text-sm text-text-tertiary transition-colors duration-200 hover:text-text-secondary"
+            className="text-sm text-text-tertiary transition-colors duration-base hover:text-text-secondary"
           >
             Home
           </Link>
           <Link
             href="/categories"
-            className="text-sm text-text-tertiary transition-colors duration-200 hover:text-text-secondary"
+            className="text-sm text-text-tertiary transition-colors duration-base hover:text-text-secondary"
           >
             Categories
           </Link>
           <Link
             href="/about"
-            className="text-sm text-text-tertiary transition-colors duration-200 hover:text-text-secondary"
+            className="text-sm text-text-tertiary transition-colors duration-base hover:text-text-secondary"
           >
             About
           </Link>
@@ -57,7 +67,7 @@ export function Header() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-text-tertiary transition-colors duration-200 hover:text-text-secondary"
+                className="text-text-tertiary transition-colors duration-base hover:text-text-secondary"
                 aria-label={label}
               >
                 <svg

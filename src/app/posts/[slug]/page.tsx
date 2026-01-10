@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Article, WithContext } from "schema-dts";
+import type { Metadata } from "next";
 import {
   getAllSlugs,
   getPostBySlug,
@@ -9,8 +10,8 @@ import {
 } from "@/lib/posts";
 import { MDXContent } from "@/components/MDXContent";
 import { JsonLd } from "@/components/JsonLd";
+import { Heading } from "@/components/elements";
 import { SITE_CONFIG, buildBreadcrumbSchema } from "@/lib/constants";
-import type { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -100,9 +101,9 @@ export default async function PostPage({ params }: PageProps) {
       <JsonLd data={articleSchema} />
       <JsonLd data={breadcrumbSchema} />
       <header className="mb-golden-5 text-center">
-        <h1 className="font-serif text-4xl font-bold leading-tight text-text-primary">
+        <Heading level={1} className="leading-tight">
           {frontmatter.title}
-        </h1>
+        </Heading>
         <div className="mt-golden-2 text-text-tertiary">
           <a
             href={SITE_CONFIG.author.url}
