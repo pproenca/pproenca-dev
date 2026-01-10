@@ -6,7 +6,7 @@ import {
 } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
 import { JsonLd } from "@/components/JsonLd";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG, buildBreadcrumbSchema } from "@/lib/constants";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -52,29 +52,11 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const posts = getPostsByCategory(category);
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: SITE_CONFIG.url,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Categories",
-        item: `${SITE_CONFIG.url}/categories`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: category,
-      },
-    ],
-  };
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", item: SITE_CONFIG.url },
+    { name: "Categories", item: `${SITE_CONFIG.url}/categories` },
+    { name: category },
+  ]);
 
   return (
     <div>

@@ -62,3 +62,21 @@ export function postUrl(slug: string): string {
 export function categoryUrl(slug: string): string {
   return `${ROUTES.categories}/${slug}`;
 }
+
+export interface BreadcrumbItem {
+  name: string;
+  item?: string;
+}
+
+export function buildBreadcrumbSchema(items: BreadcrumbItem[]) {
+  return {
+    "@context": "https://schema.org" as const,
+    "@type": "BreadcrumbList" as const,
+    itemListElement: items.map((breadcrumb, index) => ({
+      "@type": "ListItem" as const,
+      position: index + 1,
+      name: breadcrumb.name,
+      ...(breadcrumb.item && { item: breadcrumb.item }),
+    })),
+  };
+}

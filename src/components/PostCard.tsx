@@ -1,9 +1,19 @@
 import Link from "next/link";
-import { PostMeta } from "@/lib/posts";
-import { CategoryBadge } from "./CategoryBadge";
+import { PostMeta, formatPostDate, categoryToSlug } from "@/lib/posts";
 
 interface PostCardProps {
   post: PostMeta;
+}
+
+function CategoryBadge({ category }: { category: string }) {
+  return (
+    <Link
+      href={`/categories/${categoryToSlug(category)}`}
+      className="px-golden-2 py-1 text-xs rounded-full border border-border-visible bg-transparent text-text-secondary transition-colors duration-200 hover:border-accent hover:text-accent"
+    >
+      {category}
+    </Link>
+  );
 }
 
 export function PostCard({ post }: PostCardProps) {
@@ -17,11 +27,7 @@ export function PostCard({ post }: PostCardProps) {
         </h2>
       </Link>
       <time className="mt-golden-1 block text-sm text-text-tertiary">
-        {new Date(frontmatter.date).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        {formatPostDate(frontmatter.date)}
       </time>
       <p className="mt-golden-2 leading-relaxed text-text-secondary">
         {frontmatter.description}

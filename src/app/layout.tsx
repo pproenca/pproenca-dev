@@ -6,9 +6,8 @@ import {
   JetBrains_Mono,
 } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { SITE_CONFIG, ROUTES } from "@/lib/constants";
 import "./globals.css";
 
@@ -121,7 +120,12 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ThemeProvider>
+        <NextThemesProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <div className="flex min-h-screen flex-col">
             <Header />
             <main
@@ -130,9 +134,13 @@ export default function RootLayout({
             >
               {children}
             </main>
-            <Footer />
+            <footer className="border-t border-border-subtle/30">
+              <div className="mx-auto max-w-[680px] px-golden-3 py-golden-3 text-center text-xs text-text-tertiary">
+                <p>&copy; {new Date().getFullYear()} pproenca.dev</p>
+              </div>
+            </footer>
           </div>
-        </ThemeProvider>
+        </NextThemesProvider>
         <SpeedInsights />
       </body>
     </html>

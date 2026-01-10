@@ -1,10 +1,15 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { Article, BreadcrumbList, WithContext } from "schema-dts";
-import { getAllSlugs, getPostBySlug, categoryToSlug } from "@/lib/posts";
+import type { Article, WithContext } from "schema-dts";
+import {
+  getAllSlugs,
+  getPostBySlug,
+  categoryToSlug,
+  formatPostDate,
+} from "@/lib/posts";
 import { MDXContent } from "@/components/MDXContent";
 import { JsonLd } from "@/components/JsonLd";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG, buildBreadcrumbSchema } from "@/lib/constants";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -84,29 +89,11 @@ export default async function PostPage({ params }: PageProps) {
     keywords: frontmatter.categories?.join(", "),
   };
 
-  const breadcrumbSchema: WithContext<BreadcrumbList> = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: SITE_CONFIG.url,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Posts",
-        item: `${SITE_CONFIG.url}/posts`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: frontmatter.title,
-      },
-    ],
-  };
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", item: SITE_CONFIG.url },
+    { name: "Posts", item: `${SITE_CONFIG.url}/posts` },
+    { name: frontmatter.title },
+  ]);
 
   return (
     <article className="mx-auto max-w-[680px]">
@@ -126,11 +113,7 @@ export default async function PostPage({ params }: PageProps) {
           </a>
           <span className="mx-2">&middot;</span>
           <time dateTime={frontmatter.date} className="entry-date">
-            {new Date(frontmatter.date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {formatPostDate(frontmatter.date)}
           </time>
         </div>
       </header>

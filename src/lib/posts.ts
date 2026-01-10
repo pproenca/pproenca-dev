@@ -125,3 +125,11 @@ export function slugToCategory(slug: string): string | undefined {
   const categories = getAllCategories();
   return categories.find((c) => categoryToSlug(c.name) === slug)?.name;
 }
+
+export function formatPostDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
