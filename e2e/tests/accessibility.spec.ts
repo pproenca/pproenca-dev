@@ -5,7 +5,10 @@ import type { Page } from "@playwright/test";
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 
 async function runAxeAudit(page: Page): Promise<void> {
-  const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
+  const results = await new AxeBuilder({ page })
+    .withTags(WCAG_TAGS)
+    .exclude('[data-react-grab="true"]') // Exclude react-grab dev tool
+    .analyze();
   expect(results.violations).toEqual([]);
 }
 

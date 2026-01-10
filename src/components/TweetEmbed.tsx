@@ -1,4 +1,4 @@
-import { Tweet, TweetNotFound } from "react-tweet";
+import { Tweet } from "react-tweet";
 
 export interface TweetEmbedProps {
   id: string;
@@ -14,8 +14,13 @@ export function TweetEmbed({ id, className }: TweetEmbedProps) {
   if (!id) return null;
 
   return (
-    <div className={className}>
-      <Tweet id={id} fallback={<TweetNotFound />} />
+    <div className={`min-h-[200px] ${className ?? ""}`}>
+      <Tweet
+        id={id}
+        fallback={
+          <div className="min-h-[200px] animate-pulse rounded border border-border-subtle bg-bg-surface" />
+        }
+      />
     </div>
   );
 }
