@@ -1,6 +1,14 @@
 import { Feed } from "feed";
 import { getAllPosts } from "@/lib/posts";
-import { SITE_CONFIG } from "@/lib/constants";
+import {
+  SITE_CONFIG,
+  ROUTES,
+  CONTENT_TYPES,
+  siteUrl,
+  postUrl,
+} from "@/lib/constants";
+
+export type FeedFormat = "rss" | "atom" | "json";
 
 export function createFeed(): Feed {
   const posts = getAllPosts();
@@ -8,24 +16,24 @@ export function createFeed(): Feed {
   const feed = new Feed({
     title: SITE_CONFIG.title,
     description: SITE_CONFIG.description,
-    id: `${SITE_CONFIG.url}/`,
+    id: siteUrl("/"),
     link: SITE_CONFIG.url,
-    language: "en",
-    favicon: `${SITE_CONFIG.url}/favicon.ico`,
+    language: SITE_CONFIG.language,
+    favicon: siteUrl("/favicon.ico"),
     copyright: `© ${new Date().getFullYear()} ${SITE_CONFIG.author.name}`,
     author: {
       name: SITE_CONFIG.author.name,
       link: SITE_CONFIG.author.url,
     },
     feedLinks: {
-      rss2: `${SITE_CONFIG.url}/feed.xml`,
-      atom: `${SITE_CONFIG.url}/atom.xml`,
-      json: `${SITE_CONFIG.url}/feed.json`,
+      rss2: siteUrl(ROUTES.feed.rss),
+      atom: siteUrl(ROUTES.feed.atom),
+      json: siteUrl(ROUTES.feed.json),
     },
   });
 
   for (const post of posts) {
-    const url = `${SITE_CONFIG.url}/posts/${post.slug}`;
+    const url = siteUrl(postUrl(post.slug));
     feed.addItem({
       title: post.frontmatter.title,
       id: url,
@@ -37,4 +45,16 @@ export function createFeed(): Feed {
   }
 
   return feed;
+}
+
+export function createFeedResponse(format: FeedFormat): Response {
+  const feed = createFeed();
+  const content = {
+    rss: () => feed.rss2(),
+    atom: () => feed.atom1(),
+    json: () => feed.json1(),
+  };
+  return new Response(content[format](), {
+    headers: { "Content-Type": CONTENT_TYPES[format] },
+  });
 }

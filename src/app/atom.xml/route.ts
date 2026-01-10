@@ -1,8 +1,3 @@
-import { createFeed } from "@/lib/feed";
+import { createFeedResponse } from "@/lib/feed";
 
-export async function GET() {
-  const feed = createFeed();
-  return new Response(feed.atom1(), {
-    headers: { "Content-Type": "application/atom+xml; charset=utf-8" },
-  });
-}
+export const GET = () => createFeedResponse("atom");

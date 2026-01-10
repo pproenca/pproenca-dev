@@ -9,7 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG, ROUTES } from "@/lib/constants";
 import "./globals.css";
 
 const libreBaskerville = Libre_Baskerville({
@@ -87,11 +87,11 @@ export const metadata: Metadata = {
     site: SITE_CONFIG.author.twitter,
   },
   alternates: {
-    canonical: "/",
+    canonical: ROUTES.home,
     types: {
-      "application/rss+xml": "/feed.xml",
-      "application/atom+xml": "/atom.xml",
-      "application/feed+json": "/feed.json",
+      "application/rss+xml": ROUTES.feed.rss,
+      "application/atom+xml": ROUTES.feed.atom,
+      "application/feed+json": ROUTES.feed.json,
     },
   },
 };

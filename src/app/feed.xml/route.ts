@@ -1,8 +1,3 @@
-import { createFeed } from "@/lib/feed";
+import { createFeedResponse } from "@/lib/feed";
 
-export async function GET() {
-  const feed = createFeed();
-  return new Response(feed.rss2(), {
-    headers: { "Content-Type": "application/rss+xml; charset=utf-8" },
-  });
-}
+export const GET = () => createFeedResponse("rss");

@@ -1,6 +1,12 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts, getAllCategorySlugs } from "@/lib/posts";
-import { SITE_CONFIG } from "@/lib/constants";
+import {
+  ROUTES,
+  SITEMAP_CONFIG,
+  siteUrl,
+  postUrl,
+  categoryUrl,
+} from "@/lib/constants";
 
 export const dynamic = "force-static";
 
@@ -10,37 +16,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticPages: MetadataRoute.Sitemap = [
     {
-      url: SITE_CONFIG.url,
+      url: siteUrl(ROUTES.home),
       lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1.0,
+      changeFrequency: SITEMAP_CONFIG.home.changeFrequency,
+      priority: SITEMAP_CONFIG.home.priority,
     },
     {
-      url: `${SITE_CONFIG.url}/categories`,
+      url: siteUrl(ROUTES.categories),
       lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.6,
+      changeFrequency: SITEMAP_CONFIG.categories.changeFrequency,
+      priority: SITEMAP_CONFIG.categories.priority,
     },
     {
-      url: `${SITE_CONFIG.url}/about`,
+      url: siteUrl(ROUTES.about),
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
+      changeFrequency: SITEMAP_CONFIG.about.changeFrequency,
+      priority: SITEMAP_CONFIG.about.priority,
     },
   ];
 
   const postPages: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `${SITE_CONFIG.url}/posts/${post.slug}`,
+    url: siteUrl(postUrl(post.slug)),
     lastModified: new Date(post.frontmatter.date),
-    changeFrequency: "monthly",
-    priority: 0.8,
+    changeFrequency: SITEMAP_CONFIG.post.changeFrequency,
+    priority: SITEMAP_CONFIG.post.priority,
   }));
 
   const categoryPages: MetadataRoute.Sitemap = categorySlugs.map((slug) => ({
-    url: `${SITE_CONFIG.url}/categories/${slug}`,
+    url: siteUrl(categoryUrl(slug)),
     lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.5,
+    changeFrequency: SITEMAP_CONFIG.category.changeFrequency,
+    priority: SITEMAP_CONFIG.category.priority,
   }));
 
   return [...staticPages, ...postPages, ...categoryPages];
