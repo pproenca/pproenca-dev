@@ -11,19 +11,23 @@ Two days. That's how much time I had when I stumbled across [vjeux's WebCodecs N
 
 But I had Claude Code. And I had [my own plugin](https://github.com/pproenca/dot-claude/) for orchestrating it. That changed everything.
 
-I'd never written a Node.js addon in my life. C++ bindings to FFmpeg. Not exactly my Tuesday afternoon. But AI-assisted development compresses the "figuring out where to start" phase from days to hours. I pointed Claude at the documentation, asked questions, and within a couple of hours I understood enough about N-API and the addon architecture to actually begin.
+I'd never written a Node.js addon in my life. C++ bindings to FFmpeg? Not exactly my Tuesday afternoon. But AI-assisted development compresses the "figuring out where to start" phase from days to hours. I pointed Claude at the documentation, asked questions, and within a couple of hours I understood enough about N-API and the addon architecture to actually begin.
 
-So I began. And I made every mistake possible.
+So I tried something different. Instead of writing implementation code myself, I wrote specs. I pulled the official WebCodecs IDL and turned it into detailed implementation plans. Claude Code wrote the C++ bindings, the N-API wrappers, the TypeScript interfaces. All of it.
+
+My job was to review, steer, and fix the process when it broke.
+
+And it broke a lot.
 
 ## The Shotgun Approach (Don't Do This)
 
-My first iteration was chaos. I grabbed the WebCodecs IDL spec and started converting it to the Node addon API plus C++ implementation. TDD, right? Write tests, make them pass, ship it. Except TDD isn't enough when you don't have guardrails.
+My first iteration was chaos. I pointed Claude at the WebCodecs IDL spec and told it to start converting to the Node addon API plus C++ implementation. TDD. Write tests, make them pass, ship it. Except TDD isn't enough when you don't have guardrails.
 
-I was making progress. Tests were green, things were compiling. But I was building on sand. The tests were passing because they tested _my implementation_, not the _correct behaviour_. There's a difference, and it's the difference between feeling productive and actually being productive.
+Claude was making progress. Tests were green, things were compiling. But we were building on sand. The tests were passing because they tested _my implementation_, not the _correct behaviour_. There's a difference, and it's the difference between feeling productive and actually being productive.
 
 ## Build the Moat First
 
-Second iteration, I slowed down. Made the spec file as detailed as possible before writing a single line of implementation code. And instead of going shotgun across all the methods, I focused on one at a time.
+Second iteration, I slowed down. Made the spec file as detailed as possible before Claude wrote a single line of implementation code. And instead of going shotgun across all the methods, I had it focus on one at a time.
 
 The rule I keep coming back to: always have something working, no matter how small. A working `VideoDecoder.configure()` is better than a half-broken implementation of five methods. You can build on working code. You can't build on "almost there."
 
@@ -41,7 +45,7 @@ So I started treating AI output the way I'd treat a new hire's code: trust, but 
 
 I made a joke early on. "I hope I run into a memory segmentation fault." Hours later, guess what I was debugging?
 
-C++ doesn't forgive. And when you're a 'wannabe' Node.js developer suddenly playing in memory-managed territory, you're going to hurt yourself. What saved me was asking Claude to explain the most common failure patterns in C++ and what tools experienced developers use to debug them. I got a list, tried a few, and `leaks` on macOS became my new best friend.
+C++ doesn't forgive. And when you're a Node.js developer suddenly playing in memory-managed territory, you're going to hurt yourself. What saved me was asking Claude to explain the most common failure patterns in C++ and what tools experienced developers use to debug them. I got a list, tried a few, and `leaks` on macOS became my new best friend.
 
 I updated my CLAUDE.md with these patterns: what failure looks like, what tool fixes it. Built a whole debugging skill around it. That's when things started moving fast.
 
@@ -51,9 +55,9 @@ I updated my CLAUDE.md with these patterns: what failure looks like, what tool f
 
 I [submitted](https://github.com/vjeux/webcodecs-nodejs-10k-challenge/issues/8) with 428 out of 442 tests passing. 96.8%. A working Muxer and Demuxer that went beyond the W3C spec. Seven of us got solutions working, something vjeux didn't think would happen. The $10k prize was split, $1,500 each.
 
-Two days. Zero Node addon experience. One working WebCodecs implementation.
+Two days. Zero lines of implementation code written by me. One working WebCodecs implementation.
 
-But the real takeaway isn't the money. AI didn't write this code for me. It made it _possible_ for me to write it. The gap between "I could never do that" and "let me try" has collapsed. Not because the AI is magic, but because it handles the parts that used to stop me cold. The "how do I even start" paralysis, the documentation maze, the unknown unknowns.
+But here's what actually changed: the skill isn't writing code anymore. It's orchestrating agents, teaching them to be rigorous, and knowing when they're guessing. The gap between "I could never do that" and "let me try" has collapsed — but only if you know how to work on the other side of it.
 
 I'm making this open source. I want to render videos server-side, and I want others to build on it.
 
