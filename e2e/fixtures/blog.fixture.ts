@@ -31,7 +31,8 @@ export class BlogPage {
   }
 
   async goto(path: string = "/") {
-    await this.page.goto(path);
+    await this.page.goto(path, { waitUntil: "domcontentloaded" });
+    await this.mainContent.waitFor({ state: "visible", timeout: 10000 });
   }
 
   async toggleTheme() {
@@ -47,14 +48,14 @@ export class BlogPage {
   async setLightMode() {
     if (await this.isDarkMode()) {
       await this.toggleTheme();
-      await this.page.waitForTimeout(100);
+      await expect(this.page.locator("html")).not.toHaveClass(/dark/);
     }
   }
 
   async setDarkMode() {
     if (!(await this.isDarkMode())) {
       await this.toggleTheme();
-      await this.page.waitForTimeout(100);
+      await expect(this.page.locator("html")).toHaveClass(/dark/);
     }
   }
 
@@ -83,7 +84,7 @@ export class HomePage extends BlogPage {
   async getPostTitles(): Promise<string[]> {
     // Wait for at least one post card to be visible before counting
     await this.postCards.first().waitFor({ state: "attached", timeout: 5000 });
-    return this.postCards.locator("h2 a, h3 a").allTextContents();
+    return this.postCards.locator("h2, h3").allTextContents();
   }
 
   async getPostCount(): Promise<number> {
