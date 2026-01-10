@@ -8,14 +8,13 @@ test.describe("Homepage", () => {
 
   test("displays post cards with titles", async ({ homePage }) => {
     await homePage.goto("/");
+
     const postCount = await homePage.getPostCount();
     expect(postCount).toBeGreaterThan(0);
 
     const titles = await homePage.getPostTitles();
     expect(titles.length).toBeGreaterThan(0);
-    titles.forEach((title) => {
-      expect(title.length).toBeGreaterThan(0);
-    });
+    expect(titles.every((title) => title.length > 0)).toBe(true);
   });
 
   test("navigation links are visible and work", async ({ homePage }) => {

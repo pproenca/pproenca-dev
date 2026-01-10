@@ -5,6 +5,9 @@ import {
   type Locator,
 } from "@playwright/test";
 
+/** Locator for post card articles, excluding embedded content like tweets */
+const POST_CARDS_SELECTOR = "main article.group";
+
 export class BlogPage {
   readonly page: Page;
   readonly header: Locator;
@@ -77,8 +80,7 @@ export class HomePage extends BlogPage {
 
   constructor(page: Page) {
     super(page);
-    // Target only direct post card articles, not embedded tweet articles
-    this.postCards = page.locator("main article.group");
+    this.postCards = page.locator(POST_CARDS_SELECTOR);
   }
 
   async getPostTitles(): Promise<string[]> {
@@ -115,11 +117,15 @@ export class PostPage extends BlogPage {
   }
 
   async hasCodeHighlighting(): Promise<boolean> {
-    const count = await this.codeBlocks.count();
-    if (count === 0) return true;
-    const codeBlock = this.codeBlocks.first();
-    const spanCount = await codeBlock.locator("span[style]").count();
-    return spanCount > 0;
+    const codeBlockCount = await this.codeBlocks.count();
+    if (codeBlockCount === 0) {
+      return false;
+    }
+    const styledSpanCount = await this.codeBlocks
+      .first()
+      .locator("span[style]")
+      .count();
+    return styledSpanCount > 0;
   }
 
   async getTitle(): Promise<string> {
@@ -137,8 +143,7 @@ export class CategoryPage extends BlogPage {
     super(page);
     this.categoryLinks = page.locator('a[href^="/categories/"]');
     this.categoryHeading = page.locator("h1");
-    // Target only direct post card articles, not embedded tweet articles
-    this.postCards = page.locator("main article.group");
+    this.postCards = page.locator(POST_CARDS_SELECTOR);
   }
 
   async getCategoryNames(): Promise<string[]> {
