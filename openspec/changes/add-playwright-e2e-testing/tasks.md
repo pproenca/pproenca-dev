@@ -126,13 +126,13 @@ Task 14 → Task 15 → Task 16 (CI before docs)
 
 ## Parallel Execution Groups
 
-| Group | Tasks | Notes |
-|-------|-------|-------|
-| 1 | 1 | Infrastructure (must be first) |
-| 2 | 2, 3 | Config files (can parallel) |
-| 3 | 4 | Fixtures (depends on config) |
-| 4 | 5, 6, 7, 8 | Critical path tests (can parallel) |
-| 5 | 9, 10 | Visual tests (depends on critical path) |
-| 6 | 11, 12, 13 | SEO/a11y tests (can parallel) |
-| 7 | 14 | CI workflow |
-| 8 | 15, 16 | Final config and docs |
+| Group | Tasks      | Notes                                   |
+| ----- | ---------- | --------------------------------------- |
+| 1     | 1          | Infrastructure (must be first)          |
+| 2     | 2, 3       | Config files (can parallel)             |
+| 3     | 4          | Fixtures (depends on config)            |
+| 4     | 5, 6, 7, 8 | Critical path tests (can parallel)      |
+| 5     | 9, 10      | Visual tests (depends on critical path) |
+| 6     | 11, 12, 13 | SEO/a11y tests (can parallel)           |
+| 7     | 14         | CI workflow                             |
+| 8     | 15, 16     | Final config and docs                   |

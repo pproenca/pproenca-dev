@@ -1,13 +1,13 @@
-import { test, expect } from '../fixtures/blog.fixture';
+import { test, expect } from "../fixtures/blog.fixture";
 
-test.describe('Theme Toggle', () => {
-  test('theme toggle button is visible', async ({ blogPage }) => {
-    await blogPage.goto('/');
+test.describe("Theme Toggle", () => {
+  test("theme toggle button is visible", async ({ blogPage }) => {
+    await blogPage.goto("/");
     await expect(blogPage.themeToggle).toBeVisible();
   });
 
-  test('toggles between light and dark mode', async ({ blogPage }) => {
-    await blogPage.goto('/');
+  test("toggles between light and dark mode", async ({ blogPage }) => {
+    await blogPage.goto("/");
 
     const initialDark = await blogPage.isDarkMode();
     await blogPage.toggleTheme();
@@ -23,8 +23,8 @@ test.describe('Theme Toggle', () => {
     expect(afterSecondToggle).toBe(initialDark);
   });
 
-  test('theme preference persists across navigation', async ({ blogPage }) => {
-    await blogPage.goto('/');
+  test("theme preference persists across navigation", async ({ blogPage }) => {
+    await blogPage.goto("/");
     await blogPage.setDarkMode();
     expect(await blogPage.isDarkMode()).toBe(true);
 
@@ -37,26 +37,28 @@ test.describe('Theme Toggle', () => {
     expect(await blogPage.isDarkMode()).toBe(true);
   });
 
-  test('can set light mode explicitly', async ({ blogPage }) => {
-    await blogPage.goto('/');
+  test("can set light mode explicitly", async ({ blogPage }) => {
+    await blogPage.goto("/");
     await blogPage.setLightMode();
     expect(await blogPage.isDarkMode()).toBe(false);
   });
 
-  test('can set dark mode explicitly', async ({ blogPage }) => {
-    await blogPage.goto('/');
+  test("can set dark mode explicitly", async ({ blogPage }) => {
+    await blogPage.goto("/");
     await blogPage.setDarkMode();
     expect(await blogPage.isDarkMode()).toBe(true);
   });
 
-  test('theme toggle has proper accessibility attributes', async ({ blogPage }) => {
-    await blogPage.goto('/');
+  test("theme toggle has proper accessibility attributes", async ({
+    blogPage,
+  }) => {
+    await blogPage.goto("/");
 
-    await expect(blogPage.themeToggle).toHaveAttribute('aria-label', /.+/);
+    await expect(blogPage.themeToggle).toHaveAttribute("aria-label", /.+/);
   });
 
-  test('theme works on post pages', async ({ blogPage, homePage }) => {
-    await homePage.goto('/');
+  test("theme works on post pages", async ({ blogPage, homePage }) => {
+    await homePage.goto("/");
     await blogPage.setDarkMode();
 
     await homePage.clickFirstPost();

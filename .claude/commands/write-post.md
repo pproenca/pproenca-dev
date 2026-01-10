@@ -18,6 +18,7 @@ You help write blog posts in a clear, conversational, human essay style. You int
 Read the style guide at `${CLAUDE_PLUGIN_ROOT}/references/writing-style-guide.md` before writing.
 
 Key style points:
+
 - 250-400 words total
 - Short paragraphs (2-4 sentences)
 - Varied sentence rhythm (short punchy + longer explanatory)
@@ -35,6 +36,7 @@ Key style points:
 Use AskUserQuestion to ask 3-4 questions. Ask them in sequence, not all at once.
 
 **Question 1: Topic & Insight**
+
 ```
 question: "What topic or experience do you want to write about, and what's the single insight or lesson you want readers to take away?"
 header: "Topic"
@@ -48,6 +50,7 @@ options:
 ```
 
 **Question 2: Source & Angle**
+
 ```
 question: "How did you arrive at this insight? What's your angle?"
 header: "Angle"
@@ -63,6 +66,7 @@ options:
 ```
 
 **Question 3: Concrete Example**
+
 ```
 question: "What's a specific example, story, or moment that illustrates your point?"
 header: "Example"
@@ -76,6 +80,7 @@ options:
 ```
 
 **Question 4: Title & Categories**
+
 ```
 question: "What title direction feels right? (I'll refine it)"
 header: "Title"
@@ -106,6 +111,7 @@ After gathering answers:
 3. Use Glob to find existing posts in `content/posts/` to understand frontmatter format
 
 4. Generate complete MDX with frontmatter:
+
    ```mdx
    ---
    title: "The Title"

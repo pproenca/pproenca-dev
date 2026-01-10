@@ -154,21 +154,21 @@ The project SHALL run E2E tests automatically on every PR and push to master.
 
 ## Test File Mapping
 
-| Requirement | Test File |
-|-------------|-----------|
-| Critical Path - Homepage | `e2e/tests/homepage.spec.ts` |
-| Critical Path - Post | `e2e/tests/post.spec.ts` |
+| Requirement                | Test File                      |
+| -------------------------- | ------------------------------ |
+| Critical Path - Homepage   | `e2e/tests/homepage.spec.ts`   |
+| Critical Path - Post       | `e2e/tests/post.spec.ts`       |
 | Critical Path - Categories | `e2e/tests/categories.spec.ts` |
-| Critical Path - Theme | `e2e/tests/theme.spec.ts` |
-| Visual Regression | `e2e/tests/visual.spec.ts` |
-| SEO Verification | `e2e/tests/seo.spec.ts` |
-| SEO - Feeds | `e2e/tests/feeds.spec.ts` |
+| Critical Path - Theme      | `e2e/tests/theme.spec.ts`      |
+| Visual Regression          | `e2e/tests/visual.spec.ts`     |
+| SEO Verification           | `e2e/tests/seo.spec.ts`        |
+| SEO - Feeds                | `e2e/tests/feeds.spec.ts`      |
 
 ## Configuration Files
 
-| Purpose | File |
-|---------|------|
-| Playwright config | `playwright.config.ts` |
-| Page fixtures | `e2e/fixtures/blog.fixture.ts` |
-| Visual baselines | `e2e/__screenshots__/*.png` |
-| CI workflow | `.github/workflows/e2e.yml` |
+| Purpose           | File                           |
+| ----------------- | ------------------------------ |
+| Playwright config | `playwright.config.ts`         |
+| Page fixtures     | `e2e/fixtures/blog.fixture.ts` |
+| Visual baselines  | `e2e/__screenshots__/*.png`    |
+| CI workflow       | `.github/workflows/e2e.yml`    |

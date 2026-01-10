@@ -5,12 +5,12 @@ Composite components that combine elements into page sections.
 ## Base Section Component
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps, ReactNode } from 'react'
-import { Container } from './container'
-import { Eyebrow } from './eyebrow'
-import { Subheading } from './subheading'
-import { Text } from './text'
+import { clsx } from "clsx/lite";
+import type { ComponentProps, ReactNode } from "react";
+import { Container } from "./container";
+import { Eyebrow } from "./eyebrow";
+import { Subheading } from "./subheading";
+import { Text } from "./text";
 
 export function Section({
   eyebrow,
@@ -21,13 +21,13 @@ export function Section({
   children,
   ...props
 }: {
-  eyebrow?: ReactNode
-  headline?: ReactNode
-  subheadline?: ReactNode
-  cta?: ReactNode
-} & ComponentProps<'section'>) {
+  eyebrow?: ReactNode;
+  headline?: ReactNode;
+  subheadline?: ReactNode;
+  cta?: ReactNode;
+} & ComponentProps<"section">) {
   return (
-    <section className={clsx('py-16', className)} {...props}>
+    <section className={clsx("py-16", className)} {...props}>
       <Container className="flex flex-col gap-10 sm:gap-16">
         {headline && (
           <div className="flex max-w-2xl flex-col gap-6">
@@ -42,7 +42,7 @@ export function Section({
         <div>{children}</div>
       </Container>
     </section>
-  )
+  );
 }
 ```
 
@@ -51,11 +51,11 @@ export function Section({
 ### Hero Left Aligned with Demo
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps, ReactNode } from 'react'
-import { Container } from '../elements/container'
-import { Heading } from '../elements/heading'
-import { Text } from '../elements/text'
+import { clsx } from "clsx/lite";
+import type { ComponentProps, ReactNode } from "react";
+import { Container } from "../elements/container";
+import { Heading } from "../elements/heading";
+import { Text } from "../elements/text";
 
 export function HeroLeftAlignedWithDemo({
   eyebrow,
@@ -67,15 +67,15 @@ export function HeroLeftAlignedWithDemo({
   className,
   ...props
 }: {
-  eyebrow?: ReactNode
-  headline: ReactNode
-  subheadline: ReactNode
-  cta?: ReactNode
-  demo?: ReactNode
-  footer?: ReactNode
-} & ComponentProps<'section'>) {
+  eyebrow?: ReactNode;
+  headline: ReactNode;
+  subheadline: ReactNode;
+  cta?: ReactNode;
+  demo?: ReactNode;
+  footer?: ReactNode;
+} & ComponentProps<"section">) {
   return (
-    <section className={clsx('py-16', className)} {...props}>
+    <section className={clsx("py-16", className)} {...props}>
       <Container className="flex flex-col gap-16">
         <div className="flex flex-col gap-6">
           {eyebrow}
@@ -89,7 +89,7 @@ export function HeroLeftAlignedWithDemo({
         {footer}
       </Container>
     </section>
-  )
+  );
 }
 ```
 
@@ -106,21 +106,24 @@ export function HeroCenteredWithDemo({
   className,
   ...props
 }: {
-  eyebrow?: ReactNode
-  headline: ReactNode
-  subheadline: ReactNode
-  cta?: ReactNode
-  demo?: ReactNode
-  footer?: ReactNode
-} & ComponentProps<'section'>) {
+  eyebrow?: ReactNode;
+  headline: ReactNode;
+  subheadline: ReactNode;
+  cta?: ReactNode;
+  demo?: ReactNode;
+  footer?: ReactNode;
+} & ComponentProps<"section">) {
   return (
-    <section className={clsx('py-16', className)} {...props}>
+    <section className={clsx("py-16", className)} {...props}>
       <Container className="flex flex-col gap-16">
         <div className="flex flex-col items-center gap-32">
           <div className="flex flex-col items-center gap-6">
             {eyebrow}
             <Heading className="max-w-5xl text-center">{headline}</Heading>
-            <Text size="lg" className="flex max-w-3xl flex-col gap-4 text-center">
+            <Text
+              size="lg"
+              className="flex max-w-3xl flex-col gap-4 text-center"
+            >
               {subheadline}
             </Text>
             {cta}
@@ -130,7 +133,7 @@ export function HeroCenteredWithDemo({
         {footer}
       </Container>
     </section>
-  )
+  );
 }
 ```
 
@@ -139,9 +142,9 @@ export function HeroCenteredWithDemo({
 ### Features Three Column
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps, ReactNode } from 'react'
-import { Section } from '../elements/section'
+import { clsx } from "clsx/lite";
+import type { ComponentProps, ReactNode } from "react";
+import { Section } from "../elements/section";
 
 export function Feature({
   icon,
@@ -150,12 +153,15 @@ export function Feature({
   className,
   ...props
 }: {
-  icon?: ReactNode
-  headline: ReactNode
-  subheadline: ReactNode
-} & ComponentProps<'div'>) {
+  icon?: ReactNode;
+  headline: ReactNode;
+  subheadline: ReactNode;
+} & ComponentProps<"div">) {
   return (
-    <div className={clsx('flex flex-col gap-2 text-sm/7', className)} {...props}>
+    <div
+      className={clsx("flex flex-col gap-2 text-sm/7", className)}
+      {...props}
+    >
       <div className="flex items-start gap-3 text-{name}-950 dark:text-white">
         {icon && <div className="flex size-3.25 h-lh items-center">{icon}</div>}
         <h3 className="font-semibold">{headline}</h3>
@@ -164,22 +170,22 @@ export function Feature({
         {subheadline}
       </div>
     </div>
-  )
+  );
 }
 
 export function FeaturesThreeColumn({
   features,
   ...props
 }: {
-  features: ReactNode
-} & Omit<ComponentProps<typeof Section>, 'children'>) {
+  features: ReactNode;
+} & Omit<ComponentProps<typeof Section>, "children">) {
   return (
     <Section {...props}>
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
         {features}
       </div>
     </Section>
-  )
+  );
 }
 ```
 
@@ -188,10 +194,10 @@ export function FeaturesThreeColumn({
 ### Multi-Tier Pricing
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps, ReactNode } from 'react'
-import { Section } from '../elements/section'
-import { CheckmarkIcon } from '../icons/checkmark-icon'
+import { clsx } from "clsx/lite";
+import type { ComponentProps, ReactNode } from "react";
+import { Section } from "../elements/section";
+import { CheckmarkIcon } from "../icons/checkmark-icon";
 
 export function Plan({
   name,
@@ -203,19 +209,19 @@ export function Plan({
   cta,
   className,
 }: {
-  name: ReactNode
-  price: ReactNode
-  period?: ReactNode
-  subheadline: ReactNode
-  badge?: ReactNode
-  features: ReactNode[]
-  cta: ReactNode
-} & ComponentProps<'div'>) {
+  name: ReactNode;
+  price: ReactNode;
+  period?: ReactNode;
+  subheadline: ReactNode;
+  badge?: ReactNode;
+  features: ReactNode[];
+  cta: ReactNode;
+} & ComponentProps<"div">) {
   return (
     <div
       className={clsx(
-        'flex flex-col justify-between gap-6 rounded-xl p-6 sm:items-start',
-        'bg-{name}-950/2.5 dark:bg-white/5',
+        "flex flex-col justify-between gap-6 rounded-xl p-6 sm:items-start",
+        "bg-{name}-950/2.5 dark:bg-white/5",
         className,
       )}
     >
@@ -232,7 +238,11 @@ export function Plan({
         </div>
         <p className="mt-1 inline-flex gap-1 text-base/7">
           <span className="text-{name}-950 dark:text-white">{price}</span>
-          {period && <span className="text-{name}-500 dark:text-{name}-500">{period}</span>}
+          {period && (
+            <span className="text-{name}-500 dark:text-{name}-500">
+              {period}
+            </span>
+          )}
         </p>
         <div className="mt-4 flex flex-col gap-4 text-sm/6 text-{name}-700 dark:text-{name}-400">
           {subheadline}
@@ -248,14 +258,14 @@ export function Plan({
       </div>
       {cta}
     </div>
-  )
+  );
 }
 
 export function PricingMultiTier({
   plans,
   ...props
 }: {
-  plans: ReactNode
+  plans: ReactNode;
 } & ComponentProps<typeof Section>) {
   return (
     <Section {...props}>
@@ -263,7 +273,7 @@ export function PricingMultiTier({
         {plans}
       </div>
     </Section>
-  )
+  );
 }
 ```
 
@@ -323,17 +333,17 @@ export function Testimonial({
   className,
   ...props
 }: {
-  quote: ReactNode
-  img: ReactNode
-  name: ReactNode
-  byline: ReactNode
-} & ComponentProps<'figure'>) {
+  quote: ReactNode;
+  img: ReactNode;
+  name: ReactNode;
+  byline: ReactNode;
+} & ComponentProps<"figure">) {
   return (
     <figure
       className={clsx(
-        'flex flex-col gap-6 rounded-xl p-6',
-        'bg-{name}-950/2.5 dark:bg-white/5',
-        className
+        "flex flex-col gap-6 rounded-xl p-6",
+        "bg-{name}-950/2.5 dark:bg-white/5",
+        className,
       )}
       {...props}
     >
@@ -345,12 +355,16 @@ export function Testimonial({
           {img}
         </div>
         <div>
-          <p className="text-sm/6 font-semibold text-{name}-950 dark:text-white">{name}</p>
-          <p className="text-sm/6 text-{name}-700 dark:text-{name}-400">{byline}</p>
+          <p className="text-sm/6 font-semibold text-{name}-950 dark:text-white">
+            {name}
+          </p>
+          <p className="text-sm/6 text-{name}-700 dark:text-{name}-400">
+            {byline}
+          </p>
         </div>
       </figcaption>
     </figure>
-  )
+  );
 }
 
 export function TestimonialThreeColumnGrid({
@@ -363,7 +377,7 @@ export function TestimonialThreeColumnGrid({
         {children}
       </div>
     </Section>
-  )
+  );
 }
 ```
 
@@ -372,21 +386,21 @@ export function TestimonialThreeColumnGrid({
 ### Accordion FAQs
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import { type ComponentProps, type ReactNode, useId } from 'react'
-import { Subheading } from '../elements/subheading'
-import { Text } from '../elements/text'
-import { MinusIcon } from '../icons/minus-icon'
-import { PlusIcon } from '../icons/plus-icon'
+import { clsx } from "clsx/lite";
+import { type ComponentProps, type ReactNode, useId } from "react";
+import { Subheading } from "../elements/subheading";
+import { Text } from "../elements/text";
+import { MinusIcon } from "../icons/minus-icon";
+import { PlusIcon } from "../icons/plus-icon";
 
 export function Faq({
   id,
   question,
   answer,
   ...props
-}: { question: ReactNode; answer: ReactNode } & ComponentProps<'div'>) {
-  let autoId = useId()
-  id = id || autoId
+}: { question: ReactNode; answer: ReactNode } & ComponentProps<"div">) {
+  let autoId = useId();
+  id = id || autoId;
 
   return (
     <div id={id} {...props}>
@@ -409,7 +423,7 @@ export function Faq({
         {answer}
       </div>
     </div>
-  )
+  );
 }
 
 export function FAQsAccordion({
@@ -419,22 +433,26 @@ export function FAQsAccordion({
   children,
   ...props
 }: {
-  headline?: ReactNode
-  subheadline?: ReactNode
-} & ComponentProps<'section'>) {
+  headline?: ReactNode;
+  subheadline?: ReactNode;
+} & ComponentProps<"section">) {
   return (
-    <section className={clsx('py-16', className)} {...props}>
+    <section className={clsx("py-16", className)} {...props}>
       <div className="mx-auto flex max-w-3xl flex-col gap-6 px-6 lg:max-w-5xl lg:px-10">
         <div className="flex flex-col gap-6">
           <Subheading>{headline}</Subheading>
-          {subheadline && <Text className="flex flex-col gap-4 text-pretty">{subheadline}</Text>}
+          {subheadline && (
+            <Text className="flex flex-col gap-4 text-pretty">
+              {subheadline}
+            </Text>
+          )}
         </div>
         <div className="divide-y divide-{name}-950/10 border-y border-{name}-950/10 dark:divide-white/10 dark:border-white/10">
           {children}
         </div>
       </div>
     </section>
-  )
+  );
 }
 ```
 
@@ -443,11 +461,15 @@ export function FAQsAccordion({
 ### Footer with Link Categories
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps, ReactNode } from 'react'
-import { Container } from '../elements/container'
+import { clsx } from "clsx/lite";
+import type { ComponentProps, ReactNode } from "react";
+import { Container } from "../elements/container";
 
-export function FooterCategory({ title, children, ...props }: { title: ReactNode } & ComponentProps<'div'>) {
+export function FooterCategory({
+  title,
+  children,
+  ...props
+}: { title: ReactNode } & ComponentProps<"div">) {
   return (
     <div {...props}>
       <h3>{title}</h3>
@@ -455,15 +477,19 @@ export function FooterCategory({ title, children, ...props }: { title: ReactNode
         {children}
       </ul>
     </div>
-  )
+  );
 }
 
-export function FooterLink({ href, className, ...props }: { href: string } & Omit<ComponentProps<'a'>, 'href'>) {
+export function FooterLink({
+  href,
+  className,
+  ...props
+}: { href: string } & Omit<ComponentProps<"a">, "href">) {
   return (
-    <li className={clsx('text-{name}-700 dark:text-{name}-400', className)}>
+    <li className={clsx("text-{name}-700 dark:text-{name}-400", className)}>
       <a href={href} {...props} />
     </li>
-  )
+  );
 }
 
 export function FooterWithLinkCategories({
@@ -472,21 +498,23 @@ export function FooterWithLinkCategories({
   className,
   ...props
 }: {
-  links: ReactNode
-  fineprint: ReactNode
-} & ComponentProps<'footer'>) {
+  links: ReactNode;
+  fineprint: ReactNode;
+} & ComponentProps<"footer">) {
   return (
-    <footer className={clsx('pt-16', className)} {...props}>
+    <footer className={clsx("pt-16", className)} {...props}>
       <div className="bg-{name}-950/2.5 py-16 text-{name}-950 dark:bg-white/5 dark:text-white">
         <Container className="flex flex-col gap-16">
           <nav className="grid grid-cols-2 gap-6 text-sm/7 sm:has-[>:last-child:nth-child(3)]:grid-cols-3 sm:has-[>:nth-child(5)]:grid-cols-3 md:has-[>:last-child:nth-child(4)]:grid-cols-4 lg:has-[>:nth-child(5)]:grid-cols-5">
             {links}
           </nav>
-          <div className="text-sm/7 text-{name}-600 dark:text-{name}-500">{fineprint}</div>
+          <div className="text-sm/7 text-{name}-600 dark:text-{name}-500">
+            {fineprint}
+          </div>
         </Container>
       </div>
     </footer>
-  )
+  );
 }
 ```
 
@@ -495,11 +523,11 @@ export function FooterWithLinkCategories({
 ### Simple CTA
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps, ReactNode } from 'react'
-import { Container } from '../elements/container'
-import { Subheading } from '../elements/subheading'
-import { Text } from '../elements/text'
+import { clsx } from "clsx/lite";
+import type { ComponentProps, ReactNode } from "react";
+import { Container } from "../elements/container";
+import { Subheading } from "../elements/subheading";
+import { Text } from "../elements/text";
 
 export function CallToActionSimple({
   headline,
@@ -508,19 +536,21 @@ export function CallToActionSimple({
   className,
   ...props
 }: {
-  headline: ReactNode
-  subheadline?: ReactNode
-  cta?: ReactNode
-} & ComponentProps<'section'>) {
+  headline: ReactNode;
+  subheadline?: ReactNode;
+  cta?: ReactNode;
+} & ComponentProps<"section">) {
   return (
-    <section className={clsx('py-16', className)} {...props}>
+    <section className={clsx("py-16", className)} {...props}>
       <Container className="flex flex-col gap-6">
         <Subheading className="max-w-2xl">{headline}</Subheading>
-        {subheadline && <Text className="max-w-2xl text-pretty">{subheadline}</Text>}
+        {subheadline && (
+          <Text className="max-w-2xl text-pretty">{subheadline}</Text>
+        )}
         {cta}
       </Container>
     </section>
-  )
+  );
 }
 ```
 
@@ -529,33 +559,43 @@ export function CallToActionSimple({
 ### Navbar with Centered Links
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps, ReactNode } from 'react'
+import { clsx } from "clsx/lite";
+import type { ComponentProps, ReactNode } from "react";
 
 export function NavbarLink({
   children,
   href,
   className,
   ...props
-}: { href: string } & Omit<ComponentProps<'a'>, 'href'>) {
+}: { href: string } & Omit<ComponentProps<"a">, "href">) {
   return (
     <a
       href={href}
       className={clsx(
-        'group inline-flex items-center justify-between gap-2',
-        'text-3xl/10 font-medium lg:text-sm/7',
-        'text-{name}-950 dark:text-white',
+        "group inline-flex items-center justify-between gap-2",
+        "text-3xl/10 font-medium lg:text-sm/7",
+        "text-{name}-950 dark:text-white",
         className,
       )}
       {...props}
     >
       {children}
     </a>
-  )
+  );
 }
 
-export function NavbarLogo({ className, href, ...props }: { href: string } & Omit<ComponentProps<'a'>, 'href'>) {
-  return <a href={href} {...props} className={clsx('inline-flex items-stretch', className)} />
+export function NavbarLogo({
+  className,
+  href,
+  ...props
+}: { href: string } & Omit<ComponentProps<"a">, "href">) {
+  return (
+    <a
+      href={href}
+      {...props}
+      className={clsx("inline-flex items-stretch", className)}
+    />
+  );
 }
 
 export function NavbarWithCenteredLinks({
@@ -565,12 +605,18 @@ export function NavbarWithCenteredLinks({
   className,
   ...props
 }: {
-  links: ReactNode
-  logo: ReactNode
-  actions: ReactNode
-} & ComponentProps<'header'>) {
+  links: ReactNode;
+  logo: ReactNode;
+  actions: ReactNode;
+} & ComponentProps<"header">) {
   return (
-    <header className={clsx('sticky top-0 z-10 bg-{name}-100 dark:bg-{name}-950', className)} {...props}>
+    <header
+      className={clsx(
+        "sticky top-0 z-10 bg-{name}-100 dark:bg-{name}-950",
+        className,
+      )}
+      {...props}
+    >
       <style>{`:root { --scroll-padding-top: 5.25rem }`}</style>
       <nav>
         <div className="mx-auto flex h-(--scroll-padding-top) max-w-7xl items-center gap-4 px-6 lg:px-10">
@@ -589,23 +635,35 @@ export function NavbarWithCenteredLinks({
         </div>
       </nav>
     </header>
-  )
+  );
 }
 ```
 
 ## Screenshot Component (Decorative Wrapper)
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps } from 'react'
+import { clsx } from "clsx/lite";
+import type { ComponentProps } from "react";
 
-const html = String.raw
+const html = String.raw;
 
 const noisePattern = `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(
   html`
-    <svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 100 100">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="250"
+      height="250"
+      viewBox="0 0 100 100"
+    >
       <filter id="n">
-        <feTurbulence type="turbulence" baseFrequency="1.4" numOctaves="1" seed="2" stitchTiles="stitch" result="n" />
+        <feTurbulence
+          type="turbulence"
+          baseFrequency="1.4"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          result="n"
+        />
         <feComponentTransfer result="g">
           <feFuncR type="linear" slope="4" intercept="1" />
           <feFuncG type="linear" slope="4" intercept="1" />
@@ -615,29 +673,29 @@ const noisePattern = `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent
       </filter>
       <rect width="100%" height="100%" filter="url(#n)" />
     </svg>
-  `.replace(/\s+/g, ' '),
-)}")`
+  `.replace(/\s+/g, " "),
+)}")`;
 
 export function Wallpaper({
   children,
   color,
   className,
   ...props
-}: { color: 'green' | 'blue' | 'purple' | 'brown' } & ComponentProps<'div'>) {
+}: { color: "green" | "blue" | "purple" | "brown" } & ComponentProps<"div">) {
   return (
     <div
       data-color={color}
       className={clsx(
-        'relative overflow-hidden bg-linear-to-b',
-        'data-[color=green]:from-[#9ca88f] data-[color=green]:to-[#596352]',
-        'data-[color=blue]:from-[#637c86] data-[color=blue]:to-[#778599]',
-        'data-[color=purple]:from-[#7b627d] data-[color=purple]:to-[#8f6976]',
-        'data-[color=brown]:from-[#8d7359] data-[color=brown]:to-[#765959]',
+        "relative overflow-hidden bg-linear-to-b",
+        "data-[color=green]:from-[#9ca88f] data-[color=green]:to-[#596352]",
+        "data-[color=blue]:from-[#637c86] data-[color=blue]:to-[#778599]",
+        "data-[color=purple]:from-[#7b627d] data-[color=purple]:to-[#8f6976]",
+        "data-[color=brown]:from-[#8d7359] data-[color=brown]:to-[#765959]",
         // Dark variants
-        'dark:data-[color=green]:from-[#333a2b] dark:data-[color=green]:to-[#26361b]',
-        'dark:data-[color=blue]:from-[#243a42] dark:data-[color=blue]:to-[#232f40]',
-        'dark:data-[color=purple]:from-[#412c42] dark:data-[color=purple]:to-[#3c1a26]',
-        'dark:data-[color=brown]:from-[#382d23] dark:data-[color=brown]:to-[#3d2323]',
+        "dark:data-[color=green]:from-[#333a2b] dark:data-[color=green]:to-[#26361b]",
+        "dark:data-[color=blue]:from-[#243a42] dark:data-[color=blue]:to-[#232f40]",
+        "dark:data-[color=purple]:from-[#412c42] dark:data-[color=purple]:to-[#3c1a26]",
+        "dark:data-[color=brown]:from-[#382d23] dark:data-[color=brown]:to-[#3d2323]",
         className,
       )}
       {...props}
@@ -645,13 +703,13 @@ export function Wallpaper({
       <div
         className="absolute inset-0 opacity-30 mix-blend-overlay dark:opacity-25"
         style={{
-          backgroundPosition: 'center',
+          backgroundPosition: "center",
           backgroundImage: noisePattern,
         }}
       />
       <div className="relative">{children}</div>
     </div>
-  )
+  );
 }
 
 export function Screenshot({
@@ -661,17 +719,28 @@ export function Screenshot({
   className,
   ...props
 }: {
-  wallpaper: 'green' | 'blue' | 'purple' | 'brown'
-  placement: 'bottom' | 'bottom-left' | 'bottom-right' | 'top' | 'top-left' | 'top-right'
-} & Omit<ComponentProps<'div'>, 'color'>) {
+  wallpaper: "green" | "blue" | "purple" | "brown";
+  placement:
+    | "bottom"
+    | "bottom-left"
+    | "bottom-right"
+    | "top"
+    | "top-left"
+    | "top-right";
+} & Omit<ComponentProps<"div">, "color">) {
   return (
-    <Wallpaper color={wallpaper} data-placement={placement} className={clsx('group', className)} {...props}>
+    <Wallpaper
+      color={wallpaper}
+      data-placement={placement}
+      className={clsx("group", className)}
+      {...props}
+    >
       <div className="relative [--padding:min(10%,--spacing(16))] group-data-[placement=bottom]:px-(--padding) group-data-[placement=bottom]:pt-(--padding) ...">
         <div className="*:relative *:ring-1 *:ring-black/10 group-data-[placement=bottom]:*:rounded-t-sm ...">
           {children}
         </div>
       </div>
     </Wallpaper>
-  )
+  );
 }
 ```

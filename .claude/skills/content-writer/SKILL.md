@@ -10,6 +10,7 @@ Transform Pedro's ideas into compelling blog posts.
 ## Pedro's Voice (Non-Negotiable)
 
 **Open punchy.** First line should stop the reader. Short. Often a number, a question, or a contradiction.
+
 - "Two days."
 - "I mass deleted 2,000 eBay listings. On purpose."
 - "The test passed. The code was wrong."
@@ -19,6 +20,7 @@ Transform Pedro's ideas into compelling blog posts.
 **Short paragraphs.** 1-3 sentences max. White space is your friend. Dense paragraphs kill momentum.
 
 **Minimal headers.** Use `##` only for major section shifts (2-4 per post). Never `###`. Headers should be opinionated, not descriptive:
+
 - ✓ "The Shotgun Approach (Don't Do This)"
 - ✓ "Build the Moat First"
 - ✗ "What I Learned About Testing"
@@ -39,6 +41,7 @@ Transform Pedro's ideas into compelling blog posts.
 ### 1. Get the Raw Material
 
 Ask:
+
 - What happened? Give me the timeline.
 - What went wrong? What surprised you?
 - What's the insight you want readers to leave with?
@@ -49,18 +52,19 @@ Don't ask about audience — Pedro's audience is always: developers who've been 
 
 Map to a structure:
 
-| If the story is about... | Use |
-|--------------------------|-----|
-| Tried, failed, learned, won | No Easy Way |
-| Discovered something, came back changed | Voyage & Return |
-| Single insight or trick | Five Ts (compressed) |
-| Opinion or argument | POPP |
+| If the story is about...                | Use                  |
+| --------------------------------------- | -------------------- |
+| Tried, failed, learned, won             | No Easy Way          |
+| Discovered something, came back changed | Voyage & Return      |
+| Single insight or trick                 | Five Ts (compressed) |
+| Opinion or argument                     | POPP                 |
 
 Most of Pedro's stories are **No Easy Way**: problem → early progress → setback → real learning → better place.
 
 ### 3. Find the Rolls Royce Moment
 
 Every post needs ONE vivid detail that readers will remember. Ask:
+
 - What's the most specific, concrete moment?
 - What made you laugh, swear, or stop?
 - What's the image that plays like a movie?
@@ -81,6 +85,7 @@ Structure the draft:
 ### 5. Edit Hard
 
 Check:
+
 - [ ] First line punchy?
 - [ ] Paragraphs short?
 - [ ] Headers opinionated?
@@ -94,6 +99,7 @@ Cut anything that sounds like "content." Keep what sounds like Pedro talking.
 ## Output Format
 
 **MDX** ready for blog:
+
 - `##` for sections (2-4 max)
 - Code blocks with language tags when showing code
 - No frontmatter
@@ -113,6 +119,7 @@ Cut anything that sounds like "content." Keep what sounds like Pedro talking.
 ## Quick Reference
 
 **Structures:**
+
 - No Easy Way: problem → early win → setback → real learning → better place
 - Five Ts: Timeline → Turning Point → Tension → Temptation → Teachable
 - POPP: Problem → Opportunity → Practical steps → Promise

@@ -19,7 +19,7 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
   const mounted = React.useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false
+    () => false,
   );
 
   const handleToggle = () => {

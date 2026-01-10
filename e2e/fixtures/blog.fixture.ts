@@ -1,4 +1,9 @@
-import { test as base, expect, type Page, type Locator } from '@playwright/test';
+import {
+  test as base,
+  expect,
+  type Page,
+  type Locator,
+} from "@playwright/test";
 
 export class BlogPage {
   readonly page: Page;
@@ -13,17 +18,19 @@ export class BlogPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.header = page.locator('header');
-    this.footer = page.locator('footer');
-    this.themeToggle = page.getByRole('button', { name: /toggle theme|switch to/i });
-    this.mainContent = page.locator('main#main-content');
-    this.skipLink = page.getByRole('link', { name: /skip to main content/i });
-    this.homeLink = page.getByRole('link', { name: 'Home' });
-    this.categoriesLink = page.getByRole('link', { name: 'Categories' });
-    this.aboutLink = page.getByRole('link', { name: 'About' });
+    this.header = page.locator("header");
+    this.footer = page.locator("footer");
+    this.themeToggle = page.getByRole("button", {
+      name: /toggle theme|switch to/i,
+    });
+    this.mainContent = page.locator("main#main-content");
+    this.skipLink = page.getByRole("link", { name: /skip to main content/i });
+    this.homeLink = page.getByRole("link", { name: "Home" });
+    this.categoriesLink = page.getByRole("link", { name: "Categories" });
+    this.aboutLink = page.getByRole("link", { name: "About" });
   }
 
-  async goto(path: string = '/') {
+  async goto(path: string = "/") {
     await this.page.goto(path);
   }
 
@@ -32,7 +39,9 @@ export class BlogPage {
   }
 
   async isDarkMode(): Promise<boolean> {
-    return this.page.locator('html').evaluate((el) => el.classList.contains('dark'));
+    return this.page
+      .locator("html")
+      .evaluate((el) => el.classList.contains("dark"));
   }
 
   async setLightMode() {
@@ -68,11 +77,11 @@ export class HomePage extends BlogPage {
   constructor(page: Page) {
     super(page);
     // Target only direct post card articles, not embedded tweet articles
-    this.postCards = page.locator('main article.group');
+    this.postCards = page.locator("main article.group");
   }
 
   async getPostTitles(): Promise<string[]> {
-    return this.postCards.locator('h2 a, h3 a').allTextContents();
+    return this.postCards.locator("h2 a, h3 a").allTextContents();
   }
 
   async getPostCount(): Promise<number> {
@@ -80,7 +89,7 @@ export class HomePage extends BlogPage {
   }
 
   async clickFirstPost() {
-    await this.postCards.first().locator('a').first().click();
+    await this.postCards.first().locator("a").first().click();
   }
 }
 
@@ -93,22 +102,22 @@ export class PostPage extends BlogPage {
   constructor(page: Page) {
     super(page);
     // Target main article directly under main, not embedded tweet articles
-    this.articleContent = page.locator('main > article');
-    this.codeBlocks = page.locator('main > article pre');
-    this.postTitle = page.locator('main > article h1');
-    this.postDate = page.locator('main > article time');
+    this.articleContent = page.locator("main > article");
+    this.codeBlocks = page.locator("main > article pre");
+    this.postTitle = page.locator("main > article h1");
+    this.postDate = page.locator("main > article time");
   }
 
   async hasCodeHighlighting(): Promise<boolean> {
     const count = await this.codeBlocks.count();
     if (count === 0) return true;
     const codeBlock = this.codeBlocks.first();
-    const spanCount = await codeBlock.locator('span[style]').count();
+    const spanCount = await codeBlock.locator("span[style]").count();
     return spanCount > 0;
   }
 
   async getTitle(): Promise<string> {
-    return (await this.postTitle.textContent()) ?? '';
+    return (await this.postTitle.textContent()) ?? "";
   }
 }
 
@@ -120,9 +129,9 @@ export class CategoryPage extends BlogPage {
   constructor(page: Page) {
     super(page);
     this.categoryLinks = page.locator('a[href^="/categories/"]');
-    this.categoryHeading = page.locator('h1');
+    this.categoryHeading = page.locator("h1");
     // Target only direct post card articles, not embedded tweet articles
-    this.postCards = page.locator('main article.group');
+    this.postCards = page.locator("main article.group");
   }
 
   async getCategoryNames(): Promise<string[]> {
@@ -130,7 +139,7 @@ export class CategoryPage extends BlogPage {
   }
 
   async clickCategory(name: string) {
-    await this.page.getByRole('link', { name }).click();
+    await this.page.getByRole("link", { name }).click();
   }
 
   async getPostCount(): Promise<number> {

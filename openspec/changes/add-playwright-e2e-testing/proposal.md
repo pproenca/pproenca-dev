@@ -7,6 +7,7 @@ Add Playwright end-to-end testing infrastructure to protect critical path functi
 ## Motivation
 
 The project has no testing framework configured. As refactoring continues, there's risk of breaking:
+
 - Post rendering and navigation
 - Category filtering and listing
 - Theme switching (dark/light)
@@ -21,6 +22,7 @@ E2E tests provide confidence that the site works correctly from a user perspecti
 ### Playwright 1.57 Key Features
 
 1. **WebServer Wait Configuration** - Intelligent readiness detection with regex patterns:
+
    ```typescript
    webServer: {
      command: 'pnpm build && pnpm start',
@@ -45,15 +47,16 @@ E2E tests provide confidence that the site works correctly from a user perspecti
    - Automatic baseline management with `--update-snapshots`
 
 2. **Cross-Platform Consistency** - Run visual tests in CI only (Linux Docker) to avoid font rendering differences:
+
    ```typescript
-   test.describe('Visual', () => {
-     test.skip(process.platform !== 'linux', 'Visual tests run on CI only');
+   test.describe("Visual", () => {
+     test.skip(process.platform !== "linux", "Visual tests run on CI only");
    });
    ```
 
 3. **Element-Scoped Screenshots** - Test specific components to reduce flakiness:
    ```typescript
-   await expect(page.locator('article')).toHaveScreenshot('post-content.png');
+   await expect(page.locator("article")).toHaveScreenshot("post-content.png");
    ```
 
 ### CI/CD Integration (GitHub Actions)
@@ -125,12 +128,12 @@ e2e/
 
 ## Risks and Mitigations
 
-| Risk | Mitigation |
-|------|------------|
-| Visual test flakiness | Run on Linux CI only, use element-scoped screenshots, configure tolerance |
-| Slow CI feedback | Shard tests, cache browsers, run critical path first |
-| Baseline drift | Review screenshot changes in PRs, keep baselines minimal |
-| Font rendering differences | Use web-safe fallbacks in tests, or accept CI-only visual tests |
+| Risk                       | Mitigation                                                                |
+| -------------------------- | ------------------------------------------------------------------------- |
+| Visual test flakiness      | Run on Linux CI only, use element-scoped screenshots, configure tolerance |
+| Slow CI feedback           | Shard tests, cache browsers, run critical path first                      |
+| Baseline drift             | Review screenshot changes in PRs, keep baselines minimal                  |
+| Font rendering differences | Use web-safe fallbacks in tests, or accept CI-only visual tests           |
 
 ## Success Criteria
 

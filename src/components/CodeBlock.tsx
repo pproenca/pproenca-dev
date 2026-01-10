@@ -92,7 +92,7 @@ export interface CodeBlockProps {
 export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
   function CodeBlock(
     { children, lightHtml, darkHtml, className, "aria-label": ariaLabel },
-    ref
+    ref,
   ) {
     return (
       <div

@@ -33,14 +33,17 @@
   --color-border-visible: var(--color-border-visible);
   --color-border: var(--color-border-visible); /* alias */
 
-  /* Terminal traffic light colors - light mode base */
-  --color-terminal-red: oklch(73% 0.05 55);
-  --color-terminal-yellow: oklch(78% 0.04 90);
-  --color-terminal-green: oklch(75% 0.04 130);
-  /* Terminal traffic light colors - hover active */
-  --color-terminal-red-active: oklch(62% 0.18 25);
-  --color-terminal-yellow-active: oklch(78% 0.15 85);
-  --color-terminal-green-active: oklch(72% 0.16 145);
+  /* Terminal traffic light colors - base and hover states
+     Values switch via CSS variables in :root/.dark below */
+  --color-terminal-red: var(--color-terminal-red);
+  --color-terminal-yellow: var(--color-terminal-yellow);
+  --color-terminal-green: var(--color-terminal-green);
+  --color-terminal-red-active: var(--color-terminal-red-active);
+  --color-terminal-yellow-active: var(--color-terminal-yellow-active);
+  --color-terminal-green-active: var(--color-terminal-green-active);
+
+  /* Code block background for Shiki themes */
+  --color-code-bg: var(--color-code-bg);
 
   /* Transition duration tokens */
   --duration-fast: 150ms;
@@ -69,6 +72,28 @@
   --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   --paper-texture-visible: block;
 
+  /* Terminal traffic light colors - light mode */
+  --color-terminal-red: oklch(73% 0.05 55);
+  --color-terminal-yellow: oklch(78% 0.04 90);
+  --color-terminal-green: oklch(75% 0.04 130);
+  --color-terminal-red-active: oklch(62% 0.18 25);
+  --color-terminal-yellow-active: oklch(78% 0.15 85);
+  --color-terminal-green-active: oklch(72% 0.16 145);
+
+  /* Code block background - GitHub Light */
+  --color-code-bg: oklch(100% 0 0);
+
+  /* Terminal window shadows - light mode */
+  --shadow-terminal:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  --shadow-terminal-hover:
+    0 8px 12px -2px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+
+  /* Terminal header - no gradient in light mode */
+  --terminal-header-bg: none;
+
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-base: 200ms ease;
@@ -84,7 +109,9 @@
   /* Warm Cream Text (not pure white) */
   --color-text-primary: oklch(85% 0.015 70);
   --color-text-secondary: oklch(65% 0.012 70);
-  --color-text-tertiary: oklch(67% 0.012 70); /* WCAG AA compliant: ~6:1 contrast ratio */
+  --color-text-tertiary: oklch(
+    67% 0.012 70
+  ); /* WCAG AA compliant: ~6:1 contrast ratio */
 
   /* Soft Gold Accents */
   --color-accent: oklch(65% 0.08 70);
@@ -96,6 +123,32 @@
 
   /* No paper texture in dark mode (OLED clean) */
   --paper-texture-visible: none;
+
+  /* Terminal traffic light colors - dark mode (muted) */
+  --color-terminal-red: oklch(40% 0.06 35);
+  --color-terminal-yellow: oklch(45% 0.06 85);
+  --color-terminal-green: oklch(42% 0.05 130);
+  --color-terminal-red-active: oklch(58% 0.17 25);
+  --color-terminal-yellow-active: oklch(73% 0.13 85);
+  --color-terminal-green-active: oklch(68% 0.15 145);
+
+  /* Code block background - Monokai */
+  --color-code-bg: oklch(22% 0.02 100);
+
+  /* Terminal window shadows - dark mode */
+  --shadow-terminal:
+    0 8px 16px -4px rgba(0, 0, 0, 0.4), 0 4px 8px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --shadow-terminal-hover:
+    0 12px 24px -6px rgba(0, 0, 0, 0.5), 0 6px 12px -6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  /* Terminal header gradient - dark mode */
+  --terminal-header-bg: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02) 0%,
+    transparent 100%
+  );
 }
 
 /* Prevent horizontal scroll on mobile */
@@ -245,6 +298,9 @@ body::before {
 
 /* ========================================
    Code Block Styling
+   ----------------------------------------
+   !important flags override Shiki's inline
+   styles for consistent theme appearance.
    ======================================== */
 
 pre {
@@ -280,50 +336,22 @@ pre code {
   @apply overflow-hidden rounded-xl;
   background-color: var(--color-bg-elevated);
   border: 1px solid var(--color-border-subtle);
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -2px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-terminal);
   transition:
     box-shadow var(--transition-base),
     transform var(--transition-base);
 
-  @variant dark {
-    box-shadow:
-      0 8px 16px -4px rgba(0, 0, 0, 0.4),
-      0 4px 8px -4px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  }
-
   &:hover {
-    box-shadow:
-      0 8px 12px -2px rgba(0, 0, 0, 0.12),
-      0 4px 6px -2px rgba(0, 0, 0, 0.08),
-      0 0 0 1px rgba(0, 0, 0, 0.05);
-
-    @variant dark {
-      box-shadow:
-        0 12px 24px -6px rgba(0, 0, 0, 0.5),
-        0 6px 12px -6px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    }
+    box-shadow: var(--shadow-terminal-hover);
   }
 }
 
 /* Terminal Header - Minimal Title Bar */
 .terminal-header {
   @apply flex items-center justify-between px-3 py-2;
+  background: var(--terminal-header-bg);
   background-color: var(--color-bg-surface);
   border-bottom: 1px solid var(--color-border-subtle);
-
-  @variant dark {
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.02) 0%,
-      transparent 100%
-    );
-    background-color: var(--color-bg-surface);
-  }
 }
 
 /* Traffic Light Dots - Mac-inspired, theme-harmonized */
@@ -339,60 +367,35 @@ pre code {
     box-shadow var(--transition-base);
 }
 
-/* Traffic light dots - use @theme colors */
+/* Traffic light dots - colors switch via CSS variables in :root/.dark */
 .terminal-dot-red {
   background-color: var(--color-terminal-red);
-
-  @variant dark {
-    background-color: oklch(40% 0.06 35);
-  }
 }
 
 .terminal-dot-yellow {
   background-color: var(--color-terminal-yellow);
-
-  @variant dark {
-    background-color: oklch(45% 0.06 85);
-  }
 }
 
 .terminal-dot-green {
   background-color: var(--color-terminal-green);
-
-  @variant dark {
-    background-color: oklch(42% 0.05 130);
-  }
 }
 
-/* Hover: reveal true traffic light colors */
+/* Hover: reveal active traffic light colors */
 .terminal-window:hover .terminal-dot-red {
   background-color: var(--color-terminal-red-active);
-  box-shadow: 0 0 8px oklch(62% 0.18 25 / 0.3);
-
-  @variant dark {
-    background-color: oklch(58% 0.17 25);
-    box-shadow: 0 0 10px oklch(58% 0.17 25 / 0.4);
-  }
+  box-shadow: 0 0 8px oklch(from var(--color-terminal-red-active) l c h / 0.35);
 }
 
 .terminal-window:hover .terminal-dot-yellow {
   background-color: var(--color-terminal-yellow-active);
-  box-shadow: 0 0 8px oklch(78% 0.15 85 / 0.3);
-
-  @variant dark {
-    background-color: oklch(73% 0.13 85);
-    box-shadow: 0 0 10px oklch(73% 0.13 85 / 0.4);
-  }
+  box-shadow: 0 0 8px
+    oklch(from var(--color-terminal-yellow-active) l c h / 0.35);
 }
 
 .terminal-window:hover .terminal-dot-green {
   background-color: var(--color-terminal-green-active);
-  box-shadow: 0 0 8px oklch(72% 0.16 145 / 0.3);
-
-  @variant dark {
-    background-color: oklch(68% 0.15 145);
-    box-shadow: 0 0 10px oklch(68% 0.15 145 / 0.4);
-  }
+  box-shadow: 0 0 8px
+    oklch(from var(--color-terminal-green-active) l c h / 0.35);
 }
 
 /* Copy Button */
@@ -420,11 +423,7 @@ pre code {
 .terminal-body {
   @apply relative;
   padding: 1rem;
-  background-color: oklch(100% 0 0); /* GitHub Light background */
-
-  @variant dark {
-    background-color: oklch(22% 0.02 100); /* Monokai background */
-  }
+  background-color: var(--color-code-bg);
 }
 
 @media (min-width: 640px) {
@@ -630,4 +629,3 @@ dialog[open] .mobile-menu-drawer {
     transform: translateX(0);
   }
 }
-

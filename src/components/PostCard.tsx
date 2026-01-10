@@ -13,7 +13,7 @@ function CategoryBadge({ category }: { category: string }) {
       href={`/categories/${categoryToSlug(category)}`}
       className={clsx(
         "rounded-full border border-border-visible bg-transparent px-golden-2 py-1 text-xs text-text-secondary",
-        "transition-colors duration-base hover:border-accent hover:text-accent"
+        "transition-colors duration-base hover:border-accent hover:text-accent",
       )}
     >
       {category}
@@ -30,7 +30,7 @@ export function PostCard({ post, className, ...props }: PostCardProps) {
         <h2
           className={clsx(
             "font-serif text-lg font-semibold text-text-primary sm:text-xl",
-            "transition-colors duration-base group-hover:text-accent"
+            "transition-colors duration-base group-hover:text-accent",
           )}
         >
           {frontmatter.title}

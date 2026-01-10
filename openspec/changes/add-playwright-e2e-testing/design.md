@@ -33,10 +33,10 @@ pproenca-dev/
 ### playwright.config.ts
 
 ```typescript
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: './e2e/tests',
+  testDir: "./e2e/tests",
 
   // Fail fast in CI, continue locally
   fullyParallel: true,
@@ -45,45 +45,42 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   // HTML reporter with Speedboard for performance analysis
-  reporter: [
-    ['html', { open: 'never' }],
-    ['list']
-  ],
+  reporter: [["html", { open: "never" }], ["list"]],
 
   // Global settings
   use: {
-    baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    baseURL: "http://localhost:3000",
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
   },
 
   // Screenshot comparison settings
   expect: {
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.01,  // Allow 1% difference
-      threshold: 0.2,           // Per-pixel sensitivity
-      animations: 'disabled',   // Reduce flakiness
+      maxDiffPixelRatio: 0.01, // Allow 1% difference
+      threshold: 0.2, // Per-pixel sensitivity
+      animations: "disabled", // Reduce flakiness
     },
   },
 
   // Build and serve static site before tests
   webServer: {
-    command: 'pnpm build && npx serve out -l 3000',
-    url: 'http://localhost:3000',
+    command: "pnpm build && npx serve out -l 3000",
+    url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
-    timeout: 120000,  // Build can take time
+    timeout: 120000, // Build can take time
   },
 
   // Browser projects
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
     // Firefox as secondary validation
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
   ],
 });
@@ -107,7 +104,7 @@ export default defineConfig({
 
 ```typescript
 // e2e/fixtures/blog.fixture.ts
-import { test as base, expect, Page, Locator } from '@playwright/test';
+import { test as base, expect, Page, Locator } from "@playwright/test";
 
 export class BlogPage {
   readonly page: Page;
@@ -118,13 +115,13 @@ export class BlogPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.header = page.locator('header');
-    this.footer = page.locator('footer');
-    this.themeToggle = page.getByRole('button', { name: /theme/i });
-    this.mainContent = page.locator('main');
+    this.header = page.locator("header");
+    this.footer = page.locator("footer");
+    this.themeToggle = page.getByRole("button", { name: /theme/i });
+    this.mainContent = page.locator("main");
   }
 
-  async goto(path: string = '/') {
+  async goto(path: string = "/") {
     await this.page.goto(path);
   }
 
@@ -133,7 +130,9 @@ export class BlogPage {
   }
 
   async isDarkMode(): Promise<boolean> {
-    return this.page.locator('html').evaluate(el => el.classList.contains('dark'));
+    return this.page
+      .locator("html")
+      .evaluate((el) => el.classList.contains("dark"));
   }
 }
 
@@ -142,11 +141,11 @@ export class HomePage extends BlogPage {
 
   constructor(page: Page) {
     super(page);
-    this.postCards = page.locator('article');
+    this.postCards = page.locator("article");
   }
 
   async getPostTitles(): Promise<string[]> {
-    return this.postCards.locator('h2, h3').allTextContents();
+    return this.postCards.locator("h2, h3").allTextContents();
   }
 }
 
@@ -156,14 +155,17 @@ export class PostPage extends BlogPage {
 
   constructor(page: Page) {
     super(page);
-    this.articleContent = page.locator('article');
-    this.codeBlocks = page.locator('pre code');
+    this.articleContent = page.locator("article");
+    this.codeBlocks = page.locator("pre code");
   }
 
   async hasCodeHighlighting(): Promise<boolean> {
     const codeBlock = this.codeBlocks.first();
-    if (await codeBlock.count() === 0) return true; // No code blocks
-    return codeBlock.locator('span[style]').count().then(c => c > 0);
+    if ((await codeBlock.count()) === 0) return true; // No code blocks
+    return codeBlock
+      .locator("span[style]")
+      .count()
+      .then((c) => c > 0);
   }
 }
 
@@ -197,49 +199,49 @@ export { expect };
 
 ### Screenshot Categories
 
-| Category | Scope | Purpose |
-|----------|-------|---------|
-| Full Page | Homepage, About | Catch layout regressions |
-| Component | Header, Footer, Code Block | Isolate styling changes |
-| Theme Variants | Light + Dark | Ensure both themes work |
+| Category       | Scope                      | Purpose                  |
+| -------------- | -------------------------- | ------------------------ |
+| Full Page      | Homepage, About            | Catch layout regressions |
+| Component      | Header, Footer, Code Block | Isolate styling changes  |
+| Theme Variants | Light + Dark               | Ensure both themes work  |
 
 ### Visual Test Structure
 
 ```typescript
 // e2e/tests/visual.spec.ts
-import { test, expect } from '../fixtures/blog.fixture';
+import { test, expect } from "../fixtures/blog.fixture";
 
-test.describe('Visual Regression', () => {
+test.describe("Visual Regression", () => {
   // Only run visual tests on Linux (CI)
-  test.skip(process.platform !== 'linux', 'Visual tests run on CI only');
+  test.skip(process.platform !== "linux", "Visual tests run on CI only");
 
-  test('homepage light theme', async ({ homePage }) => {
-    await homePage.goto('/');
+  test("homepage light theme", async ({ homePage }) => {
+    await homePage.goto("/");
     // Ensure light mode
     if (await homePage.isDarkMode()) {
       await homePage.toggleTheme();
     }
-    await expect(homePage.page).toHaveScreenshot('homepage-light.png', {
+    await expect(homePage.page).toHaveScreenshot("homepage-light.png", {
       fullPage: true,
     });
   });
 
-  test('homepage dark theme', async ({ homePage }) => {
-    await homePage.goto('/');
+  test("homepage dark theme", async ({ homePage }) => {
+    await homePage.goto("/");
     // Ensure dark mode
     if (!(await homePage.isDarkMode())) {
       await homePage.toggleTheme();
     }
-    await expect(homePage.page).toHaveScreenshot('homepage-dark.png', {
+    await expect(homePage.page).toHaveScreenshot("homepage-dark.png", {
       fullPage: true,
     });
   });
 
-  test('code block styling', async ({ postPage, page }) => {
+  test("code block styling", async ({ postPage, page }) => {
     // Find a post with code
-    await postPage.goto('/posts/some-post-with-code');
-    const codeBlock = page.locator('pre').first();
-    await expect(codeBlock).toHaveScreenshot('code-block.png');
+    await postPage.goto("/posts/some-post-with-code");
+    const codeBlock = page.locator("pre").first();
+    await expect(codeBlock).toHaveScreenshot("code-block.png");
   });
 });
 ```
@@ -251,6 +253,7 @@ test.describe('Visual Regression', () => {
 2. **CI-Generated** - Baselines created on Linux CI to ensure consistency.
 
 3. **Update Workflow**:
+
    ```bash
    # On CI, update baselines:
    npx playwright test --update-snapshots
@@ -290,7 +293,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
@@ -338,29 +341,29 @@ jobs:
 
 ### Critical Path (Must Pass)
 
-| Test | Priority | Blocks Deploy |
-|------|----------|---------------|
-| Homepage loads | P0 | Yes |
-| Post content renders | P0 | Yes |
-| Navigation works | P0 | Yes |
-| Theme toggle works | P1 | Yes |
+| Test                 | Priority | Blocks Deploy |
+| -------------------- | -------- | ------------- |
+| Homepage loads       | P0       | Yes           |
+| Post content renders | P0       | Yes           |
+| Navigation works     | P0       | Yes           |
+| Theme toggle works   | P1       | Yes           |
 
 ### Visual Regression (Review Required)
 
-| Test | Priority | Blocks Deploy |
-|------|----------|---------------|
-| Homepage screenshot | P1 | Review only |
-| Post screenshot | P1 | Review only |
-| Code block screenshot | P2 | Review only |
+| Test                  | Priority | Blocks Deploy |
+| --------------------- | -------- | ------------- |
+| Homepage screenshot   | P1       | Review only   |
+| Post screenshot       | P1       | Review only   |
+| Code block screenshot | P2       | Review only   |
 
 ### SEO/A11y (Should Pass)
 
-| Test | Priority | Blocks Deploy |
-|------|----------|---------------|
-| Meta tags present | P1 | Warning |
-| JSON-LD valid | P1 | Warning |
-| Feeds accessible | P2 | Warning |
-| Keyboard nav works | P2 | Warning |
+| Test               | Priority | Blocks Deploy |
+| ------------------ | -------- | ------------- |
+| Meta tags present  | P1       | Warning       |
+| JSON-LD valid      | P1       | Warning       |
+| Feeds accessible   | P2       | Warning       |
+| Keyboard nav works | P2       | Warning       |
 
 ## Trade-offs
 

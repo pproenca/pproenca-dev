@@ -36,7 +36,7 @@ export function Header({ className, ...props }: HeaderProps) {
     <header
       className={clsx(
         "sticky top-0 z-10 border-b border-border-subtle/50 bg-bg-deep/80 backdrop-blur-sm",
-        className
+        className,
       )}
       {...props}
     >

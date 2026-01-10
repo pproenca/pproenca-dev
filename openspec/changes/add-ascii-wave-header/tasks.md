@@ -14,6 +14,7 @@
 ## Original Tasks (Not Implemented)
 
 The original proposal called for an animated ASCII wave header. After exploring options including:
+
 - Character-by-character wave animation
 - Subtle ASCII wave decoration (`· ~ · ~ · ~ ·`)
 - Various Knowlton/Veilleux-inspired patterns

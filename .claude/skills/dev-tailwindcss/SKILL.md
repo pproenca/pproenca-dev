@@ -59,40 +59,40 @@ Three-tier structure: **elements** → **sections** → **pages**
 Small, reusable primitives. See `references/element-patterns.md` for complete examples.
 
 ```tsx
-import { clsx } from 'clsx/lite'
-import type { ComponentProps } from 'react'
+import { clsx } from "clsx/lite";
+import type { ComponentProps } from "react";
 
 // Size variants as object
 const sizes = {
-  md: 'px-3 py-1',
-  lg: 'px-4 py-2',
-}
+  md: "px-3 py-1",
+  lg: "px-4 py-2",
+};
 
 export function Button({
-  size = 'md',
-  color = 'dark/light',
+  size = "md",
+  color = "dark/light",
   className,
   ...props
 }: {
-  size?: keyof typeof sizes
-  color?: 'dark/light' | 'light'
-} & ComponentProps<'button'>) {
+  size?: keyof typeof sizes;
+  color?: "dark/light" | "light";
+} & ComponentProps<"button">) {
   return (
     <button
       className={clsx(
         // Base styles
-        'inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium',
+        "inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium",
         // Color variants with dark mode
-        color === 'dark/light' &&
-          'bg-{name}-950 text-white hover:bg-{name}-800 dark:bg-{name}-300 dark:text-{name}-950 dark:hover:bg-{name}-200',
-        color === 'light' && 
-          'bg-white text-{name}-950 hover:bg-{name}-100 dark:bg-{name}-100 dark:hover:bg-white',
+        color === "dark/light" &&
+          "bg-{name}-950 text-white hover:bg-{name}-800 dark:bg-{name}-300 dark:text-{name}-950 dark:hover:bg-{name}-200",
+        color === "light" &&
+          "bg-white text-{name}-950 hover:bg-{name}-100 dark:bg-{name}-100 dark:hover:bg-white",
         sizes[size],
         className,
       )}
       {...props}
     />
-  )
+  );
 }
 ```
 
@@ -127,27 +127,29 @@ export function Section({
 ## Key Patterns
 
 ### Dark Mode
+
 - Use `dark:` prefix for dark mode styles
 - Use `not-dark:` for light-only visibility (hiding dark alternatives)
 - Pattern: pair light/dark variants together
 
 ```tsx
 // Text colors
-'text-{name}-950 dark:text-white'           // Primary text
-'text-{name}-700 dark:text-{name}-400'      // Secondary text
-'text-{name}-600 dark:text-{name}-500'      // Tertiary/muted
+"text-{name}-950 dark:text-white"; // Primary text
+"text-{name}-700 dark:text-{name}-400"; // Secondary text
+"text-{name}-600 dark:text-{name}-500"; // Tertiary/muted
 
 // Backgrounds
-'bg-{name}-100 dark:bg-{name}-950'          // Page background
-'bg-{name}-950/2.5 dark:bg-white/5'         // Card backgrounds
-'bg-{name}-950/10 dark:bg-white/10'         // Soft button backgrounds
+"bg-{name}-100 dark:bg-{name}-950"; // Page background
+"bg-{name}-950/2.5 dark:bg-white/5"; // Card backgrounds
+"bg-{name}-950/10 dark:bg-white/10"; // Soft button backgrounds
 
 // Borders
-'border-{name}-950/10 dark:border-white/10'
-'divide-{name}-950/10 dark:divide-white/10'
+"border-{name}-950/10 dark:border-white/10";
+"divide-{name}-950/10 dark:divide-white/10";
 ```
 
 ### Typography Scale
+
 ```
 font-display    → Headings (serif)
 text-sm/7       → Small text, buttons, labels
@@ -161,6 +163,7 @@ text-[5rem]/20  → Main heading desktop
 ```
 
 ### Spacing System
+
 ```
 Section padding:  py-16
 Content gaps:     gap-2 (tight), gap-4, gap-6 (standard), gap-10, gap-16 (sections)
@@ -168,48 +171,71 @@ Container:        px-6 lg:px-10, max-w-2xl md:max-w-3xl lg:max-w-7xl
 ```
 
 ### Button Variants
+
 1. **Solid** - `bg-{name}-950 text-white` → Primary CTAs
 2. **Soft** - `bg-{name}-950/10 text-{name}-950` → Secondary actions
 3. **Plain** - `text-{name}-950 hover:bg-{name}-950/10` → Tertiary/links
 
 ### Icons
+
 - SVG-based, 13x13 viewBox standard
 - Use `stroke="currentColor"` for coloring
 - Pattern: `h-lh` aligns icon with line-height
 
 ```tsx
-export function CheckmarkIcon({ className, ...props }: ComponentProps<'svg'>) {
+export function CheckmarkIcon({ className, ...props }: ComponentProps<"svg">) {
   return (
-    <svg width={13} height={13} viewBox="0 0 13 13" fill="none" 
-      stroke="currentColor" strokeWidth={1} className={clsx('inline-block', className)} {...props}>
-      <path d="M1.5 6.5L5.5 11.5L11.5 1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      width={13}
+      height={13}
+      viewBox="0 0 13 13"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1}
+      className={clsx("inline-block", className)}
+      {...props}
+    >
+      <path
+        d="M1.5 6.5L5.5 11.5L11.5 1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
-  )
+  );
 }
 ```
 
 ### Container Component
+
 ```tsx
-export function Container({ children, className, ...props }: ComponentProps<'div'>) {
+export function Container({
+  children,
+  className,
+  ...props
+}: ComponentProps<"div">) {
   return (
-    <div className={clsx(
-      'mx-auto w-full max-w-2xl px-6 md:max-w-3xl lg:max-w-7xl lg:px-10', 
-      className
-    )} {...props}>
+    <div
+      className={clsx(
+        "mx-auto w-full max-w-2xl px-6 md:max-w-3xl lg:max-w-7xl lg:px-10",
+        className,
+      )}
+      {...props}
+    >
       {children}
     </div>
-  )
+  );
 }
 ```
 
 ### Responsive Grid Patterns
+
 ```tsx
 // Auto-adjusting based on child count
-'grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3'
+"grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3";
 
 // Smart column detection
-'sm:has-[>:nth-child(5)]:grid-cols-2'
-'lg:has-[>:nth-child(5)]:grid-cols-3'
+"sm:has-[>:nth-child(5)]:grid-cols-2";
+"lg:has-[>:nth-child(5)]:grid-cols-3";
 ```
 
 ## Reference Files

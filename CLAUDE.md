@@ -18,6 +18,7 @@ pnpm test:e2e:update # Update visual regression snapshots
 ## Testing
 
 E2E tests use Playwright and run against the static build. Tests cover:
+
 - Critical path (homepage, posts, categories, theme toggle)
 - Visual regression (CI-only, Linux baselines)
 - SEO metadata and feeds
@@ -26,6 +27,7 @@ E2E tests use Playwright and run against the static build. Tests cover:
 ### Visual Snapshots
 
 Visual tests only run on CI (Linux) to ensure consistent baselines. To update snapshots:
+
 1. Push changes to a PR
 2. CI will fail if visual differences are detected
 3. Review the diff in the uploaded artifacts

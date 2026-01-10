@@ -42,10 +42,10 @@ Remove all OneSignal-related code, configuration, and dependencies from the code
 
 ## Risks
 
-| Risk | Mitigation |
-|------|------------|
-| Users lose notification capability | RSS feed available at /feed.xml |
-| Existing subscribers affected | Low subscriber count expected for new blog |
+| Risk                               | Mitigation                                 |
+| ---------------------------------- | ------------------------------------------ |
+| Users lose notification capability | RSS feed available at /feed.xml            |
+| Existing subscribers affected      | Low subscriber count expected for new blog |
 
 ## Success Criteria
 

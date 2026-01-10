@@ -5,40 +5,47 @@ This guide defines the writing style for blog posts. The style is modeled on cle
 ## Core Principles
 
 ### Sentence Rhythm
+
 - Vary sentence length intentionally
 - Use short punchy sentences for emphasis: "Failure isn't fun. Success is."
 - Use longer sentences for explanation and nuance
 - Avoid monotonous sentence patterns
 
 ### Paragraph Structure
+
 - Keep paragraphs brief: 2-4 sentences maximum
 - Each paragraph makes ONE point
 - White space creates breathing room for ideas
 
 ### Word Count
+
 - Target 250-400 words total
 - Concise is better than comprehensive
 - Every sentence must earn its place
 
 ### Tone
+
 - Conversational yet authoritative
 - Personal experience over abstract theory
 - Confident but not arrogant
 - Show don't lecture
 
 ### First Person Voice
+
 - Use "I" liberally to establish credibility
 - Share what YOU learned, observed, experienced
 - Avoid "one should" or passive constructions
 - Make it personal: "I've never thought..." not "It's commonly believed..."
 
 ### Rhetorical Devices
+
 - Parallel construction: "Every day... Every week... Every year..."
 - Consequence chaining: Build cause and effect sequences
 - Metaphors to make abstract concrete: "Every lie creates a debt"
 - Reframes: Take common wisdom and flip it
 
 ### Reading Level
+
 - Grade 6-8 (Hemingway App standard)
 - Active voice, not passive
 - Few adverbs
@@ -81,19 +88,25 @@ This guide defines the writing style for blog posts. The style is modeled on cle
 ## Example Patterns
 
 ### Short punchy opener
+
 "Dishonesty often looks efficient in the short term."
 
 ### Parallel construction
+
 "You get better, you enjoy the work more, and the loop tightens."
 
 ### Consequence chain
+
 "Eventually you burn out. Your work suffers. The company questions your judgment. Your options narrow. Resentment creeps in."
 
 ### Reframe
+
 "The process wasn't inventing how to tell stories—it was discovering the ways audiences are inclined to engage."
 
 ### Personal credibility
+
 "At Meta, I've taken every single day of vacation I've ever been offered."
 
 ### Insight crystallization
+
 "That isn't indulgence. It's maintenance."

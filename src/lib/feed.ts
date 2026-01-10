@@ -40,7 +40,10 @@ export function createFeed(): Feed {
       link: url,
       description: post.frontmatter.description,
       date: new Date(post.frontmatter.date),
-      category: post.frontmatter.categories.map((name) => ({ name, term: name })),
+      category: post.frontmatter.categories.map((name) => ({
+        name,
+        term: name,
+      })),
     });
   }
 
