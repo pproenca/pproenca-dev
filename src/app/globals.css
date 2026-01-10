@@ -151,10 +151,19 @@
   );
 }
 
-/* Prevent horizontal scroll on mobile */
+/* Prevent horizontal scroll on mobile and stabilize scrollbar layout */
 html,
 body {
   overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* Better text distribution in headings */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
 }
 
 /* Base body styles - bg/color/transition handled by Tailwind utilities in layout.tsx */
