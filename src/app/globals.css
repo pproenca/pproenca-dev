@@ -98,6 +98,12 @@
   --paper-texture-visible: none;
 }
 
+/* Prevent horizontal scroll on mobile */
+html,
+body {
+  overflow-x: hidden;
+}
+
 /* Base body styles - bg/color/transition handled by Tailwind utilities in layout.tsx */
 body {
   font-size: 18px;
