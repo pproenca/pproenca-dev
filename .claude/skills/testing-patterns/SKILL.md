@@ -1,11 +1,11 @@
 ---
-name: MUI/Base UI Testing Patterns
-description: This skill should be used when the user asks to "write tests", "add tests", "test component", "create test file", "add test coverage", "test accessibility", "test keyboard navigation", "test ARIA attributes", or mentions testing React components with Vitest, React Testing Library, Chai, or Sinon. Provides comprehensive MUI/Base UI testing methodology.
+name: React Component Testing Patterns
+description: This skill should be used when the user asks to "write tests", "add tests", "test component", "create test file", "add test coverage", "test accessibility", "test keyboard navigation", "test ARIA attributes", or mentions testing React components with Vitest, React Testing Library, Chai, or Sinon. Provides comprehensive React component testing methodology.
 ---
 
-# MUI/Base UI Testing Patterns
+# React Component Testing Patterns
 
-Comprehensive testing patterns for React component testing following MUI/Base UI conventions. These patterns ensure consistent, accessible, and well-structured tests.
+Comprehensive testing patterns for React component testing. These patterns ensure consistent, accessible, and well-structured tests.
 
 ## Testing Stack
 

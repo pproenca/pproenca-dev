@@ -1,6 +1,6 @@
 # Comprehensive Testing Patterns
 
-Detailed patterns for MUI/Base UI component testing.
+Detailed patterns for React component testing.
 
 ## User Event Patterns
 

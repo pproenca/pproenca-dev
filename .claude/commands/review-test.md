@@ -1,6 +1,6 @@
 ---
 name: review-test
-description: Review test files against MUI/Base UI testing patterns and provide detailed feedback with fixes
+description: Review test files against React component testing patterns and provide detailed feedback with fixes
 allowed-tools:
   - Read
   - Glob
@@ -10,7 +10,7 @@ argument-hint: "<test-file-path>"
 
 # Review Test File
 
-Analyze a test file for adherence to MUI/Base UI testing patterns and provide detailed feedback with corrected code.
+Analyze a test file for adherence to React component testing patterns and provide detailed feedback with corrected code.
 
 ## Review Checklist
 

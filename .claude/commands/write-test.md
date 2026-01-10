@@ -1,6 +1,6 @@
 ---
 name: write-test
-description: Generate component tests following MUI/Base UI patterns with Vitest, Chai, and Sinon
+description: Generate component tests following React component patterns with Vitest, Chai, and Sinon
 allowed-tools:
   - Read
   - Write
@@ -12,7 +12,7 @@ argument-hint: "<component-path>"
 
 # Write Component Test
 
-Generate a comprehensive test file for a React component following MUI/Base UI testing conventions.
+Generate a comprehensive test file for a React component following these testing conventions.
 
 ## Workflow
 
