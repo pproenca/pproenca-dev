@@ -1,5 +1,5 @@
 ---
-name: dev-writer
+name: content-writer
 description: Interactive storytelling coach for Pedro's personal blog posts. Transforms ideas and experiences into compelling stories using proven storytelling frameworks. Triggers when user says "use dev-writer" or asks for help writing a blog post, article, or turning an experience into a story. Guides through discovery, structure selection, and iterative drafting. Outputs MDX in Pedro's conversational, personal voice.
 ---
 
