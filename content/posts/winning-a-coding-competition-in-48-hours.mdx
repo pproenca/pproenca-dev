@@ -23,7 +23,7 @@ And it broke a lot.
 
 My first iteration was chaos. I pointed Claude at the WebCodecs IDL spec and told it to start converting to the Node addon API plus C++ implementation. TDD. Write tests, make them pass, ship it. Except TDD isn't enough when you don't have guardrails.
 
-Claude was making progress. Tests were green, things were compiling. But we were building on sand. The tests were passing because they tested _my implementation_, not the _correct behaviour_. There's a difference, and it's the difference between feeling productive and actually being productive.
+Claude was making progress. Tests were green, things were compiling. But we were building on sand. The tests were passing because they tested the _wrong implementation_, not the _expected spec behaviour_. There's a difference, and it's the difference between feeling productive and actually being productive.
 
 ## Build the Moat First
 
@@ -37,7 +37,7 @@ The uncomfortable truth about coding with AI: Claude will tell you everything's 
 
 Tests pass. The code looks clean. Claude says "great, that should work now." And you feel good. But those tests might just be validating your wrong implementation. I've seen this in management too. Metrics can lie if you're measuring the wrong things.
 
-So I started treating AI output the way I'd treat a new hire's code: trust, but verify. Run it. Break it. Check the actual behaviour, not just the test results.
+So I started treating AI output the way I'd treat a new hire's code: trust, but verify. Run it. Break it. Check the actual behaviour, how it fits with the rest of the code, not just the test results.
 
 ## The Segfault I Manifested
 
