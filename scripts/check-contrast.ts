@@ -32,12 +32,12 @@ const lightModeColors: ColorPair[] = [
   },
   {
     name: "text-tertiary / bg-deep",
-    foreground: "oklch(65% 0.015 70)",
+    foreground: "oklch(49% 0.015 70)",
     background: "oklch(95.5% 0.012 85)",
   },
   {
     name: "accent / bg-deep",
-    foreground: "oklch(58% 0.09 70)",
+    foreground: "oklch(50% 0.09 70)",
     background: "oklch(95.5% 0.012 85)",
   },
   {
@@ -57,7 +57,7 @@ const lightModeColors: ColorPair[] = [
   },
   {
     name: "text-tertiary / bg-elevated (copy btn)",
-    foreground: "oklch(65% 0.015 70)",
+    foreground: "oklch(49% 0.015 70)",
     background: "oklch(89.5% 0.018 85)",
   },
   {
@@ -90,7 +90,7 @@ const darkModeColors: ColorPair[] = [
   },
   {
     name: "accent-muted / bg-deep",
-    foreground: "oklch(53% 0.07 70)",
+    foreground: "oklch(60% 0.07 70)",
     background: "oklch(8% 0.01 70)",
   },
   {
