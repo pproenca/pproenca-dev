@@ -23,23 +23,14 @@ export default function HomePage() {
   return (
     <div>
       <JsonLd data={websiteSchema} />
-      <h1 className="font-serif text-3xl font-bold text-text-primary">
-        Latest Posts
-      </h1>
-      <p className="mt-golden-2 text-text-secondary">
-        Thoughts on web development, programming, and technology.
-      </p>
-
-      <div className="mt-golden-5 space-y-golden-5">
+      <div className="space-y-golden-5">
         {posts.map((post) => (
           <PostCard key={post.slug} post={post} />
         ))}
       </div>
 
       {posts.length === 0 && (
-        <p className="mt-golden-5 text-text-tertiary">
-          No posts yet. Check back soon!
-        </p>
+        <p className="text-text-tertiary">No posts yet. Check back soon!</p>
       )}
     </div>
   );

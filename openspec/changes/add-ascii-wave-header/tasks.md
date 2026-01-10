@@ -1,28 +1,25 @@
 # Tasks: Add ASCII Wave Animation Header
 
-## 1. CSS Animation Foundation
+> **Direction Change**: After design review, decided to remove the "Latest Posts" heading entirely. Apple-style restraint - let the content speak for itself.
 
-- [ ] 1.1 Add `.ascii-header` class to globals.css (display: inline-block)
-- [ ] 1.2 Add `.ascii-char` class with base animation properties
-- [ ] 1.3 Add `@keyframes ascii-wave` with translateY and opacity
-- [ ] 1.4 Add `@media (prefers-reduced-motion)` override for accessibility
+## Final Implementation
 
-## 2. Component Implementation
+- [x] 1.1 Remove "Latest Posts" heading from homepage
+- [x] 1.2 Remove subtitle "Thoughts on web development..."
+- [x] 1.3 Homepage now shows posts directly with clean spacing
+- [x] 1.4 Build passes (`pnpm build`)
+- [x] 1.5 Lint passes (`pnpm lint`)
+- [x] 1.6 Verified in both light and dark modes
 
-- [ ] 2.1 Create `src/components/AsciiHeader.tsx` as client component
-- [ ] 2.2 Implement character splitting with span wrapping
-- [ ] 2.3 Add dynamic animation-delay via inline style (0.05s × index)
-- [ ] 2.4 Handle space characters with `\u00A0` non-breaking space
+## Original Tasks (Not Implemented)
 
-## 3. Integration
+The original proposal called for an animated ASCII wave header. After exploring options including:
+- Character-by-character wave animation
+- Subtle ASCII wave decoration (`· ~ · ~ · ~ ·`)
+- Various Knowlton/Veilleux-inspired patterns
 
-- [ ] 3.1 Import `AsciiHeader` in `src/app/page.tsx`
-- [ ] 3.2 Replace static `<h1>` with `<AsciiHeader text="Latest Posts" />`
+The final decision was maximum restraint: no title, no decoration, just the posts.
 
-## 4. Verification
+## Files Changed
 
-- [ ] 4.1 Run `npm run dev` and verify animation on http://localhost:3000
-- [ ] 4.2 Toggle dark mode - animation should work identically
-- [ ] 4.3 Test with `prefers-reduced-motion: reduce` in browser devtools
-- [ ] 4.4 Run `npm run build` - ensure static export succeeds
-- [ ] 4.5 Run `npm run lint` - no new errors
+- `src/app/page.tsx` - Removed h1 heading and subtitle, posts render directly
