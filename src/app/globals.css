@@ -629,3 +629,20 @@ dialog[open] .mobile-menu-drawer {
     transform: translateX(0);
   }
 }
+
+/* ========================================
+   Resources Navigation - MDX Component
+   ======================================== */
+
+.resources-nav a {
+  @apply inline-flex items-center gap-2 rounded-full px-4 py-2;
+  @apply text-sm font-medium;
+  @apply bg-bg-elevated text-text-primary;
+  @apply border border-border-subtle;
+  @apply no-underline;
+  @apply transition-all duration-200;
+}
+
+.resources-nav a:hover {
+  @apply border-accent text-accent shadow-sm;
+}

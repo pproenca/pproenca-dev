@@ -2,6 +2,7 @@ import * as React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { TweetEmbed } from "./TweetEmbed";
 import { CodeBlock } from "./CodeBlock";
+import { Resources } from "./Resources";
 import { getHighlighter } from "@/lib/shiki";
 
 interface CodeProps {
@@ -59,6 +60,7 @@ const components = {
   code: Code,
   a: Anchor,
   Tweet: TweetEmbed,
+  Resources,
 };
 
 interface MDXContentProps {

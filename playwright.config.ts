@@ -33,7 +33,7 @@ export default defineConfig({
 
   // Build and serve static site before tests
   webServer: {
-    command: "pnpm build && pnpm exec serve out -l 3000 -s",
+    command: "pnpm build && pnpm exec serve out -l 3000",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 180000,
