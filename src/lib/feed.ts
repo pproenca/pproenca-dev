@@ -20,6 +20,7 @@ export function createFeed(): Feed {
     feedLinks: {
       rss2: `${SITE_CONFIG.url}/feed.xml`,
       atom: `${SITE_CONFIG.url}/atom.xml`,
+      json: `${SITE_CONFIG.url}/feed.json`,
     },
   });
 

@@ -91,6 +91,7 @@ export const metadata: Metadata = {
     types: {
       "application/rss+xml": "/feed.xml",
       "application/atom+xml": "/atom.xml",
+      "application/feed+json": "/feed.json",
     },
   },
 };
