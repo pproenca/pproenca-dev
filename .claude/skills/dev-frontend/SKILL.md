@@ -1,65 +1,100 @@
 ---
 name: dev-frontend
-description: This skill should be used when the user asks to "write a React component", "create a headless component", "build a form control", "add accessibility to a component", "implement controlled/uncontrolled pattern", "create compound component", "write TypeScript React code", or when writing any production-grade React/TypeScript component code. Provides Headless Component patterns for headless, accessible, type-safe components.
+description: Advanced React component architecture patterns for building headless, accessible, type-safe UI components. Use when implementing compound components, controlled/uncontrolled state patterns, render props, data attributes for CSS styling, or accessible form controls. NOT for basic React components - use dev-react instead.
 ---
 
-# dev-frontend
+# Headless Component Patterns
 
-Write production-grade TypeScript + React headless components following Headless Component patterns - the same patterns powering enterprise React applications.
+Advanced patterns for building production-grade, accessible React components. These patterns are useful when building component libraries or complex reusable UI.
 
 ## Core Principles
 
 1. **Headless First**: Components provide behavior and accessibility, not styling
-2. **Controlled + Uncontrolled**: Always support both modes via `useControlled`
+2. **Controlled + Uncontrolled**: Always support both modes
 3. **Render Prop Flexibility**: Users can customize rendering completely
 4. **State as Data Attributes**: Expose state via `data-*` for CSS styling
 5. **Event Cancellation**: Allow consumers to prevent state changes
-6. **Type Safety**: Rich TypeScript with generics and conditional types
+6. **Type Safety**: Rich TypeScript with generics
 
 ---
 
-## The useRenderElement Pattern
+## Controlled + Uncontrolled Pattern
 
-Every component renders through this hook:
+Support both controlled (external state) and uncontrolled (internal state) modes:
 
 ```typescript
-const element = useRenderElement("div", componentProps, {
-  state,
-  ref: forwardedRef,
-  props: [defaultProps, elementProps],
-  stateAttributesMapping,
-});
+// Generic useControlled hook
+function useControlled<T>({
+  controlled,
+  default: defaultValue,
+}: {
+  controlled: T | undefined;
+  default: T;
+}): [T, (value: T) => void] {
+  const isControlled = controlled !== undefined;
+  const [internalValue, setInternalValue] = React.useState(defaultValue);
+  const value = isControlled ? controlled : internalValue;
 
-return element;
+  const setValue = React.useCallback((newValue: T) => {
+    if (!isControlled) {
+      setInternalValue(newValue);
+    }
+  }, [isControlled]);
+
+  return [value, setValue];
+}
+
+// Usage in component
+interface DialogProps {
+  open?: boolean;           // Controlled
+  defaultOpen?: boolean;    // Uncontrolled
+  onOpenChange?: (open: boolean) => void;
+}
+
+function Dialog({ open: openProp, defaultOpen = false, onOpenChange, children }: DialogProps) {
+  const [open, setOpen] = useControlled({
+    controlled: openProp,
+    default: defaultOpen,
+  });
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    onOpenChange?.(newOpen);
+  };
+
+  // ...
+}
 ```
 
-### Key Capabilities
-
-- **Render prop (function)**: `render={(props, state) => <Custom {...props} />}`
-- **Render prop (element)**: `render={<Custom />}`
-- **State className**: `className={(state) => state.open ? 'open' : ''}`
-- **Conditional**: `enabled: false` returns `null`
-
 ---
 
-## State Attributes Mapping
+## State as Data Attributes
 
-Convert state to `data-*` attributes for CSS styling:
+Expose component state via `data-*` attributes for CSS styling:
 
 ```typescript
-const stateAttributesMapping: StateAttributesMapping<State> = {
-  // Boolean: presence/absence
-  open(value) {
-    return value ? { "data-open": "" } : null;
-  },
-  disabled(value) {
-    return value ? { "data-disabled": "" } : null;
-  },
-  // Enum: value
-  side(value) {
-    return { "data-side": value };
-  },
-};
+interface State {
+  open: boolean;
+  disabled: boolean;
+  side: 'top' | 'bottom';
+}
+
+function getStateAttributes(state: State) {
+  return {
+    // Boolean: presence/absence (no value)
+    ...(state.open && { 'data-open': '' }),
+    ...(state.disabled && { 'data-disabled': '' }),
+    // Enum: use value
+    'data-side': state.side,
+  };
+}
+
+// In component
+return (
+  <div {...getStateAttributes(state)} {...props}>
+    {children}
+  </div>
+);
 ```
 
 **CSS Usage:**
@@ -70,6 +105,7 @@ const stateAttributesMapping: StateAttributesMapping<State> = {
 }
 [data-disabled] {
   pointer-events: none;
+  opacity: 0.5;
 }
 [data-side="top"] {
   bottom: 100%;
@@ -78,307 +114,288 @@ const stateAttributesMapping: StateAttributesMapping<State> = {
 
 ---
 
-## Controlled + Uncontrolled Pattern
+## Render Prop Pattern
 
-Always use `useControlled`:
-
-```typescript
-const [open, setOpen] = useControlled({
-  controlled: openProp,
-  default: defaultOpen ?? false,
-  name: "Dialog",
-  state: "open",
-});
-```
-
-**Props interface:**
+Allow complete rendering customization:
 
 ```typescript
-interface DialogRootProps {
-  open?: boolean; // Controlled
-  defaultOpen?: boolean; // Uncontrolled
-  onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
+interface ButtonProps {
+  render?: (props: React.ButtonHTMLAttributes<HTMLButtonElement>, state: ButtonState) => React.ReactElement;
+  className?: string | ((state: ButtonState) => string);
+  children?: React.ReactNode;
 }
+
+interface ButtonState {
+  pressed: boolean;
+  disabled: boolean;
+}
+
+function Button({ render, className, children, ...props }: ButtonProps) {
+  const state: ButtonState = { pressed: false, disabled: false };
+
+  const elementProps = {
+    ...props,
+    className: typeof className === 'function' ? className(state) : className,
+    ...getStateAttributes(state),
+  };
+
+  // Custom render function
+  if (typeof render === 'function') {
+    return render(elementProps, state);
+  }
+
+  // Default rendering
+  return <button {...elementProps}>{children}</button>;
+}
+
+// Usage
+<Button render={(props, state) => (
+  <a {...props} href="/action" className={state.pressed ? 'active' : ''}>
+    Click me
+  </a>
+)} />
 ```
 
 ---
 
-## Event Details with Cancellation
+## Compound Components with Context
+
+Create related components that share state:
+
+```typescript
+// 1. Create context with undefined default
+interface TabsContextValue {
+  value: number;
+  onValueChange: (value: number) => void;
+}
+
+const TabsContext = React.createContext<TabsContextValue | undefined>(undefined);
+
+// 2. Create throwing hook with optional overload
+function useTabsContext(): TabsContextValue;
+function useTabsContext(optional: true): TabsContextValue | undefined;
+function useTabsContext(optional?: boolean) {
+  const context = React.useContext(TabsContext);
+  if (!optional && context === undefined) {
+    throw new Error('Tabs components must be used within Tabs.Root');
+  }
+  return context;
+}
+
+// 3. Root component provides context
+function TabsRoot({ value, defaultValue = 0, onValueChange, children }: TabsRootProps) {
+  const [internalValue, setInternalValue] = useControlled({
+    controlled: value,
+    default: defaultValue,
+  });
+
+  const contextValue = React.useMemo(() => ({
+    value: internalValue,
+    onValueChange: (newValue: number) => {
+      setInternalValue(newValue);
+      onValueChange?.(newValue);
+    },
+  }), [internalValue, onValueChange, setInternalValue]);
+
+  return (
+    <TabsContext value={contextValue}>
+      {children}
+    </TabsContext>
+  );
+}
+
+// 4. Child components consume context
+function Tab({ value, children }: { value: number; children: React.ReactNode }) {
+  const { value: selectedValue, onValueChange } = useTabsContext();
+  const selected = value === selectedValue;
+
+  return (
+    <button
+      role="tab"
+      aria-selected={selected}
+      tabIndex={selected ? 0 : -1}
+      onClick={() => onValueChange(value)}
+      data-selected={selected ? '' : undefined}
+    >
+      {children}
+    </button>
+  );
+}
+
+// Export as namespace
+const Tabs = {
+  Root: TabsRoot,
+  Tab,
+  Panel: TabsPanel,
+};
+```
+
+---
+
+## Event Cancellation Pattern
 
 Allow consumers to prevent state changes:
 
 ```typescript
 interface OpenChangeDetails {
-  reason: string;
+  reason: 'click' | 'escape' | 'outside-click';
   event?: Event;
-  isCanceled: boolean;
-  cancel(): void;
 }
 
-const handleOpen = (reason: string, event?: Event) => {
-  const details = {
-    reason,
-    event,
-    isCanceled: false,
-    cancel() {
-      this.isCanceled = true;
-    },
+interface DialogProps {
+  onOpenChange?: (open: boolean, details: OpenChangeDetails) => void | boolean;
+}
+
+function Dialog({ onOpenChange, ...props }: DialogProps) {
+  const handleClose = (reason: OpenChangeDetails['reason'], event?: Event) => {
+    const details = { reason, event };
+
+    // Allow consumer to cancel by returning false
+    const shouldClose = onOpenChange?.(false, details);
+    if (shouldClose === false) {
+      return; // Consumer cancelled the close
+    }
+
+    setOpen(false);
   };
+}
 
-  onOpenChange?.(true, details);
-
-  if (!details.isCanceled) {
-    setOpen(true);
+// Usage - prevent closing on escape
+<Dialog onOpenChange={(open, { reason }) => {
+  if (!open && reason === 'escape') {
+    return false; // Prevent close
   }
-};
-```
-
----
-
-## Context Pattern
-
-Undefined default + throwing hook:
-
-```typescript
-const DialogContext = React.createContext<DialogContext | undefined>(undefined);
-
-export function useDialogContext(): DialogContext;
-export function useDialogContext(optional: false): DialogContext;
-export function useDialogContext(optional: true): DialogContext | undefined;
-export function useDialogContext(optional?: boolean) {
-  const context = React.useContext(DialogContext);
-  if (!optional && context === undefined) {
-    throw new Error("useDialogContext must be used within DialogRoot");
-  }
-  return context;
-}
-```
-
----
-
-## Component Structure Template
-
-```typescript
-"use client";
-import * as React from "react";
-
-const stateAttributesMapping = {
-  /* ... */
-};
-
-export const MyComponent = React.forwardRef(function MyComponent(
-  componentProps: MyComponent.Props,
-  forwardedRef: React.ForwardedRef<HTMLDivElement>,
-) {
-  const { render, className, ...elementProps } = componentProps;
-
-  const state: MyComponent.State = React.useMemo(
-    () => ({
-      // state fields
-    }),
-    [
-      /* deps */
-    ],
-  );
-
-  const element = useRenderElement("div", componentProps, {
-    state,
-    ref: forwardedRef,
-    props: elementProps,
-    stateAttributesMapping,
-  });
-
-  return element;
-});
-
-// Interfaces
-export interface MyComponentState {
-  /* ... */
-}
-export interface MyComponentProps extends HeadlessComponentProps<
-  "div",
-  MyComponentState
-> {
-  /* ... */
-}
-
-// Namespace
-export namespace MyComponent {
-  export type State = MyComponentState;
-  export type Props = MyComponentProps;
-}
-```
-
----
-
-## TypeScript Patterns
-
-### HeadlessComponentProps
-
-```typescript
-export type HeadlessComponentProps<
-  ElementType extends React.ElementType,
-  State,
-> = Omit<React.ComponentPropsWithRef<ElementType>, "className"> & {
-  className?: string | ((state: State) => string);
-  render?: ComponentRenderFn<Props, State> | React.ReactElement;
-};
-```
-
-### Multi-Generic Components
-
-```typescript
-interface SelectProps<Value, Multiple extends boolean = false> {
-  value?: Multiple extends true ? Value[] : Value;
-  multiple?: Multiple;
-}
+}} />
 ```
 
 ---
 
 ## Accessibility Essentials
 
-### ARIA Roles
+### ARIA Roles and States
 
 ```typescript
-role="checkbox" | role="radio" | role="switch" | role="dialog" | role="menu" | role="listbox"
-```
+// Checkbox
+<span
+  role="checkbox"
+  aria-checked={checked}
+  aria-disabled={disabled || undefined}
+  tabIndex={disabled ? -1 : 0}
+  onKeyDown={handleKeyDown}
+/>
 
-### ARIA States
+// Dialog
+<div
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={titleId}
+  aria-describedby={descriptionId}
+/>
 
-```typescript
-'aria-checked': checked,
-'aria-expanded': expanded,
-'aria-selected': selected,
-'aria-disabled': disabled || undefined,
-'aria-invalid': invalid || undefined,
+// Menu
+<ul role="menu" aria-orientation="vertical">
+  <li role="menuitem" tabIndex={-1}>Item</li>
+</ul>
 ```
 
 ### Keyboard Navigation
 
 ```typescript
-const handleKeyDown = (event) => {
+function handleKeyDown(event: React.KeyboardEvent) {
   switch (event.key) {
-    case "ArrowDown":
-    case "ArrowRight":
+    case 'ArrowDown':
+    case 'ArrowRight':
+      event.preventDefault();
       focusNext();
       break;
-    case "ArrowUp":
-    case "ArrowLeft":
+    case 'ArrowUp':
+    case 'ArrowLeft':
+      event.preventDefault();
       focusPrevious();
       break;
-    case "Home":
+    case 'Home':
+      event.preventDefault();
       focusFirst();
       break;
-    case "End":
+    case 'End':
+      event.preventDefault();
       focusLast();
       break;
-    case "Escape":
+    case 'Escape':
       close();
       break;
   }
-};
+}
 ```
 
 ### Focus Management
 
-- **Focus trap** for modal dialogs
-- **Return focus** to trigger on close
-- **Roving tabindex** for composite widgets
+- **Focus trap** for modal dialogs (focus stays within)
+- **Return focus** to trigger element on close
+- **Roving tabindex** for composite widgets (only one item has tabIndex=0)
 
 ---
 
-## Hidden Input Pattern
+## Hidden Input for Forms
 
-For form components:
+For custom form controls to work with native form submission:
 
 ```typescript
-return (
-  <>
-    <span role="checkbox" aria-checked={checked} onClick={() => inputRef.current?.click()}>
-      {children}
-    </span>
-    <input
-      ref={inputRef}
-      type="checkbox"
-      tabIndex={-1}
-      aria-hidden
-      style={visuallyHidden}
-      checked={checked}
-      name={name}
-      onChange={(e) => setChecked(e.target.checked)}
-    />
-  </>
-);
+function Checkbox({ name, checked, onChange, children }: CheckboxProps) {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  return (
+    <>
+      <span
+        role="checkbox"
+        aria-checked={checked}
+        onClick={() => inputRef.current?.click()}
+        onKeyDown={(e) => e.key === ' ' && inputRef.current?.click()}
+        tabIndex={0}
+      >
+        {children}
+      </span>
+      <input
+        ref={inputRef}
+        type="checkbox"
+        name={name}
+        checked={checked}
+        onChange={onChange}
+        tabIndex={-1}
+        aria-hidden
+        style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
+      />
+    </>
+  );
+}
 ```
 
 ---
 
 ## Anti-Patterns to Avoid
 
-1. **Don't hardcode elements** - Use render prop
-2. **Don't use `disabled` attribute** - Use `aria-disabled`
-3. **Don't create controlled-only components** - Support both modes
-4. **Don't use noop context defaults** - Use undefined + throwing hook
-5. **Don't spread all props** - Filter component-specific props
-6. **Don't skip event cancellation** - Always allow prevention
-7. **Don't use inline styles for dynamic values** - Use CSS variables
-8. **Don't forget cleanup** - Clean up effects properly
-9. **Don't recreate callbacks** - Use useStableCallback
-10. **Don't use string booleans** - Use presence/absence for data attributes
+1. **Don't hardcode elements** - Use render prop for flexibility
+2. **Don't use `disabled` attribute** - Use `aria-disabled` for accessibility
+3. **Don't create controlled-only components** - Always support uncontrolled mode
+4. **Don't use empty object as context default** - Use undefined + throwing hook
+5. **Don't spread all props blindly** - Filter component-specific props first
+6. **Don't skip event prevention** - Always allow consumers to cancel actions
+7. **Don't use inline styles for state** - Use CSS variables or data attributes
+8. **Don't forget cleanup** - Clean up event listeners and effects
 
 ---
 
 ## Quick Checklist
 
-When creating a component:
+When creating a headless component:
 
-- [ ] Use `'use client'` directive
+- [ ] Support controlled and uncontrolled modes
 - [ ] Forward ref with `React.forwardRef`
-- [ ] Support controlled and uncontrolled with `useControlled`
-- [ ] Use `useRenderElement` for rendering
-- [ ] Define `stateAttributesMapping`
-- [ ] Create context with undefined default
-- [ ] Create throwing context hook with optional overload
-- [ ] Export namespace with State and Props types
+- [ ] Expose state via `data-*` attributes
+- [ ] Use render prop for customization
+- [ ] Create context with undefined default + throwing hook
 - [ ] Handle disabled via `aria-disabled`
-- [ ] Support event cancellation via details object
+- [ ] Support event cancellation
 - [ ] Add keyboard navigation for interactive elements
 - [ ] Include hidden input for form components
-
----
-
-## Additional Resources
-
-### Reference Files
-
-For detailed patterns and techniques, consult:
-
-- **`references/patterns/01-rendering-patterns.md`** - useRenderElement, state attributes, props merging
-- **`references/patterns/02-state-management-patterns.md`** - useControlled, stores, context, transitions
-- **`references/patterns/03-composition-patterns.md`** - Compound components, slots, polymorphism
-- **`references/patterns/04-form-patterns.md`** - Hidden inputs, validation, field integration
-- **`references/patterns/05-accessibility-patterns.md`** - ARIA, keyboard nav, focus management
-- **`references/patterns/06-animation-patterns.md`** - Transitions, CSS variables
-- **`references/patterns/07-positioning-patterns.md`** - Floating UI, anchoring
-- **`references/patterns/08-typescript-patterns.md`** - Generics, overloads, conditional types
-- **`references/patterns/09-anti-patterns.md`** - Common mistakes to avoid
-- **`references/patterns/10-component-template.md`** - Complete templates
-
-### TypeScript References
-
-- **`references/typescript/01-core-types.md`** - HeadlessComponentProps, StateAttributesMapping
-- **`references/typescript/02-hook-signatures.md`** - Hook type patterns
-- **`references/typescript/03-advanced-patterns.md`** - Generics, conditional types
-
-### Component Examples
-
-Working component examples in `examples/components/`:
-
-- Dialog, Switch, Checkbox, Progress - compound components
-- Button, Toggle - simple components
-- Select, Combobox - complex with stores
-
-### Quality Checklist
-
-See **`references/checklist.md`** for the complete validation checklist.
+- [ ] Implement focus management for popups/modals

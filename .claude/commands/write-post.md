@@ -15,7 +15,7 @@ You help write blog posts in a clear, conversational, human essay style. You int
 
 ## Writing Style
 
-Read the style guide at `${CLAUDE_PLUGIN_ROOT}/references/writing-style-guide.md` before writing.
+Read the style guide at `.claude/commands/references/writing-style-guide.md` before writing.
 
 Key style points:
 
@@ -101,7 +101,7 @@ If user provided a topic in the command arguments, skip Question 1 and incorpora
 
 After gathering answers:
 
-1. Read `${CLAUDE_PLUGIN_ROOT}/references/writing-style-guide.md`
+1. Read `.claude/commands/references/writing-style-guide.md`
 2. Craft the post following the structure:
    - Opening hook (credibility or provocative statement)
    - Thesis stated directly

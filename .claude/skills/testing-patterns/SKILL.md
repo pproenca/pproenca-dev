@@ -1,11 +1,11 @@
 ---
-name: React Component Testing Patterns
-description: This skill should be used when the user asks to "write tests", "add tests", "test component", "create test file", "add test coverage", "test accessibility", "test keyboard navigation", "test ARIA attributes", or mentions testing React components with Vitest, React Testing Library, Chai, or Sinon. Provides comprehensive React component testing methodology.
+name: testing-patterns
+description: This skill should be used when writing **Vitest unit tests** for React components (NOT E2E/Playwright tests - use e2e-testing-patterns instead). Covers React Testing Library, user-event, and vitest assertions. Use for component unit testing, accessibility testing, keyboard navigation tests, or ARIA attribute testing.
 ---
 
 # React Component Testing Patterns
 
-Comprehensive testing patterns for React component testing. These patterns ensure consistent, accessible, and well-structured tests.
+Patterns for unit testing React components with Vitest and React Testing Library.
 
 ## Testing Stack
 
@@ -14,27 +14,22 @@ Comprehensive testing patterns for React component testing. These patterns ensur
 | vitest | Test runner |
 | @testing-library/react | React component testing |
 | @testing-library/user-event | User interaction simulation |
-| chai + chai-dom | Assertions |
-| sinon | Spies, stubs, mocks |
-| @vitest/browser-playwright | Browser testing |
+| vitest assertions | expect().toBe(), toHaveAttribute(), etc. |
 
 ## Test File Setup
 
 ```typescript
 import * as React from 'react';
-import { expect } from 'chai';
-import { spy } from 'sinon';
-import { screen, waitFor, flushMicrotasks } from '@mui/internal-test-utils';
-import { createRenderer, isJSDOM, describeConformance } from '#test-utils';
-import * as Component from '@base-ui/react/Component';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
+import { MyComponent } from './MyComponent';
 
-describe('<Component.Root />', () => {
-  const { render } = createRenderer();
-
-  describeConformance(<Component.Root />, () => ({
-    render,
-    refInstanceof: window.HTMLDivElement,
-  }));
+describe('<MyComponent />', () => {
+  it('renders correctly', () => {
+    render(<MyComponent />);
+    expect(screen.getByRole('button')).toBeInTheDocument();
+  });
 
   // Tests organized by: Props -> Behaviors -> Integration
 });
@@ -42,18 +37,12 @@ describe('<Component.Root />', () => {
 
 ## Core Patterns
 
-### Async Rendering
-
-All renders are async - always use `await render()`:
+### Basic Rendering
 
 ```typescript
-it('renders correctly', async () => {
-  const { setProps, user } = await render(<Component value={0} />);
-
-  expect(screen.getByRole('tab')).to.have.attribute('aria-selected', 'true');
-
-  await setProps({ value: 1 });
-  expect(screen.getAllByRole('tab')[1]).to.have.attribute('aria-selected', 'true');
+it('renders correctly', () => {
+  render(<MyComponent value={0} />);
+  expect(screen.getByRole('button')).toBeInTheDocument();
 });
 ```
 
@@ -61,64 +50,65 @@ it('renders correctly', async () => {
 
 ```typescript
 it('handles click', async () => {
-  const handleClick = spy();
-  const { user } = await render(<Button onClick={handleClick} />);
+  const handleClick = vi.fn();
+  const user = userEvent.setup();
 
+  render(<Button onClick={handleClick} />);
   await user.click(screen.getByRole('button'));
-  expect(handleClick.callCount).to.equal(1);
+
+  expect(handleClick).toHaveBeenCalledTimes(1);
 });
 
 it('handles keyboard', async () => {
-  const { user } = await render(<Menu.Root />);
+  const user = userEvent.setup();
+  render(<Menu />);
+
   await user.keyboard('[ArrowDown]');
   await user.keyboard('{Enter}');
 });
 ```
 
-### Callback Testing with spy
+### Callback Testing with vi.fn()
 
 ```typescript
-it('calls onValueChange', async () => {
-  const handleChange = spy();
-  const { user } = await render(
-    <Tabs.Root onValueChange={handleChange}>
-      <Tabs.List>
-        <Tabs.Tab value={0} />
-        <Tabs.Tab value={1} />
-      </Tabs.List>
-    </Tabs.Root>
-  );
+it('calls onChange when value changes', async () => {
+  const handleChange = vi.fn();
+  const user = userEvent.setup();
 
-  await user.click(screen.getAllByRole('tab')[1]);
+  render(<Select onChange={handleChange} options={['A', 'B']} />);
+  await user.click(screen.getByRole('combobox'));
+  await user.click(screen.getByRole('option', { name: 'B' }));
 
-  expect(handleChange.callCount).to.equal(1);
-  expect(handleChange.firstCall.args[0]).to.equal(1);
+  expect(handleChange).toHaveBeenCalledTimes(1);
+  expect(handleChange).toHaveBeenCalledWith('B');
 });
 ```
 
 ### ARIA Attribute Testing
 
 ```typescript
-it('sets ARIA attributes', async () => {
-  await render(<Tabs.Root value={0} />);
+it('sets ARIA attributes', () => {
+  render(<Tabs value={0} />);
 
   const tab = screen.getByRole('tab');
-  expect(tab).to.have.attribute('aria-selected', 'true');
-  expect(tab).to.have.attribute('tabindex', '0');
+  expect(tab).toHaveAttribute('aria-selected', 'true');
+  expect(tab).toHaveAttribute('tabindex', '0');
 
   const panel = screen.getByRole('tabpanel');
-  expect(panel).to.have.attribute('aria-labelledby', tab.id);
+  expect(panel).toHaveAttribute('aria-labelledby', tab.id);
 });
 ```
 
-### Browser-Specific Tests
+### Async/Wait Patterns
 
 ```typescript
-describe.skipIf(isJSDOM)('keyboard navigation', () => {
-  it('navigates with arrow keys', async () => {
-    const { user } = await render(<Menu.Root />);
-    await user.keyboard('[ArrowDown]');
-    expect(screen.getAllByRole('menuitem')[0]).toHaveFocus();
+it('shows loading then content', async () => {
+  render(<AsyncComponent />);
+
+  expect(screen.getByText('Loading...')).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(screen.getByText('Content loaded')).toBeInTheDocument();
   });
 });
 ```
@@ -128,21 +118,16 @@ describe.skipIf(isJSDOM)('keyboard navigation', () => {
 ### Standard Structure
 
 ```typescript
-describe('<Component.Root />', () => {
-  const { render } = createRenderer();
-
-  // 1. Conformance tests first
-  describeConformance(<Component.Root />, () => ({
-    render,
-    refInstanceof: window.HTMLDivElement,
-  }));
+describe('<MyComponent />', () => {
+  // 1. Basic rendering
+  it('renders correctly', () => {});
 
   // 2. Value props
   describe('prop: value', () => {});
   describe('prop: defaultValue', () => {});
 
   // 3. Callback props
-  describe('prop: onValueChange', () => {});
+  describe('prop: onChange', () => {});
 
   // 4. Boolean props
   describe('prop: disabled', () => {});
@@ -153,7 +138,6 @@ describe('<Component.Root />', () => {
 
   // 6. Integration
   describe('Form', () => {});
-  describe('Field', () => {});
 });
 ```
 
@@ -162,71 +146,41 @@ describe('<Component.Root />', () => {
 Prefer accessibility-first queries:
 
 1. **getByRole** - Primary choice for accessibility
-2. **getByText** - Content verification
-3. **getByTestId** - Last resort for non-semantic elements
-4. **queryBy*** - When element might not exist
-5. **findBy*** - For async elements
+2. **getByLabelText** - For form elements
+3. **getByText** - Content verification
+4. **getByTestId** - Last resort for non-semantic elements
+5. **queryBy*** - When element might not exist
+6. **findBy*** - For async elements
 
 ```typescript
 screen.getByRole('button');
 screen.getByRole('tab', { selected: true });
-screen.getByRole('tabpanel', { hidden: true }); // Include hidden
-screen.getAllByRole<HTMLInputElement>('checkbox', { hidden: true });
+screen.getByRole('combobox', { name: 'Choose option' });
+screen.queryByRole('dialog'); // null if not present
+await screen.findByRole('alert'); // waits for element
 ```
 
-## Decision Trees
-
-### When to Skip in JSDOM
-
-Skip for: `innerText`, `inert` attribute, RTL keyboard, focus trapping, scroll events, complex pointer interactions, CSS animations.
+## Controlled vs Uncontrolled
 
 ```typescript
-describe.skipIf(isJSDOM)('feature requiring browser', () => {});
-it.skipIf(isJSDOM)('specific browser test', async () => {});
-```
+// Controlled - component uses external state
+it('controlled mode', () => {
+  const { rerender } = render(<Input value="initial" onChange={() => {}} />);
+  expect(screen.getByRole('textbox')).toHaveValue('initial');
 
-### Controlled vs Uncontrolled
+  rerender(<Input value="updated" onChange={() => {}} />);
+  expect(screen.getByRole('textbox')).toHaveValue('updated');
+});
 
-```typescript
-// Controlled - use value + setProps
-const { setProps } = await render(<Component value={0} />);
-await setProps({ value: 1 });
+// Uncontrolled - component manages own state
+it('uncontrolled mode', async () => {
+  const user = userEvent.setup();
+  render(<Input defaultValue="initial" />);
 
-// Uncontrolled - use defaultValue + user interaction
-await render(<Component defaultValue={0} />);
-await user.click(nextButton);
-```
+  await user.clear(screen.getByRole('textbox'));
+  await user.type(screen.getByRole('textbox'), 'new value');
 
-## Conformance Testing
-
-### Component API Conformance
-
-```typescript
-describeConformance(<Button.Root />, () => ({
-  render,
-  refInstanceof: window.HTMLButtonElement,
-  testRenderPropWith: 'button',
-  button: true,
-}));
-```
-
-Tests: className, refForwarding, propsSpread, renderProp
-
-### Popup Conformance
-
-```typescript
-popupConformanceTests({
-  createComponent: (props) => (
-    <Dialog.Root {...props.root}>
-      <Dialog.Trigger {...props.trigger}>Open</Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Popup {...props.popup} />
-      </Dialog.Portal>
-    </Dialog.Root>
-  ),
-  triggerMouseAction: 'click',
-  render,
-  expectedPopupRole: 'dialog',
+  expect(screen.getByRole('textbox')).toHaveValue('new value');
 });
 ```
 
@@ -245,38 +199,27 @@ popupConformanceTests({
 - aria-expanded for triggers
 - aria-controls links trigger to popup
 - aria-labelledby for relationships
+- aria-disabled (not disabled attribute) for accessible disabled states
 
 ### Focus Management
-- initialFocus sets focus on open
-- finalFocus restores on close
+- Focus moves appropriately on open/close
 - Focus trapping in modals
 - Tab order follows visual order
-
-## Additional Resources
-
-### Reference Files
-
-For detailed patterns and techniques, consult:
-- **`references/patterns.md`** - Comprehensive testing patterns with examples
-- **`references/assertions.md`** - Assertion patterns for Chai + chai-dom
-- **`references/utilities.md`** - createRenderer, conformance tests, helper utilities
-
-### File Naming
-
-```
-packages/react/src/<component>/<subcomponent>/<SubComponent>.test.tsx
-```
 
 ## Quick Reference
 
 | Pattern | Example |
 |---------|---------|
-| Async render | `const { user } = await render(<C />)` |
+| Render | `render(<Component />)` |
+| User setup | `const user = userEvent.setup()` |
 | Click | `await user.click(element)` |
+| Type | `await user.type(input, 'text')` |
 | Keyboard | `await user.keyboard('[ArrowDown]')` |
-| Prop update | `await setProps({ value: 1 })` |
-| Spy assertion | `expect(spy.callCount).to.equal(1)` |
-| Attribute | `expect(el).to.have.attribute('aria-x', 'y')` |
-| Focus | `expect(el).toHaveFocus()` |
-| Null check | `expect(screen.queryByRole('x')).to.equal(null)` |
-| Skip JSDOM | `describe.skipIf(isJSDOM)('...', () => {})` |
+| Mock function | `const fn = vi.fn()` |
+| Call count | `expect(fn).toHaveBeenCalledTimes(1)` |
+| Call args | `expect(fn).toHaveBeenCalledWith(arg)` |
+| Attribute | `expect(el).toHaveAttribute('aria-x', 'y')` |
+| In document | `expect(el).toBeInTheDocument()` |
+| Null check | `expect(screen.queryByRole('x')).not.toBeInTheDocument()` |
+| Async wait | `await waitFor(() => expect(...))` |
+| Rerender | `const { rerender } = render(<C />)` |
