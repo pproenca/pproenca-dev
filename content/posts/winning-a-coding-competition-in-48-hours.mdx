@@ -1,7 +1,7 @@
 ---
 title: "I Won a Prize in a Coding Competition Without Writing Code"
 date: "2025-01-09"
-description: "I found a $10k WebCodecs competition 48 hours before the deadline. I'd never written C++ bindings. So I didn't — I orchestrated AI agents to write every line."
+description: "I found a $10k WebCodecs competition 48 hours before the deadline. I'd never written C++ bindings. This is what I learned about AI as a force multiplier."
 categories: ["AI", "Software Development"]
 ---
 
@@ -9,35 +9,41 @@ Two days. That's how much time I had when I stumbled across [vjeux's WebCodecs N
 
 <Tweet id="1994872345610391748" />
 
-I'd never written a Node.js addon in my life. C++ bindings to FFmpeg. Not exactly my Tuesday afternoon. But I had Claude Code. And I had [my own plugin](https://github.com/pproenca/dot-claude/) for orchestrating it.
+But I had Claude Code. And I had [my own plugin](https://github.com/pproenca/dot-claude/) for orchestrating it. That changed everything.
 
-So I tried something different. Instead of writing implementation code, I wrote specs. I pulled the official WebCodecs IDL and turned it into detailed implementation plans. Claude Code wrote the C++ bindings, the N-API wrappers, the TypeScript interfaces.
+I'd never written a Node.js addon in my life. C++ bindings to FFmpeg. Not exactly my Tuesday afternoon. But AI-assisted development compresses the "figuring out where to start" phase from days to hours. I pointed Claude at the documentation, asked questions, and within a couple of hours I understood enough about N-API and the addon architecture to actually begin.
 
-My job was to review, steer, and fix the process when it broke.
+So I began. And I made every mistake possible.
 
-And it broke a lot.
+## The Shotgun Approach (Don't Do This)
 
-## The Assumption Trap
+My first iteration was chaos. I grabbed the WebCodecs IDL spec and started converting it to the Node addon API plus C++ implementation. TDD, right? Write tests, make them pass, ship it. Except TDD isn't enough when you don't have guardrails.
 
-Here's the thing about coding with AI agents: they're confident. Always. Even when they're wrong.
+I was making progress. Tests were green, things were compiling. But I was building on sand. The tests were passing because they tested _my implementation_, not the _correct behaviour_. There's a difference, and it's the difference between feeling productive and actually being productive.
 
-Claude would hit a bug and declare "found it!" with absolute certainty. No reproduction. No evidence. Just pattern-matching from training data. It had seen similar stack traces before, so it assumed the same fix would work.
+## Build the Moat First
 
-Tests were passing. The code looked clean. But those tests were validating the wrong implementation, not the correct behaviour. I've seen this in management too — metrics lie if you're measuring the wrong things.
+Second iteration, I slowed down. Made the spec file as detailed as possible before writing a single line of implementation code. And instead of going shotgun across all the methods, I focused on one at a time.
 
-The AI was guessing. And I was letting it.
+The rule I keep coming back to: always have something working, no matter how small. A working `VideoDecoder.configure()` is better than a half-broken implementation of five methods. You can build on working code. You can't build on "almost there."
 
-## Prove It First
+## Trust, But Verify
 
-Second iteration, I changed the rules. Before Claude could claim it fixed anything, it had to prove the bug existed first. Reproduce it. Show me the failing test. Only then fix it.
+The uncomfortable truth about coding with AI: Claude will tell you everything's going well when it's not.
 
-I built skills for debugging tools like `leaks` on macOS. Updated my CLAUDE.md with failure patterns: what the error looks like, what tool catches it. A whole debugging workflow, encoded.
+Tests pass. The code looks clean. Claude says "great, that should work now." And you feel good. But those tests might just be validating your wrong implementation. I've seen this in management too. Metrics can lie if you're measuring the wrong things.
+
+So I started treating AI output the way I'd treat a new hire's code: trust, but verify. Run it. Break it. Check the actual behaviour, not just the test results.
+
+## The Segfault I Manifested
 
 <Tweet id="2006425822174040345" />
 
-I made a joke early on. "I hope I run into a memory segmentation fault." Hours later, that's exactly what I was debugging. C++ doesn't forgive. But now Claude had the tools to actually fix it, not just guess.
+I made a joke early on. "I hope I run into a memory segmentation fault." Hours later, guess what I was debugging?
 
-That's when things started moving fast.
+C++ doesn't forgive. And when you're a 'wannabe' Node.js developer suddenly playing in memory-managed territory, you're going to hurt yourself. What saved me was asking Claude to explain the most common failure patterns in C++ and what tools experienced developers use to debug them. I got a list, tried a few, and `leaks` on macOS became my new best friend.
+
+I updated my CLAUDE.md with these patterns: what failure looks like, what tool fixes it. Built a whole debugging skill around it. That's when things started moving fast.
 
 ## The Win
 
@@ -47,11 +53,11 @@ I [submitted](https://github.com/vjeux/webcodecs-nodejs-10k-challenge/issues/8) 
 
 Two days. Zero Node addon experience. One working WebCodecs implementation.
 
-But here's what actually changed: the skill isn't writing code anymore. It's orchestrating agents, teaching them to be rigorous, and knowing when they're guessing. The gap between "I could never do that" and "let me try" has collapsed — but you have to know how to work on the other side of it.
+But the real takeaway isn't the money. AI didn't write this code for me. It made it _possible_ for me to write it. The gap between "I could never do that" and "let me try" has collapsed. Not because the AI is magic, but because it handles the parts that used to stop me cold. The "how do I even start" paralysis, the documentation maze, the unknown unknowns.
 
 I'm making this open source. I want to render videos server-side, and I want others to build on it.
 
-If you want to learn AI-assisted development, don't build another website. Find something that scares you. Something you'd scroll past thinking "that's not for me."
+I'm not sure what I'll attempt next. But I'm pretty sure "that's not for me" isn't in my vocabulary anymore.
 
 ---
 
