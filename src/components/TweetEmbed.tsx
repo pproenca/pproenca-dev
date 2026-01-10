@@ -20,6 +20,3 @@ export function TweetEmbed({ id, className }: TweetEmbedProps) {
   );
 }
 
-export namespace TweetEmbed {
-  export type Props = TweetEmbedProps;
-}

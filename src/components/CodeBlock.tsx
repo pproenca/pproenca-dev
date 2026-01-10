@@ -124,6 +124,3 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
   },
 );
 
-export namespace CodeBlock {
-  export type Props = CodeBlockProps;
-}

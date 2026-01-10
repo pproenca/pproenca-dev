@@ -154,15 +154,19 @@ export const test = base.extend<{
   categoryPage: CategoryPage;
 }>({
   blogPage: async ({ page }, use) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Playwright's use() is not a React hook
     await use(new BlogPage(page));
   },
   homePage: async ({ page }, use) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Playwright's use() is not a React hook
     await use(new HomePage(page));
   },
   postPage: async ({ page }, use) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Playwright's use() is not a React hook
     await use(new PostPage(page));
   },
   categoryPage: async ({ page }, use) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Playwright's use() is not a React hook
     await use(new CategoryPage(page));
   },
 });
