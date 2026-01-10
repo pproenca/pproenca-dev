@@ -10,7 +10,26 @@ pnpm build           # Generate sitemap + build static site to out/
 pnpm lint            # Run ESLint
 pnpm format          # Auto-format code with Prettier
 pnpm clean           # Remove build artifacts (.next, out, .turbo, caches)
+pnpm test:e2e        # Run Playwright E2E tests (builds site first)
+pnpm test:e2e:ui     # Run E2E tests with interactive UI debugger
+pnpm test:e2e:update # Update visual regression snapshots
 ```
+
+## Testing
+
+E2E tests use Playwright and run against the static build. Tests cover:
+- Critical path (homepage, posts, categories, theme toggle)
+- Visual regression (CI-only, Linux baselines)
+- SEO metadata and feeds
+- Accessibility
+
+### Visual Snapshots
+
+Visual tests only run on CI (Linux) to ensure consistent baselines. To update snapshots:
+1. Push changes to a PR
+2. CI will fail if visual differences are detected
+3. Review the diff in the uploaded artifacts
+4. If changes are intentional, run `pnpm test:e2e:update` in CI or a Linux environment
 
 ## Architecture
 
