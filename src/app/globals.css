@@ -583,3 +583,35 @@ pre code {
   opacity: 0.4;
 }
 
+/* ========================================
+   Mobile Menu Dialog
+   ======================================== */
+
+/* Dialog backdrop fade-in animation */
+dialog[open]::backdrop {
+  animation: mobile-menu-backdrop-fade var(--transition-base) ease-out;
+}
+
+/* Drawer slide-in animation */
+dialog[open] .mobile-menu-drawer {
+  animation: mobile-menu-slide-in var(--transition-slow) ease-out;
+}
+
+@keyframes mobile-menu-backdrop-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mobile-menu-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+

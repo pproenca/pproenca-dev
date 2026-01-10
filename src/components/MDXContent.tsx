@@ -13,6 +13,23 @@ interface PreProps {
   children?: React.ReactNode;
 }
 
+interface AnchorProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  children?: React.ReactNode;
+}
+
+function Anchor({ href, children, ...props }: AnchorProps) {
+  const isExternal = href?.startsWith("http");
+  return (
+    <a
+      href={href}
+      {...(isExternal && { target: "_blank", rel: "noopener noreferrer" })}
+      {...props}
+    >
+      {children}
+    </a>
+  );
+}
+
 async function Code({ children, className }: CodeProps) {
   const match = /language-(\w+)/.exec(className || "");
   const lang = match ? match[1] : "text";
@@ -40,6 +57,7 @@ async function Code({ children, className }: CodeProps) {
 const components = {
   pre: ({ children }: PreProps) => <>{children}</>,
   code: Code,
+  a: Anchor,
   Tweet: TweetEmbed,
 };
 
