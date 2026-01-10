@@ -123,4 +123,3 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
     );
   },
 );
-

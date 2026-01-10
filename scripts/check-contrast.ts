@@ -132,7 +132,7 @@ function toSRGB(color: Color): { r: number; g: number; b: number } {
  */
 function relativeLuminance(r: number, g: number, b: number): number {
   const [rs, gs, bs] = [r, g, b].map((c) =>
-    c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+    c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4),
   );
   return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
 }
@@ -197,7 +197,7 @@ function printResults(results: Result[], modeName: string): boolean {
   console.log(`\n${modeName} Mode Contrast Ratios (WCAG AA Target: 4.5:1)`);
   console.log("─".repeat(75));
   console.log(
-    `${"Pair".padEnd(35)} ${"Ratio".padEnd(10)} ${"Threshold".padEnd(10)} ${"Status".padEnd(8)} Colors`
+    `${"Pair".padEnd(35)} ${"Ratio".padEnd(10)} ${"Threshold".padEnd(10)} ${"Status".padEnd(8)} Colors`,
   );
   console.log("─".repeat(75));
 
@@ -209,7 +209,7 @@ function printResults(results: Result[], modeName: string): boolean {
     const reset = "\x1b[0m";
 
     console.log(
-      `${result.name.padEnd(35)} ${result.ratio.toFixed(2).padEnd(10)} ${result.threshold.toFixed(1).padEnd(10)} ${statusColor}${status.padEnd(8)}${reset} ${result.fgHex} / ${result.bgHex}`
+      `${result.name.padEnd(35)} ${result.ratio.toFixed(2).padEnd(10)} ${result.threshold.toFixed(1).padEnd(10)} ${statusColor}${status.padEnd(8)}${reset} ${result.fgHex} / ${result.bgHex}`,
     );
 
     if (!result.pass) {
@@ -234,23 +234,33 @@ function main() {
   console.log("\n");
 
   if (lightPass && darkPass) {
-    console.log("\x1b[32m✓ All color pairs pass WCAG AA contrast requirements\x1b[0m");
+    console.log(
+      "\x1b[32m✓ All color pairs pass WCAG AA contrast requirements\x1b[0m",
+    );
     process.exit(0);
   } else {
-    console.log("\x1b[31m✗ Some color pairs fail WCAG AA contrast requirements\x1b[0m");
+    console.log(
+      "\x1b[31m✗ Some color pairs fail WCAG AA contrast requirements\x1b[0m",
+    );
 
     const failures = [
-      ...lightResults.filter((r) => !r.pass).map((r) => ({ ...r, mode: "Light" })),
-      ...darkResults.filter((r) => !r.pass).map((r) => ({ ...r, mode: "Dark" })),
+      ...lightResults
+        .filter((r) => !r.pass)
+        .map((r) => ({ ...r, mode: "Light" })),
+      ...darkResults
+        .filter((r) => !r.pass)
+        .map((r) => ({ ...r, mode: "Dark" })),
     ];
 
     console.log("\nFailing pairs:");
     for (const f of failures) {
       const needed = f.threshold / f.ratio;
       console.log(
-        `  - ${f.mode}: ${f.name} (${f.ratio.toFixed(2)}:1, needs ${f.threshold}:1)`
+        `  - ${f.mode}: ${f.name} (${f.ratio.toFixed(2)}:1, needs ${f.threshold}:1)`,
       );
-      console.log(`    To fix: increase foreground lightness or decrease background lightness by ~${((needed - 1) * 100).toFixed(0)}%`);
+      console.log(
+        `    To fix: increase foreground lightness or decrease background lightness by ~${((needed - 1) * 100).toFixed(0)}%`,
+      );
     }
 
     process.exit(1);

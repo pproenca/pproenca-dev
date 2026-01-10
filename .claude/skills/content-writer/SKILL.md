@@ -115,6 +115,10 @@ Cut anything that sounds like "content." Keep what sounds like Pedro talking.
 - Don't use bullet points to list lessons
 - Don't explain technical terms
 - Don't hedge ("I think", "maybe", "it seems like")
+- Don't overdramatise — "they're confident" hits harder than "they lie"
+- Don't quote praise about yourself — let the work speak
+- Don't force endings — if the call to action is strong, stop there
+- Don't stack punchy phrases — "Not maliciously. Confidently." is one punch too many
 
 ## Quick Reference
 

@@ -19,4 +19,3 @@ export function TweetEmbed({ id, className }: TweetEmbedProps) {
     </div>
   );
 }
-
