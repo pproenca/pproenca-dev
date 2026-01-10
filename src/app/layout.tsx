@@ -130,12 +130,12 @@ export default function RootLayout({
             <Header />
             <main
               id="main-content"
-              className="mx-auto w-full max-w-[680px] flex-1 px-golden-3 py-golden-5"
+              className="mx-auto w-full flex-1 px-5 py-8 sm:px-6 sm:py-10 md:max-w-2xl lg:max-w-[680px] lg:px-golden-3 lg:py-golden-5"
             >
               {children}
             </main>
             <footer className="border-t border-border-subtle/30">
-              <div className="mx-auto max-w-[680px] px-golden-3 py-golden-3 text-center text-xs text-text-tertiary">
+              <div className="mx-auto px-5 py-4 text-center text-xs text-text-tertiary sm:px-6 md:max-w-2xl lg:max-w-[680px] lg:px-golden-3 lg:py-golden-3">
                 <p>&copy; {new Date().getFullYear()} pproenca.dev</p>
               </div>
             </footer>

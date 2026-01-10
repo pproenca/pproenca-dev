@@ -57,15 +57,24 @@ export default function AboutPage() {
 
       <div className="prose mt-golden-4 max-w-none">
         <p>
-          Hey there! I&apos;m Pedro, an Engineering Manager based in the UK who
-          still loves writing code. This is my corner of the internet where I
-          write about web development, growth engineering, and whatever else
-          I&apos;m tinkering with.
+          I&apos;ve been building products from scratch since 2012. An invoicing
+          platform with one colleague. Marketplaces for exchanging goods across
+          Europe. APIs serving millions of users.
         </p>
 
-        <h2>What I Do</h2>
+        <p>Then I started building the teams that build the products.</p>
+
         <p>
-          I&apos;m currently building a viral growth engine at{" "}
+          At OLX, I built the personalization team &mdash; the ML models that
+          powered hyper-local feeds globally. At Meta, I built the teams running
+          CI/CD for the backend of nearly every product in the family of apps.
+          Thousands of engineers shipping to billions of users.
+        </p>
+
+        <p>I never stopped coding. That part&apos;s non-negotiable.</p>
+
+        <p>
+          At{" "}
           <a
             href="https://www.trustedhousesitters.com"
             target="_blank"
@@ -73,36 +82,37 @@ export default function AboutPage() {
           >
             TrustedHousesitters
           </a>
-          . Before that, I spent time at Facebook as an Engineering Manager
-          working on WWW release engineering &mdash; helping ship code to
-          billions of users. I&apos;ve also worked across London, Berlin, and
-          Lisbon over the years.
-        </p>
-        <p>
-          I even hold a patent for something called &ldquo;Dynamic determination
-          of smart meetup&rdquo; &mdash; basically figuring out the best place
-          for two people to meet without either revealing their exact location.
+          , I&apos;m building two things: the team shipping tools that help
+          marketing convert at scale, and the team integrating gamification into
+          our product to create a viral growth engine.
         </p>
 
-        <h2>What I&apos;m Into</h2>
         <p>
-          Beyond growth engineering, I love getting my hands dirty with hardware
-          projects. You&apos;ll often find me messing with Raspberry Pis,
-          Pimoroni boards, or diving into Bluetooth security research. I mostly
-          code in Python and TypeScript, though I&apos;ll reach for whatever
-          gets the job done.
+          Somewhere in there, I built an E2E testing framework for a legacy
+          platform where unit tests weren&apos;t an option. Docker didn&apos;t
+          exist yet. A thousand engineers ended up using it.
         </p>
 
-        <h2>About This Blog</h2>
         <p>
-          This blog is built with Next.js, MDX, and Tailwind CSS. It&apos;s
-          statically generated and posts are written in MDX so I can include
-          interactive components when needed.
+          I&apos;ve also grown engineers from junior to principal. IC7 at big
+          tech. That might be the work I&apos;m proudest of.
         </p>
 
-        <h2>Get in Touch</h2>
+        <h2>Outside of Work</h2>
+
         <p>
-          Feel free to reach out! You can find me on{" "}
+          I&apos;m usually deep in something technically complex &mdash;
+          Raspberry Pis, Bluetooth security, whatever AI thing I&apos;m learning
+          that week. I open source as much as I can so others can learn too.
+        </p>
+
+        <p>
+          This is where I write about growth engineering, hardware projects, and
+          the rabbit holes.
+        </p>
+
+        <p>
+          Find me on{" "}
           <a
             href="https://github.com/pproenca"
             target="_blank"

@@ -105,8 +105,21 @@ body {
 }
 
 /* Base body styles - bg/color/transition handled by Tailwind utilities in layout.tsx */
+/* Responsive font sizing: mobile → sm → md+ */
 body {
-  font-size: 18px;
+  font-size: 16px;
+}
+
+@media (min-width: 640px) {
+  body {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
 }
 
 /* Paper texture overlay - light mode only */
@@ -158,9 +171,15 @@ body::before {
   line-height: 1.75;
 }
 
-/* Golden rhythm for prose elements */
+/* Golden rhythm for prose elements - tighter on mobile */
 .prose > * + * {
-  margin-top: var(--spacing-golden-3);
+  margin-top: var(--spacing-golden-2);
+}
+
+@media (min-width: 768px) {
+  .prose > * + * {
+    margin-top: var(--spacing-golden-3);
+  }
 }
 
 .prose h2 {
@@ -397,14 +416,20 @@ pre code {
   transform: scale(0.95);
 }
 
-/* Terminal Body */
+/* Terminal Body - responsive padding */
 .terminal-body {
   @apply relative;
-  padding: 1.25rem 1.5rem;
+  padding: 1rem;
   background-color: oklch(100% 0 0); /* GitHub Light background */
 
   @variant dark {
     background-color: oklch(22% 0.02 100); /* Monokai background */
+  }
+}
+
+@media (min-width: 640px) {
+  .terminal-body {
+    padding: 1.25rem 1.5rem;
   }
 }
 
@@ -423,8 +448,14 @@ pre code {
 }
 
 .terminal-body code {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   line-height: 1.7;
+}
+
+@media (min-width: 640px) {
+  .terminal-body code {
+    font-size: 0.875rem;
+  }
 }
 
 /* Override prose pre styling for terminal */

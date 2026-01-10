@@ -29,20 +29,20 @@ export function PostCard({ post, className, ...props }: PostCardProps) {
       <Link href={`/posts/${slug}`} className="block">
         <h2
           className={clsx(
-            "font-serif text-xl font-semibold text-text-primary",
+            "font-serif text-lg font-semibold text-text-primary sm:text-xl",
             "transition-colors duration-base group-hover:text-accent"
           )}
         >
           {frontmatter.title}
         </h2>
       </Link>
-      <time className="mt-golden-1 block text-sm text-text-tertiary">
+      <time className="mt-1 block text-sm text-text-tertiary sm:mt-golden-1">
         {formatPostDate(frontmatter.date)}
       </time>
-      <p className="mt-golden-2 leading-relaxed text-text-secondary">
+      <p className="mt-2 leading-relaxed text-text-secondary sm:mt-golden-2">
         {frontmatter.description}
       </p>
-      <div className="mt-golden-2 flex flex-wrap gap-golden-1">
+      <div className="mt-2 flex flex-wrap gap-1 sm:mt-golden-2 sm:gap-golden-1">
         {frontmatter.categories.map((category) => (
           <CategoryBadge key={category} category={category} />
         ))}
