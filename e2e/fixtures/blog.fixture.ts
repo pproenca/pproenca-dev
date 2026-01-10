@@ -81,14 +81,19 @@ export class HomePage extends BlogPage {
   }
 
   async getPostTitles(): Promise<string[]> {
+    // Wait for at least one post card to be visible before counting
+    await this.postCards.first().waitFor({ state: "attached", timeout: 5000 });
     return this.postCards.locator("h2 a, h3 a").allTextContents();
   }
 
   async getPostCount(): Promise<number> {
+    // Wait for at least one post card to be visible before counting
+    await this.postCards.first().waitFor({ state: "attached", timeout: 5000 });
     return this.postCards.count();
   }
 
   async clickFirstPost() {
+    await this.postCards.first().waitFor({ state: "visible", timeout: 5000 });
     await this.postCards.first().locator("a").first().click();
   }
 }
@@ -101,10 +106,10 @@ export class PostPage extends BlogPage {
 
   constructor(page: Page) {
     super(page);
-    // Target main article directly under main, not embedded tweet articles
+    // Target main article - use descendant selector for h1 since it's nested in header
     this.articleContent = page.locator("main > article");
     this.codeBlocks = page.locator("main > article pre");
-    this.postTitle = page.locator("main > article h1");
+    this.postTitle = page.locator("main > article header h1");
     this.postDate = page.locator("main > article time");
   }
 
@@ -117,6 +122,7 @@ export class PostPage extends BlogPage {
   }
 
   async getTitle(): Promise<string> {
+    await this.postTitle.waitFor({ state: "visible", timeout: 5000 });
     return (await this.postTitle.textContent()) ?? "";
   }
 }
