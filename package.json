@@ -16,7 +16,18 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:update": "playwright test --update-snapshots",
-    "check:contrast": "tsx scripts/check-contrast.ts"
+    "check:contrast": "tsx scripts/check-contrast.ts",
+    "prepare": "husky",
+    "type-check": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md,mdx}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
@@ -44,6 +55,8 @@
     "culori": "^4.0.2",
     "eslint": "^9.39.2",
     "eslint-config-next": "16.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "serve": "^14.2.5",
     "tailwindcss": "^4.1.18",

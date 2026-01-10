@@ -22,7 +22,7 @@ Read the component file and identify:
 
 - Component name and export pattern
 - Props interface (especially value, defaultValue, onChange, disabled, etc.)
-- ARIA attributes used (role, aria-* attributes)
+- ARIA attributes used (role, aria-\* attributes)
 - Event handlers (onClick, onValueChange, onOpenChange, etc.)
 - Whether it's a compound component (Component.Root, Component.Trigger, etc.)
 

@@ -57,13 +57,13 @@ await user.keyboard('[ArrowRight]');
 
 ```typescript
 // Click with pointer API
-await user.pointer({ keys: '[MouseLeft]', target: button });
+await user.pointer({ keys: "[MouseLeft]", target: button });
 
 // Toggle interactions
-const button = screen.getByRole('button', { name: 'One' });
-expect(button).to.have.attribute('aria-pressed', 'false');
-await user.pointer({ keys: '[MouseLeft]', target: button });
-expect(button).to.have.attribute('aria-pressed', 'true');
+const button = screen.getByRole("button", { name: "One" });
+expect(button).to.have.attribute("aria-pressed", "false");
+await user.pointer({ keys: "[MouseLeft]", target: button });
+expect(button).to.have.attribute("aria-pressed", "true");
 ```
 
 ## fireEvent vs user-event
@@ -73,10 +73,10 @@ expect(button).to.have.attribute('aria-pressed', 'true');
 Use `fireEvent` for low-level events:
 
 ```typescript
-import { fireEvent } from '@mui/internal-test-utils';
+import { fireEvent } from "@mui/internal-test-utils";
 
 // Input value changes
-fireEvent.change(input, { target: { value: '12' } });
+fireEvent.change(input, { target: { value: "12" } });
 
 // Wheel events
 fireEvent.wheel(input, { deltaY: -100 });
@@ -86,11 +86,11 @@ fireEvent.focus(input);
 fireEvent.blur(input);
 
 // Key events with specific properties
-fireEvent.keyDown(input, { key: 'ArrowUp' });
+fireEvent.keyDown(input, { key: "ArrowUp" });
 
 // Composition events (IME)
 fireEvent.compositionStart(input);
-fireEvent.change(input, { target: { value: 'n' } });
+fireEvent.change(input, { target: { value: "n" } });
 fireEvent.compositionEnd(input);
 ```
 
@@ -111,80 +111,82 @@ await user.keyboard('[Enter]');  // Key presses
 
 ```typescript
 // aria-checked
-expect(element).to.have.attribute('aria-checked', 'false');
-expect(element).to.have.attribute('aria-checked', 'true');
-expect(element).to.have.attribute('aria-checked', 'mixed'); // Indeterminate
+expect(element).to.have.attribute("aria-checked", "false");
+expect(element).to.have.attribute("aria-checked", "true");
+expect(element).to.have.attribute("aria-checked", "mixed"); // Indeterminate
 
 // aria-expanded
-expect(trigger).to.have.attribute('aria-expanded', 'false');
+expect(trigger).to.have.attribute("aria-expanded", "false");
 await user.click(trigger);
 await waitFor(() => {
-  expect(trigger).to.have.attribute('aria-expanded', 'true');
+  expect(trigger).to.have.attribute("aria-expanded", "true");
 });
 
 // aria-disabled
-expect(screen.getByRole('switch')).to.have.attribute('aria-disabled', 'true');
+expect(screen.getByRole("switch")).to.have.attribute("aria-disabled", "true");
 
 // aria-readonly
-expect(screen.getByRole('switch')).to.have.attribute('aria-readonly', 'true');
+expect(screen.getByRole("switch")).to.have.attribute("aria-readonly", "true");
 
 // aria-invalid
-expect(checkbox).to.have.attribute('aria-invalid', 'true');
+expect(checkbox).to.have.attribute("aria-invalid", "true");
 
 // aria-selected
-expect(tab).to.have.attribute('aria-selected', 'true');
+expect(tab).to.have.attribute("aria-selected", "true");
 
 // aria-pressed
-expect(button).to.have.attribute('aria-pressed', 'true');
+expect(button).to.have.attribute("aria-pressed", "true");
 ```
 
 ### Value Attributes
 
 ```typescript
 // aria-valuenow, aria-valuemin, aria-valuemax
-const meter = screen.getByRole('meter');
-expect(meter).to.have.attribute('aria-valuenow', '30');
-expect(meter).to.have.attribute('aria-valuemin', '0');
-expect(meter).to.have.attribute('aria-valuemax', '100');
+const meter = screen.getByRole("meter");
+expect(meter).to.have.attribute("aria-valuenow", "30");
+expect(meter).to.have.attribute("aria-valuemin", "0");
+expect(meter).to.have.attribute("aria-valuemax", "100");
 
 // With setProps
 await setProps({ value: 77 });
-expect(meter).to.have.attribute('aria-valuenow', '77');
+expect(meter).to.have.attribute("aria-valuenow", "77");
 ```
 
 ### Relationship Attributes
 
 ```typescript
 // aria-labelledby
-const popup = screen.queryByRole('dialog');
-expect(screen.getByText('title text').getAttribute('id')).to.equal(
-  popup?.getAttribute('aria-labelledby'),
+const popup = screen.queryByRole("dialog");
+expect(screen.getByText("title text").getAttribute("id")).to.equal(
+  popup?.getAttribute("aria-labelledby"),
 );
 
 // aria-describedby
-expect(screen.getByText('description text').getAttribute('id')).to.equal(
-  popup?.getAttribute('aria-describedby'),
+expect(screen.getByText("description text").getAttribute("id")).to.equal(
+  popup?.getAttribute("aria-describedby"),
 );
 
 // aria-controls
-const trigger = screen.getByRole('button');
-const dialog = screen.getByRole('dialog');
-expect(trigger.getAttribute('aria-controls')).to.equal(dialog.getAttribute('id'));
+const trigger = screen.getByRole("button");
+const dialog = screen.getByRole("dialog");
+expect(trigger.getAttribute("aria-controls")).to.equal(
+  dialog.getAttribute("id"),
+);
 ```
 
 ### Hidden Role Queries
 
 ```typescript
 // Query hidden elements by role
-const [, hiddenInput] = screen.getAllByRole<HTMLInputElement>('checkbox', {
+const [, hiddenInput] = screen.getAllByRole<HTMLInputElement>("checkbox", {
   hidden: true,
 });
 
 // Query presentation role (backdrops)
-expect(screen.getByRole('presentation', { hidden: true })).not.to.equal(null);
+expect(screen.getByRole("presentation", { hidden: true })).not.to.equal(null);
 
 // Query hidden tabpanels
-const panels = screen.getAllByRole('tabpanel', { hidden: true });
+const panels = screen.getAllByRole("tabpanel", { hidden: true });
 ```
 
 ## Testing Disabled State
@@ -332,9 +334,9 @@ describe.skipIf(isJSDOM)('modality', () => {
 
 ```typescript
 describe.for([
-  { name: 'contained triggers', Component: ContainedTriggerDialog },
-  { name: 'detached triggers', Component: DetachedTriggerDialog },
-])('when using $name', ({ Component: TestDialog }) => {
+  { name: "contained triggers", Component: ContainedTriggerDialog },
+  { name: "detached triggers", Component: DetachedTriggerDialog },
+])("when using $name", ({ Component: TestDialog }) => {
   // Tests run for each variant
 });
 ```
@@ -386,7 +388,7 @@ function ContainedTriggerDialog(props: TestDialogProps) {
 ## Animation Testing
 
 ```typescript
-describe('animations', () => {
+describe("animations", () => {
   beforeEach(() => {
     globalThis.BASE_UI_ANIMATIONS_DISABLED = false;
   });
@@ -395,12 +397,14 @@ describe('animations', () => {
     globalThis.BASE_UI_ANIMATIONS_DISABLED = true;
   });
 
-  it('removes popup when no exit animation', async ({ skip }) => {
+  it("removes popup when no exit animation", async ({ skip }) => {
     if (isJSDOM) {
       skip();
     }
 
-    const { rerender } = await render(prepareComponent({ root: { open: true } }));
+    const { rerender } = await render(
+      prepareComponent({ root: { open: true } }),
+    );
 
     await waitFor(() => {
       expect(getPopup()).not.to.equal(null);
@@ -418,15 +422,15 @@ describe('animations', () => {
 
 ```typescript
 // Skip entire describe block in JSDOM
-describe.skipIf(isJSDOM)('browser-specific', () => {
+describe.skipIf(isJSDOM)("browser-specific", () => {
   // Tests that require real browser
 });
 
 // Skip individual test
-it.skipIf(isJSDOM)('pointer events', async () => {});
+it.skipIf(isJSDOM)("pointer events", async () => {});
 
 // Conditional skip with context
-it('focus trap behavior', async ({ skip }) => {
+it("focus trap behavior", async ({ skip }) => {
   if (isJSDOM) {
     skip();
   }

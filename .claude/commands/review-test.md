@@ -25,11 +25,11 @@ Check for proper organization:
 **Expected import order:**
 
 ```typescript
-import * as React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
-import { MyComponent } from './MyComponent';
+import * as React from "react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, it, expect, vi } from "vitest";
+import { MyComponent } from "./MyComponent";
 ```
 
 ### 2. Async Patterns
@@ -66,10 +66,10 @@ Check query method usage:
 
 ```typescript
 // BAD - using getBy for non-existence check (throws)
-expect(screen.getByRole('dialog')).toBeNull();
+expect(screen.getByRole("dialog")).toBeNull();
 
 // GOOD - use queryBy
-expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 ```
 
 ### 4. Assertion Patterns
@@ -85,10 +85,10 @@ Verify correct assertion usage:
 
 ```typescript
 // BAD - implementation detail
-expect(element.classList.contains('active')).toBe(true);
+expect(element.classList.contains("active")).toBe(true);
 
 // GOOD - semantic assertion
-expect(element).toHaveAttribute('aria-selected', 'true');
+expect(element).toHaveAttribute("aria-selected", "true");
 ```
 
 ### 5. Mock Function Usage

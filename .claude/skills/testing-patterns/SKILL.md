@@ -9,12 +9,12 @@ Patterns for unit testing React components with Vitest and React Testing Library
 
 ## Testing Stack
 
-| Package | Purpose |
-|---------|---------|
-| vitest | Test runner |
-| @testing-library/react | React component testing |
-| @testing-library/user-event | User interaction simulation |
-| vitest assertions | expect().toBe(), toHaveAttribute(), etc. |
+| Package                     | Purpose                                  |
+| --------------------------- | ---------------------------------------- |
+| vitest                      | Test runner                              |
+| @testing-library/react      | React component testing                  |
+| @testing-library/user-event | User interaction simulation              |
+| vitest assertions           | expect().toBe(), toHaveAttribute(), etc. |
 
 ## Test File Setup
 
@@ -118,26 +118,26 @@ it('shows loading then content', async () => {
 ### Standard Structure
 
 ```typescript
-describe('<MyComponent />', () => {
+describe("<MyComponent />", () => {
   // 1. Basic rendering
-  it('renders correctly', () => {});
+  it("renders correctly", () => {});
 
   // 2. Value props
-  describe('prop: value', () => {});
-  describe('prop: defaultValue', () => {});
+  describe("prop: value", () => {});
+  describe("prop: defaultValue", () => {});
 
   // 3. Callback props
-  describe('prop: onChange', () => {});
+  describe("prop: onChange", () => {});
 
   // 4. Boolean props
-  describe('prop: disabled', () => {});
+  describe("prop: disabled", () => {});
 
   // 5. Behaviors
-  describe('ARIA attributes', () => {});
-  describe('keyboard navigation', () => {});
+  describe("ARIA attributes", () => {});
+  describe("keyboard navigation", () => {});
 
   // 6. Integration
-  describe('Form', () => {});
+  describe("Form", () => {});
 });
 ```
 
@@ -149,15 +149,15 @@ Prefer accessibility-first queries:
 2. **getByLabelText** - For form elements
 3. **getByText** - Content verification
 4. **getByTestId** - Last resort for non-semantic elements
-5. **queryBy*** - When element might not exist
-6. **findBy*** - For async elements
+5. **queryBy\*** - When element might not exist
+6. **findBy\*** - For async elements
 
 ```typescript
-screen.getByRole('button');
-screen.getByRole('tab', { selected: true });
-screen.getByRole('combobox', { name: 'Choose option' });
-screen.queryByRole('dialog'); // null if not present
-await screen.findByRole('alert'); // waits for element
+screen.getByRole("button");
+screen.getByRole("tab", { selected: true });
+screen.getByRole("combobox", { name: "Choose option" });
+screen.queryByRole("dialog"); // null if not present
+await screen.findByRole("alert"); // waits for element
 ```
 
 ## Controlled vs Uncontrolled
@@ -187,6 +187,7 @@ it('uncontrolled mode', async () => {
 ## Accessibility Checklist
 
 ### Keyboard Navigation
+
 - Tab moves focus to/from component
 - Arrow keys navigate within component
 - Enter/Space activate items
@@ -194,6 +195,7 @@ it('uncontrolled mode', async () => {
 - Home/End jump to first/last
 
 ### ARIA Attributes
+
 - Correct role assigned
 - aria-selected for tabs/options
 - aria-expanded for triggers
@@ -202,24 +204,25 @@ it('uncontrolled mode', async () => {
 - aria-disabled (not disabled attribute) for accessible disabled states
 
 ### Focus Management
+
 - Focus moves appropriately on open/close
 - Focus trapping in modals
 - Tab order follows visual order
 
 ## Quick Reference
 
-| Pattern | Example |
-|---------|---------|
-| Render | `render(<Component />)` |
-| User setup | `const user = userEvent.setup()` |
-| Click | `await user.click(element)` |
-| Type | `await user.type(input, 'text')` |
-| Keyboard | `await user.keyboard('[ArrowDown]')` |
-| Mock function | `const fn = vi.fn()` |
-| Call count | `expect(fn).toHaveBeenCalledTimes(1)` |
-| Call args | `expect(fn).toHaveBeenCalledWith(arg)` |
-| Attribute | `expect(el).toHaveAttribute('aria-x', 'y')` |
-| In document | `expect(el).toBeInTheDocument()` |
-| Null check | `expect(screen.queryByRole('x')).not.toBeInTheDocument()` |
-| Async wait | `await waitFor(() => expect(...))` |
-| Rerender | `const { rerender } = render(<C />)` |
+| Pattern       | Example                                                   |
+| ------------- | --------------------------------------------------------- |
+| Render        | `render(<Component />)`                                   |
+| User setup    | `const user = userEvent.setup()`                          |
+| Click         | `await user.click(element)`                               |
+| Type          | `await user.type(input, 'text')`                          |
+| Keyboard      | `await user.keyboard('[ArrowDown]')`                      |
+| Mock function | `const fn = vi.fn()`                                      |
+| Call count    | `expect(fn).toHaveBeenCalledTimes(1)`                     |
+| Call args     | `expect(fn).toHaveBeenCalledWith(arg)`                    |
+| Attribute     | `expect(el).toHaveAttribute('aria-x', 'y')`               |
+| In document   | `expect(el).toBeInTheDocument()`                          |
+| Null check    | `expect(screen.queryByRole('x')).not.toBeInTheDocument()` |
+| Async wait    | `await waitFor(() => expect(...))`                        |
+| Rerender      | `const { rerender } = render(<C />)`                      |

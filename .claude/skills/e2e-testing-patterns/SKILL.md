@@ -304,19 +304,19 @@ test("it should work", async () => {});
 
 ## Quick Reference
 
-| Pattern            | Example                                             |
-| ------------------ | --------------------------------------------------- |
-| Import fixtures    | `import { test, expect } from '../fixtures/...'`    |
-| Role locator       | `page.getByRole('link', { name: 'Home' })`          |
-| URL assertion      | `await expect(page).toHaveURL(/\/posts\//)`         |
-| Visibility         | `await expect(element).toBeVisible()`               |
-| Wait for element   | `await el.waitFor({ state: 'visible' })`            |
-| Get text content   | `await locator.textContent()`                       |
-| Get all texts      | `await locator.allTextContents()`                   |
-| Navigate           | `await homePage.goto('/')`                          |
-| Click              | `await element.click()`                             |
-| Count elements     | `await locator.count()`                             |
-| axe audit          | `new AxeBuilder({ page }).withTags([...]).analyze()` |
+| Pattern          | Example                                              |
+| ---------------- | ---------------------------------------------------- |
+| Import fixtures  | `import { test, expect } from '../fixtures/...'`     |
+| Role locator     | `page.getByRole('link', { name: 'Home' })`           |
+| URL assertion    | `await expect(page).toHaveURL(/\/posts\//)`          |
+| Visibility       | `await expect(element).toBeVisible()`                |
+| Wait for element | `await el.waitFor({ state: 'visible' })`             |
+| Get text content | `await locator.textContent()`                        |
+| Get all texts    | `await locator.allTextContents()`                    |
+| Navigate         | `await homePage.goto('/')`                           |
+| Click            | `await element.click()`                              |
+| Count elements   | `await locator.count()`                              |
+| axe audit        | `new AxeBuilder({ page }).withTags([...]).analyze()` |
 
 ## Running Tests
 

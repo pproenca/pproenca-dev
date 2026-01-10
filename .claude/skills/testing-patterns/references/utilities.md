@@ -11,7 +11,7 @@ MUI Base UI uses a custom `createRenderer` that wraps `@mui/internal-test-utils`
 ### Implementation
 
 ```typescript
-import * as React from 'react';
+import * as React from "react";
 import {
   CreateRendererOptions,
   RenderOptions,
@@ -19,25 +19,33 @@ import {
   Renderer,
   MuiRenderResult,
   act,
-} from '@mui/internal-test-utils';
+} from "@mui/internal-test-utils";
 
-export type BaseUIRenderResult = Omit<MuiRenderResult, 'rerender' | 'setProps'> & {
+export type BaseUIRenderResult = Omit<
+  MuiRenderResult,
+  "rerender" | "setProps"
+> & {
   rerender: (newElement: React.ReactElement<DataAttributes>) => Promise<void>;
   setProps: (newProps: object) => Promise<void>;
 };
 
-type BaseUITestRenderer = Omit<Renderer, 'render'> & {
+type BaseUITestRenderer = Omit<Renderer, "render"> & {
   render: (
     element: React.ReactElement<DataAttributes>,
     options?: RenderOptions,
   ) => Promise<BaseUIRenderResult>;
 };
 
-export function createRenderer(globalOptions?: CreateRendererOptions): BaseUITestRenderer {
+export function createRenderer(
+  globalOptions?: CreateRendererOptions,
+): BaseUITestRenderer {
   const createRendererResult = sharedCreateRenderer(globalOptions);
   const { render: originalRender } = createRendererResult;
 
-  const render = async (element: React.ReactElement<DataAttributes>, options?: RenderOptions) => {
+  const render = async (
+    element: React.ReactElement<DataAttributes>,
+    options?: RenderOptions,
+  ) => {
     const result = await act(async () => originalRender(element, options));
 
     async function rerender(newElement: React.ReactElement<DataAttributes>) {
@@ -164,10 +172,10 @@ interface BaseUiConformanceTestsOptions {
   refInstanceof: typeof HTMLElement;
 
   // Skip specific tests
-  skip?: ('propsSpread' | 'refForwarding' | 'renderProp' | 'className')[];
+  skip?: ("propsSpread" | "refForwarding" | "renderProp" | "className")[];
 
   // Only run specific tests
-  only?: ('propsSpread' | 'refForwarding' | 'renderProp' | 'className')[];
+  only?: ("propsSpread" | "refForwarding" | "renderProp" | "className")[];
 
   // Element type for render prop tests (default: 'div')
   testRenderPropWith?: keyof React.JSX.IntrinsicElements;
@@ -249,10 +257,10 @@ interface PopupTestConfig {
   createComponent: (props: TestedComponentProps) => React.JSX.Element;
 
   // How the popup opens
-  triggerMouseAction: 'click' | 'hover';
+  triggerMouseAction: "click" | "hover";
 
   // Render function from createRenderer
-  render: ReturnType<typeof createRenderer>['render'];
+  render: ReturnType<typeof createRenderer>["render"];
 
   // Expected role attribute
   expectedPopupRole?: string;
@@ -261,7 +269,7 @@ interface PopupTestConfig {
   expectedAriaHasPopupValue?: string;
 
   // Popup always in DOM
-  alwaysMounted?: boolean | 'only-after-open';
+  alwaysMounted?: boolean | "only-after-open";
 
   // Is a combobox
   combobox?: boolean;
@@ -269,8 +277,8 @@ interface PopupTestConfig {
 
 interface TestedComponentProps {
   root?: { open?: boolean; onOpenChange?: (open: boolean) => void };
-  popup?: { className?: string; id?: string; 'data-testid'?: string };
-  trigger?: { 'data-testid'?: string };
+  popup?: { className?: string; id?: string; "data-testid"?: string };
+  trigger?: { "data-testid"?: string };
   portal?: { keepMounted?: boolean };
 }
 ```
@@ -354,17 +362,17 @@ it('waits for async updates', async () => {
 ### isJSDOM
 
 ```typescript
-import { isJSDOM } from '#test-utils';
+import { isJSDOM } from "#test-utils";
 
 // Skip tests that require browser
-describe.skipIf(isJSDOM)('keyboard navigation', () => {});
-it.skipIf(isJSDOM)('specific browser test', async () => {});
+describe.skipIf(isJSDOM)("keyboard navigation", () => {});
+it.skipIf(isJSDOM)("specific browser test", async () => {});
 ```
 
 ### act
 
 ```typescript
-import { act } from '@mui/internal-test-utils';
+import { act } from "@mui/internal-test-utils";
 
 await act(async () => {
   input.focus();
@@ -376,18 +384,18 @@ await act(async () => {
 ### vitest.config.mts
 
 ```typescript
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    setupFiles: ['./test/setupVitest.ts'],
-    environment: 'jsdom',
+    setupFiles: ["./test/setupVitest.ts"],
+    environment: "jsdom",
     // Or use browser mode
     browser: {
       enabled: true,
-      provider: 'playwright',
+      provider: "playwright",
       headless: true,
-      instances: [{ browser: 'chromium' }],
+      instances: [{ browser: "chromium" }],
     },
   },
 });
@@ -396,8 +404,8 @@ export default defineConfig({
 ### setupVitest.ts
 
 ```typescript
-import setupVitest from '@mui/internal-test-utils/setupVitest';
-import '@testing-library/jest-dom/vitest';
+import setupVitest from "@mui/internal-test-utils/setupVitest";
+import "@testing-library/jest-dom/vitest";
 
 declare global {
   var BASE_UI_ANIMATIONS_DISABLED: boolean;
@@ -407,7 +415,10 @@ setupVitest({ failOnConsoleEnabled: false });
 
 globalThis.BASE_UI_ANIMATIONS_DISABLED = true;
 
-if (typeof window !== 'undefined' && window?.navigator?.userAgent?.includes('jsdom')) {
+if (
+  typeof window !== "undefined" &&
+  window?.navigator?.userAgent?.includes("jsdom")
+) {
   globalThis.requestAnimationFrame = (cb) => {
     setTimeout(() => cb(0), 0);
     return 0;
@@ -475,8 +486,8 @@ setProps({ open: true });
 
 ```typescript
 // Good - consistent import path
-import { createRenderer, isJSDOM } from '#test-utils';
+import { createRenderer, isJSDOM } from "#test-utils";
 
 // Avoid - direct import
-import { createRenderer } from '../test/createRenderer';
+import { createRenderer } from "../test/createRenderer";
 ```

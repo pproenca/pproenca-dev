@@ -35,23 +35,31 @@ function useControlled<T>({
   const [internalValue, setInternalValue] = React.useState(defaultValue);
   const value = isControlled ? controlled : internalValue;
 
-  const setValue = React.useCallback((newValue: T) => {
-    if (!isControlled) {
-      setInternalValue(newValue);
-    }
-  }, [isControlled]);
+  const setValue = React.useCallback(
+    (newValue: T) => {
+      if (!isControlled) {
+        setInternalValue(newValue);
+      }
+    },
+    [isControlled],
+  );
 
   return [value, setValue];
 }
 
 // Usage in component
 interface DialogProps {
-  open?: boolean;           // Controlled
-  defaultOpen?: boolean;    // Uncontrolled
+  open?: boolean; // Controlled
+  defaultOpen?: boolean; // Uncontrolled
   onOpenChange?: (open: boolean) => void;
 }
 
-function Dialog({ open: openProp, defaultOpen = false, onOpenChange, children }: DialogProps) {
+function Dialog({
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  children,
+}: DialogProps) {
   const [open, setOpen] = useControlled({
     controlled: openProp,
     default: defaultOpen,
@@ -303,25 +311,25 @@ function Dialog({ onOpenChange, ...props }: DialogProps) {
 ```typescript
 function handleKeyDown(event: React.KeyboardEvent) {
   switch (event.key) {
-    case 'ArrowDown':
-    case 'ArrowRight':
+    case "ArrowDown":
+    case "ArrowRight":
       event.preventDefault();
       focusNext();
       break;
-    case 'ArrowUp':
-    case 'ArrowLeft':
+    case "ArrowUp":
+    case "ArrowLeft":
       event.preventDefault();
       focusPrevious();
       break;
-    case 'Home':
+    case "Home":
       event.preventDefault();
       focusFirst();
       break;
-    case 'End':
+    case "End":
       event.preventDefault();
       focusLast();
       break;
-    case 'Escape':
+    case "Escape":
       close();
       break;
   }
