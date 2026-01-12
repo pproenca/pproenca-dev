@@ -79,7 +79,7 @@ export function MobileMenu({ navLinks, socialLinks }: MobileMenuProps) {
       <dialog
         ref={dialogRef}
         aria-label="Mobile navigation menu"
-        className="fixed inset-0 m-0 h-full max-h-full w-full max-w-full bg-transparent p-0 backdrop:bg-bg-deep/80 backdrop:backdrop-blur-sm"
+        className="fixed inset-0 m-0 h-full max-h-full w-full max-w-full bg-transparent p-0 overscroll-contain backdrop:bg-bg-deep/80 backdrop:backdrop-blur-sm"
         onClick={(e) => e.target === e.currentTarget && close()}
       >
         {/* Slide-out drawer */}

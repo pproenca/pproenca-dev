@@ -412,7 +412,11 @@ pre code {
   @apply flex items-center justify-center rounded p-1;
   color: var(--color-text-tertiary);
   opacity: 0;
-  transition: all var(--transition-base);
+  transition:
+    opacity var(--transition-base),
+    color var(--transition-base),
+    background-color var(--transition-base),
+    transform var(--transition-fast);
 }
 
 .terminal-window:hover .terminal-copy {
@@ -651,7 +655,7 @@ dialog[open] .mobile-menu-drawer {
   @apply bg-bg-elevated text-text-primary;
   @apply border border-border-subtle;
   @apply no-underline;
-  @apply transition-all duration-200;
+  @apply transition-colors transition-shadow duration-200;
 }
 
 .resources-nav a:hover {
