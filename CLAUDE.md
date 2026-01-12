@@ -9,10 +9,20 @@ pnpm dev             # Start dev server with Turbopack (http://localhost:3000)
 pnpm build           # Generate sitemap + build static site to out/
 pnpm lint            # Run ESLint
 pnpm format          # Auto-format code with Prettier
+pnpm type-check      # Run TypeScript type checking
 pnpm clean           # Remove build artifacts (.next, out, .turbo, caches)
+pnpm check:contrast  # Verify color contrast accessibility
 pnpm test:e2e        # Run Playwright E2E tests (builds site first)
 pnpm test:e2e:ui     # Run E2E tests with interactive UI debugger
 pnpm test:e2e:update # Update visual regression snapshots
+```
+
+### Running Specific Tests
+
+```bash
+pnpm test:e2e e2e/tests/seo.spec.ts           # Run single test file
+pnpm test:e2e --grep "homepage"               # Run tests matching pattern
+pnpm test:e2e --debug                         # Run with debugger
 ```
 
 ## Testing
@@ -62,6 +72,30 @@ This is a static MDX blog built with Next.js 16, Tailwind CSS 4, and the App Rou
 ### Adding New Syntax Highlighting Languages
 
 Add to the `langs` array in `src/lib/shiki.ts`.
+
+### Writing Posts
+
+Create MDX files in `content/posts/` with YAML frontmatter:
+
+```mdx
+---
+title: "My Post Title"
+date: "2025-01-07"
+description: "A brief description for SEO"
+categories: ["Category1", "Category2"]
+draft: true # Optional: hide from listing
+---
+```
+
+## UI Guidelines
+
+When building UI components, follow the guidelines in `AGENTS.md`. Key requirements:
+
+- **Keyboard**: Full WAI-ARIA APG support, visible focus rings (`:focus-visible`)
+- **Targets**: Hit areas ≥24px (mobile ≥44px), mobile inputs ≥16px font-size
+- **Animation**: Honor `prefers-reduced-motion`, animate only `transform`/`opacity`, never `transition: all`
+- **Forms**: Keep submit enabled until request starts, errors inline next to fields
+- **Performance**: Virtualize lists >50 items, prevent CLS with explicit image dimensions
 
 <!-- OPENSPEC:START -->
 
