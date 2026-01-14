@@ -7,27 +7,31 @@ import { Heading } from "@/components/elements";
 import { getPageBySlug } from "@/lib/pages";
 import { SITE_CONFIG } from "@/lib/constants";
 
-const page = getPageBySlug("about");
+export async function generateMetadata(): Promise<Metadata> {
+  const page = getPageBySlug("about");
 
-export const metadata: Metadata = {
-  title: page?.frontmatter.title ?? "About",
-  description:
-    page?.frontmatter.description ??
-    "Pedro Proenca - Hands-on Engineering Manager, growth hacker, and hardware tinkerer based in the UK",
-  alternates: {
-    canonical: "/about",
-  },
-  openGraph: {
+  return {
     title: page?.frontmatter.title ?? "About",
     description:
       page?.frontmatter.description ??
       "Pedro Proenca - Hands-on Engineering Manager, growth hacker, and hardware tinkerer based in the UK",
-    url: "/about",
-    type: "profile",
-  },
-};
+    alternates: {
+      canonical: "/about",
+    },
+    openGraph: {
+      title: page?.frontmatter.title ?? "About",
+      description:
+        page?.frontmatter.description ??
+        "Pedro Proenca - Hands-on Engineering Manager, growth hacker, and hardware tinkerer based in the UK",
+      url: "/about",
+      type: "profile",
+    },
+  };
+}
 
 export default function AboutPage() {
+  const page = getPageBySlug("about");
+
   if (!page) {
     notFound();
   }

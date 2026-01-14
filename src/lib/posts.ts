@@ -94,10 +94,11 @@ export function getAllCategories(): CategoryCount[] {
 
 export const getPostsByCategory = cache((category: string): PostMeta[] => {
   const posts = getAllPosts();
+  const normalizedCategory = category.toLowerCase();
   return posts.filter((post) =>
-    post.frontmatter.categories
-      .map((c) => c.toLowerCase())
-      .includes(category.toLowerCase()),
+    post.frontmatter.categories.some(
+      (c) => c.toLowerCase() === normalizedCategory,
+    ),
   );
 });
 

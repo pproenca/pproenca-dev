@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Static export for static hosting
   output: "export",
+  // Tree-shake heavy packages for smaller bundles
+  experimental: {
+    optimizePackageImports: ["shiki", "react-tweet"],
+  },
   // Note: Next.js bundles polyfills (Array.at, Object.hasOwn, etc.) regardless
   // of browserslist. This is a known limitation with no official workaround.
   // See: https://github.com/vercel/next.js/discussions/64330

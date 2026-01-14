@@ -81,6 +81,15 @@ function CopyButton({ code }: CopyButtonProps) {
   );
 }
 
+// Hoisted static JSX to avoid re-creation on each render
+const TerminalDots = (
+  <div className="terminal-dots" aria-hidden="true">
+    <span className="terminal-dot terminal-dot-red" />
+    <span className="terminal-dot terminal-dot-yellow" />
+    <span className="terminal-dot terminal-dot-green" />
+  </div>
+);
+
 export interface CodeBlockProps {
   children: string;
   lightHtml: string;
@@ -102,11 +111,7 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
         aria-label={ariaLabel ?? "Code example"}
       >
         <div className="terminal-header">
-          <div className="terminal-dots" aria-hidden="true">
-            <span className="terminal-dot terminal-dot-red" />
-            <span className="terminal-dot terminal-dot-yellow" />
-            <span className="terminal-dot terminal-dot-green" />
-          </div>
+          {TerminalDots}
           <CopyButton code={children} />
         </div>
         <div className="terminal-body">

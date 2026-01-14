@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -55,13 +55,13 @@ export function MobileMenu({ navLinks, socialLinks }: MobileMenuProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const pathname = usePathname();
 
-  const open = () => dialogRef.current?.showModal();
-  const close = () => dialogRef.current?.close();
+  const open = useCallback(() => dialogRef.current?.showModal(), []);
+  const close = useCallback(() => dialogRef.current?.close(), []);
 
   // Close menu on route change
   useEffect(() => {
     close();
-  }, [pathname]);
+  }, [pathname, close]);
 
   return (
     <>
