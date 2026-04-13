@@ -44,7 +44,7 @@ function CopyButton({ code }: CopyButtonProps) {
       >
         {copied ? (
           <svg
-            className="h-3.5 w-3.5"
+            className="size-3.5 shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -59,7 +59,7 @@ function CopyButton({ code }: CopyButtonProps) {
           </svg>
         ) : (
           <svg
-            className="h-3.5 w-3.5"
+            className="size-3.5 shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

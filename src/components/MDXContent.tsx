@@ -5,6 +5,7 @@ import { TweetEmbed } from "./TweetEmbed";
 import { CodeBlock } from "./CodeBlock";
 import { Resources } from "./Resources";
 import { getHighlighter } from "@/lib/shiki";
+import { slugifyHeading } from "@/lib/posts";
 
 interface CodeProps {
   children?: string;
@@ -37,17 +38,46 @@ function Anchor({ href, children, ...props }: AnchorProps) {
   );
 }
 
+// Extract plain text from a React node tree so we can slugify the heading.
+function renderToText(node: React.ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(renderToText).join("");
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
+    return renderToText(node.props.children);
+  }
+  return "";
+}
+
+interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  children?: React.ReactNode;
+}
+
+function H2({ children, ...props }: HeadingProps) {
+  const id = slugifyHeading(renderToText(children));
+  return (
+    <h2 id={id} {...props}>
+      {children}
+    </h2>
+  );
+}
+
+function H3({ children, ...props }: HeadingProps) {
+  const id = slugifyHeading(renderToText(children));
+  return (
+    <h3 id={id} {...props}>
+      {children}
+    </h3>
+  );
+}
+
 async function Code({ children, className }: CodeProps) {
   const match = /language-(\w+)/.exec(className || "");
   const lang = match ? match[1] : "text";
   const code = children?.trim() || "";
 
   if (!className) {
-    return (
-      <code className="rounded border border-border-subtle bg-bg-elevated px-1.5 py-0.5 font-mono text-sm">
-        {children}
-      </code>
-    );
+    return <code className="font-mono">{children}</code>;
   }
 
   const hl = await getHighlighter();
@@ -65,6 +95,8 @@ const components = {
   pre: ({ children }: PreProps) => <>{children}</>,
   code: Code,
   a: Anchor,
+  h2: H2,
+  h3: H3,
   Tweet: TweetEmbed,
   Resources,
 };

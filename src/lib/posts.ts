@@ -13,10 +13,18 @@ export interface PostFrontmatter {
   draft?: boolean;
 }
 
+export interface Heading {
+  level: 2 | 3;
+  text: string;
+  id: string;
+}
+
 export interface Post {
   slug: string;
   frontmatter: PostFrontmatter;
   content: string;
+  readingTimeMinutes: number;
+  headings: Heading[];
 }
 
 export interface PostMeta {
@@ -74,6 +82,8 @@ export const getPostBySlug = cache((slug: string): Post | null => {
     slug,
     frontmatter,
     content,
+    readingTimeMinutes: calculateReadingTime(content),
+    headings: extractHeadings(content),
   };
 });
 
@@ -139,4 +149,48 @@ export function formatPostDate(dateString: string): string {
     month: "long",
     day: "numeric",
   });
+}
+
+// Shared between server (heading extraction) and client (MDX render) so that
+// anchor ids and TOC hrefs always match.
+export function slugifyHeading(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
+// Average adult reading speed for online prose; Medium uses 265, Pocket 220.
+const WORDS_PER_MINUTE = 225;
+
+function calculateReadingTime(content: string): number {
+  const text = content
+    .replace(/```[\s\S]*?```/g, " ") // fenced code blocks
+    .replace(/<[^>]+>/g, " ") // JSX/HTML tags
+    .replace(/`[^`]+`/g, " ") // inline code
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, " ") // images
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // links → keep label
+    .replace(/[#*_~>|]/g, " "); // markdown markers
+
+  const wordCount = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));
+}
+
+function extractHeadings(content: string): Heading[] {
+  // Strip fenced code blocks first so we don't capture `#` inside them
+  const cleaned = content.replace(/```[\s\S]*?```/g, "");
+  const regex = /^(#{2,3})\s+(.+)$/gm;
+  const headings: Heading[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(cleaned)) !== null) {
+    const level = match[1].length as 2 | 3;
+    const text = match[2].replace(/[*_~`[\]]/g, "").trim();
+    if (!text) continue;
+    headings.push({ level, text, id: slugifyHeading(text) });
+  }
+
+  return headings;
 }

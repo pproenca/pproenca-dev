@@ -7,7 +7,16 @@ import { useTheme } from "next-themes";
 const emptySubscribe = () => () => {};
 
 const baseStyles =
-  "rounded-md p-2 text-text-secondary transition-colors duration-base";
+  "relative rounded-md p-2 text-text-secondary hover:text-accent";
+
+function TouchTarget() {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-fine:hidden absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2"
+    />
+  );
+}
 
 export interface ThemeToggleProps {
   ref?: React.Ref<HTMLButtonElement>;
@@ -30,10 +39,11 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
     return (
       <button
         ref={ref}
-        className={clsx(baseStyles, "hover:text-text-primary", className)}
+        className={clsx(baseStyles, className)}
         aria-label="Toggle theme"
       >
-        <span className="block h-5 w-5" />
+        <span className="block size-5" />
+        <TouchTarget />
       </button>
     );
   }
@@ -44,14 +54,14 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
     <button
       ref={ref}
       onClick={handleToggle}
-      className={clsx(baseStyles, "hover:text-accent", className)}
+      className={clsx(baseStyles, className)}
       aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
       aria-pressed={isDark}
       data-theme={isDark ? "dark" : "light"}
     >
       {isDark ? (
         <svg
-          className="h-5 w-5"
+          className="size-5 shrink-0"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -66,7 +76,7 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
         </svg>
       ) : (
         <svg
-          className="h-5 w-5"
+          className="size-5 shrink-0"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -80,6 +90,7 @@ export function ThemeToggle({ ref, className }: ThemeToggleProps) {
           />
         </svg>
       )}
+      <TouchTarget />
     </button>
   );
 }

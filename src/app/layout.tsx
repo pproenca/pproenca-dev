@@ -112,7 +112,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${libreBaskerville.variable} ${sourceSans.variable} ${jetbrainsMono.variable} bg-bg-deep text-text-primary font-sans antialiased transition-colors duration-200`}
+        className={`${libreBaskerville.variable} ${sourceSans.variable} ${jetbrainsMono.variable} bg-bg-deep text-text-primary font-sans antialiased`}
       >
         <a
           href="#main-content"
@@ -126,7 +126,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col">
+          <div className="isolate flex min-h-dvh flex-col">
             <Header />
             <main
               id="main-content"
@@ -135,7 +135,7 @@ export default function RootLayout({
               {children}
             </main>
             <footer className="border-t border-border-subtle/30">
-              <div className="mx-auto px-5 py-4 text-center text-xs text-text-tertiary sm:px-6 md:max-w-2xl lg:max-w-[680px] lg:px-golden-3 lg:py-golden-3">
+              <div className="mx-auto px-5 py-4 text-center text-sm text-text-tertiary sm:px-6 md:max-w-2xl lg:max-w-[680px] lg:px-golden-3 lg:py-golden-3">
                 <p>&copy; {new Date().getFullYear()} pproenca.dev</p>
               </div>
             </footer>

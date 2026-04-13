@@ -31,10 +31,10 @@ export default function CategoriesPage() {
           <Link
             key={name}
             href={`/categories/${categoryToSlug(name)}`}
-            className="flex items-center gap-golden-1 rounded-lg border border-border-visible px-golden-2 py-golden-1 transition-colors duration-200 hover:border-accent hover:text-accent"
+            className="group flex items-center gap-golden-2 rounded-lg border border-border-visible bg-bg-surface px-golden-2 py-golden-1 text-sm font-medium text-text-primary transition-colors duration-200 hover:border-accent hover:bg-bg-elevated hover:text-accent"
           >
-            <span className="font-medium text-text-primary">{name}</span>
-            <span className="rounded-full border border-border-subtle px-2 py-0.5 text-sm text-text-tertiary">
+            <span>{name}</span>
+            <span className="tabular-nums rounded-full bg-bg-deep px-2 py-0.5 text-text-secondary ring-1 ring-border-subtle group-hover:text-accent group-hover:ring-accent/40">
               {count}
             </span>
           </Link>

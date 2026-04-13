@@ -28,7 +28,7 @@ export function Heading<T extends ElementType = "h1">({
   return (
     <Component
       className={clsx(
-        "font-serif font-bold text-text-primary",
+        "font-serif font-semibold text-text-primary tracking-tight",
         sizeClasses[level],
         className,
       )}

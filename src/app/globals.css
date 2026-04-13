@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
 /* Configure dark mode to use class strategy (for next-themes compatibility) */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -56,29 +55,33 @@
    ======================================== */
 
 :root {
-  /* Light Mode: Aged Paper - e-ink inspired (OKLCH for perceptual uniformity) */
-  --color-bg-deep: oklch(95.5% 0.012 85);
-  --color-bg-surface: oklch(92.5% 0.015 85);
-  --color-bg-elevated: oklch(89.5% 0.018 85);
-  --color-text-primary: oklch(30% 0.02 70);
-  --color-text-secondary: oklch(48% 0.02 70);
-  --color-text-tertiary: oklch(49% 0.015 70);
-  --color-accent: oklch(50% 0.09 70);
-  --color-accent-muted: oklch(48% 0.08 70);
-  --color-border-subtle: oklch(87.5% 0.012 85);
-  --color-border-visible: oklch(82% 0.015 85);
+  /* Light Mode: Kindle Paperwhite (OKLCH for perceptual uniformity)
+     Very low chroma across the board — links and brand are muted "warm ink,"
+     not vibrant accents. Backgrounds are near-neutral off-white, tiniest warm
+     hint. Goal: feel like reading a Kindle, not a designer blog. */
+  --color-bg-deep: oklch(94.5% 0.006 85);
+  --color-bg-surface: oklch(91.5% 0.008 85);
+  --color-bg-elevated: oklch(88.5% 0.01 85);
+  --color-text-primary: oklch(26% 0.01 75);
+  --color-text-secondary: oklch(46% 0.008 75);
+  --color-text-tertiary: oklch(48% 0.008 75);
+  --color-accent: oklch(42% 0.05 60);
+  --color-accent-muted: oklch(50% 0.045 60);
+  --color-border-subtle: oklch(85% 0.008 80);
+  --color-border-visible: oklch(78% 0.012 78);
 
   /* Paper texture for light mode */
   --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   --paper-texture-visible: block;
 
-  /* Terminal traffic light colors - light mode */
-  --color-terminal-red: oklch(73% 0.05 55);
-  --color-terminal-yellow: oklch(78% 0.04 90);
-  --color-terminal-green: oklch(75% 0.04 130);
-  --color-terminal-red-active: oklch(62% 0.18 25);
-  --color-terminal-yellow-active: oklch(78% 0.15 85);
-  --color-terminal-green-active: oklch(72% 0.16 145);
+  /* Terminal traffic light colors - light mode (slightly more chroma in base
+     state so they read as muted but distinct colors, not gray) */
+  --color-terminal-red: oklch(72% 0.08 28);
+  --color-terminal-yellow: oklch(80% 0.1 88);
+  --color-terminal-green: oklch(76% 0.09 145);
+  --color-terminal-red-active: oklch(62% 0.2 25);
+  --color-terminal-yellow-active: oklch(80% 0.17 88);
+  --color-terminal-green-active: oklch(72% 0.17 145);
 
   /* Code block background - GitHub Light */
   --color-code-bg: oklch(100% 0 0);
@@ -101,36 +104,37 @@
 }
 
 .dark {
-  /* Dark Mode: Night Reading - OLED optimized (OKLCH for perceptual uniformity) */
-  --color-bg-deep: oklch(8% 0.01 70);
-  --color-bg-surface: oklch(12% 0.01 70);
-  --color-bg-elevated: oklch(16% 0.012 70);
+  /* Dark Mode: Kindle Night (OLED-friendly, OKLCH)
+     Not true black — a deep warm dark that's easier on the eyes for long
+     reading. Very low chroma everywhere; the accent is a near-neutral soft
+     gold that blends into the text color rather than competing with it. */
+  --color-bg-deep: oklch(11% 0.006 70);
+  --color-bg-surface: oklch(15% 0.008 70);
+  --color-bg-elevated: oklch(19% 0.01 70);
 
-  /* Warm Cream Text (not pure white) */
-  --color-text-primary: oklch(85% 0.015 70);
-  --color-text-secondary: oklch(65% 0.012 70);
-  --color-text-tertiary: oklch(
-    67% 0.012 70
-  ); /* WCAG AA compliant: ~6:1 contrast ratio */
+  /* Warm cream text — softened brightness for less fatigue */
+  --color-text-primary: oklch(86% 0.012 75);
+  --color-text-secondary: oklch(66% 0.01 75);
+  --color-text-tertiary: oklch(58% 0.01 75); /* WCAG AA ≥4.5:1 */
 
-  /* Soft Gold Accents */
-  --color-accent: oklch(65% 0.08 70);
-  --color-accent-muted: oklch(60% 0.07 70);
+  /* Muted gold accent — very low chroma, blends like a slightly lit letter */
+  --color-accent: oklch(75% 0.06 65);
+  --color-accent-muted: oklch(68% 0.05 65);
 
-  /* Subtle Warm Borders */
-  --color-border-subtle: oklch(20% 0.01 70);
-  --color-border-visible: oklch(28% 0.01 70);
+  /* Subtle warm borders */
+  --color-border-subtle: oklch(22% 0.008 70);
+  --color-border-visible: oklch(30% 0.01 70);
 
   /* No paper texture in dark mode (OLED clean) */
   --paper-texture-visible: none;
 
-  /* Terminal traffic light colors - dark mode (muted) */
-  --color-terminal-red: oklch(40% 0.06 35);
-  --color-terminal-yellow: oklch(45% 0.06 85);
-  --color-terminal-green: oklch(42% 0.05 130);
-  --color-terminal-red-active: oklch(58% 0.17 25);
-  --color-terminal-yellow-active: oklch(73% 0.13 85);
-  --color-terminal-green-active: oklch(68% 0.15 145);
+  /* Terminal traffic light colors - dark mode (muted base, vivid on hover) */
+  --color-terminal-red: oklch(42% 0.08 30);
+  --color-terminal-yellow: oklch(48% 0.08 85);
+  --color-terminal-green: oklch(44% 0.07 140);
+  --color-terminal-red-active: oklch(65% 0.2 25);
+  --color-terminal-yellow-active: oklch(80% 0.15 88);
+  --color-terminal-green-active: oklch(72% 0.17 145);
 
   /* Code block background - Monokai */
   --color-code-bg: oklch(22% 0.02 100);
@@ -151,10 +155,12 @@
   );
 }
 
-/* Prevent horizontal scroll on mobile and stabilize scrollbar layout */
+/* Prevent horizontal scroll on mobile and stabilize scrollbar layout.
+   Use `clip` not `hidden` — `hidden` creates a scroll container that breaks
+   `position: sticky` on descendants (the Header component relies on it). */
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   scrollbar-gutter: stable;
 }
 
@@ -197,81 +203,102 @@ body::before {
 }
 
 /* ========================================
-   Prose Typography - Kindle Reading Theme
+   Prose Typography — Kindle Reading Theme
+   ----------------------------------------
+   Self-contained .prose class (no @tailwindcss/typography dependency).
+   Styles every element that can appear in MDX output. `.not-prose` on an
+   ancestor opts a subtree out of these styles via :not(:where(.not-prose *)).
    ======================================== */
 
 .prose {
-  --tw-prose-body: var(--color-text-primary);
-  --tw-prose-headings: var(--color-text-primary);
-  --tw-prose-lead: var(--color-text-secondary);
-  --tw-prose-links: var(--color-accent);
-  --tw-prose-bold: var(--color-text-primary);
-  --tw-prose-counters: var(--color-text-tertiary);
-  --tw-prose-bullets: var(--color-text-tertiary);
-  --tw-prose-hr: var(--color-border-subtle);
-  --tw-prose-quotes: var(--color-text-secondary);
-  --tw-prose-quote-borders: var(--color-accent);
-  --tw-prose-captions: var(--color-text-tertiary);
-  --tw-prose-code: var(--color-text-primary);
-  --tw-prose-pre-code: var(--color-text-primary);
-  --tw-prose-pre-bg: var(--color-bg-elevated);
-  --tw-prose-th-borders: var(--color-border-visible);
-  --tw-prose-td-borders: var(--color-border-subtle);
-}
-
-/* Prose headings use serif font */
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4 {
   font-family: var(--font-serif);
-  font-weight: 700;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 400;
 }
 
-/* Generous line height for comfortable reading */
-.prose p {
-  line-height: 1.75;
-}
-
-/* Golden rhythm for prose elements - tighter on mobile */
-.prose > * + * {
+/* Golden rhythm between top-level prose children; tighter on mobile */
+.prose > :where(* + *):not(:where(.not-prose *)) {
   margin-top: var(--spacing-golden-2);
 }
 
 @media (min-width: 768px) {
-  .prose > * + * {
+  .prose > :where(* + *):not(:where(.not-prose *)) {
     margin-top: var(--spacing-golden-3);
   }
 }
 
-.prose h2 {
+/* Paragraphs — book-dense line height, soft widow/orphan control */
+.prose :where(p):not(:where(.not-prose *)) {
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+/* Headings — serif, semibold, balanced */
+.prose :where(h1, h2, h3, h4, h5, h6):not(:where(.not-prose *)) {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+.prose :where(h1):not(:where(.not-prose *)) {
+  font-size: 2em;
   margin-top: var(--spacing-golden-5);
   margin-bottom: var(--spacing-golden-3);
 }
 
-.prose h3 {
+.prose :where(h2):not(:where(.not-prose *)) {
+  font-size: 1.5em;
+  margin-top: var(--spacing-golden-5);
+  margin-bottom: var(--spacing-golden-3);
+}
+
+.prose :where(h3):not(:where(.not-prose *)) {
+  font-size: 1.25em;
   margin-top: var(--spacing-golden-4);
   margin-bottom: var(--spacing-golden-2);
 }
 
-/* Link styling with underline */
-.prose a {
+.prose :where(h4):not(:where(.not-prose *)) {
+  font-size: 1.125em;
+  margin-top: var(--spacing-golden-3);
+  margin-bottom: var(--spacing-golden-1);
+}
+
+.prose :where(h5, h6):not(:where(.not-prose *)) {
+  font-size: 1em;
+  margin-top: var(--spacing-golden-3);
+  margin-bottom: var(--spacing-golden-1);
+}
+
+/* Inline emphasis */
+.prose :where(strong):not(:where(.not-prose *)) {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.prose :where(em):not(:where(.not-prose *)) {
+  font-style: italic;
+  color: inherit;
+}
+
+/* Links — accent underline */
+.prose :where(a):not(:where(.not-prose, .not-prose *)) {
   color: var(--color-accent);
   text-decoration: underline;
   text-decoration-color: var(--color-accent-muted);
   text-underline-offset: 2px;
-  transition:
-    color var(--transition-base),
-    text-decoration-color var(--transition-base);
 }
 
-.prose a:hover {
+.prose :where(a):not(:where(.not-prose, .not-prose *)):hover {
   color: var(--color-accent-muted);
   text-decoration-color: var(--color-accent);
 }
 
-/* Blockquote styling - book-like with subtle border */
-.prose blockquote {
+/* Blockquote — book-like with subtle border */
+.prose :where(blockquote):not(:where(.not-prose *)) {
   border-left: 2px solid var(--color-border-subtle);
   font-style: italic;
   color: var(--color-text-secondary);
@@ -280,29 +307,145 @@ body::before {
   margin-bottom: var(--spacing-golden-4);
 }
 
-/* List spacing */
-.prose ul,
-.prose ol {
+/* Lists */
+.prose :where(ul):not(:where(.not-prose *)) {
+  list-style: disc;
   padding-left: var(--spacing-golden-3);
 }
 
-.prose li {
+.prose :where(ol):not(:where(.not-prose *)) {
+  list-style: decimal;
+  padding-left: var(--spacing-golden-3);
+}
+
+.prose :where(li):not(:where(.not-prose *)) {
   margin-top: var(--spacing-golden-1);
   margin-bottom: var(--spacing-golden-1);
 }
 
-/* Inline code styling */
-.prose :not(pre) > code {
+.prose :where(li)::marker {
+  color: var(--color-text-tertiary);
+}
+
+/* Inline code */
+.prose :where(:not(pre) > code):not(:where(.not-prose *)) {
   background-color: var(--color-bg-elevated);
   border: 1px solid var(--color-border-subtle);
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 0.875em;
+  font-family: var(--font-mono);
+  color: var(--color-text-primary);
 }
 
-.prose code::before,
-.prose code::after {
-  content: none;
+/* Horizontal rule */
+.prose :where(hr):not(:where(.not-prose *)) {
+  border: 0;
+  border-top: 1px solid var(--color-border-subtle);
+  margin-top: var(--spacing-golden-5);
+  margin-bottom: var(--spacing-golden-5);
+}
+
+/* Images — subtle rounded, spaced */
+.prose :where(img):not(:where(.not-prose *)) {
+  border-radius: 0.5rem;
+  margin-top: var(--spacing-golden-4);
+  margin-bottom: var(--spacing-golden-4);
+  outline: 1px solid oklch(0% 0 0 / 0.05);
+  outline-offset: -1px;
+}
+
+.dark .prose :where(img):not(:where(.not-prose *)) {
+  outline-color: oklch(100% 0 0 / 0.1);
+}
+
+/* Figures */
+.prose :where(figure):not(:where(.not-prose *)) {
+  margin-top: var(--spacing-golden-4);
+  margin-bottom: var(--spacing-golden-4);
+}
+
+.prose :where(figcaption):not(:where(.not-prose *)) {
+  color: var(--color-text-tertiary);
+  font-size: 0.875em;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Tables */
+.prose :where(table):not(:where(.not-prose *)) {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--spacing-golden-4);
+  margin-bottom: var(--spacing-golden-4);
+}
+
+.prose :where(thead):not(:where(.not-prose *)) {
+  border-bottom: 1px solid var(--color-border-visible);
+}
+
+.prose :where(th):not(:where(.not-prose *)) {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text-primary);
+}
+
+.prose :where(td):not(:where(.not-prose *)) {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+/* Drop cap — classic book opener. Hidden on mobile where it's cramped. */
+.prose > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-serif);
+  font-size: 3.5em;
+  line-height: 0.85;
+  font-weight: 600;
+  padding-right: 0.08em;
+  padding-top: 0.1em;
+  color: var(--color-accent);
+}
+
+@media (max-width: 639px) {
+  .prose > p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 0;
+    color: inherit;
+  }
+}
+
+/* Reading progress bar — transform is driven by ReadingProgress client
+   component via requestAnimationFrame on scroll. CSS only paints the base
+   strip. */
+.reading-progress {
+  position: fixed;
+  top: 3rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0.75;
+  will-change: transform;
+}
+
+@media (min-width: 640px) {
+  .reading-progress {
+    top: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .reading-progress {
+    top: 50px;
+  }
 }
 
 /* ========================================
@@ -514,10 +657,15 @@ pre code {
   }
 }
 
-/* Selection styling */
+/* Selection — warm yellow wash, like a Kindle highlight */
 ::selection {
-  background-color: var(--color-accent);
-  color: var(--color-bg-deep);
+  background-color: oklch(88% 0.11 88 / 0.5);
+  color: var(--color-text-primary);
+}
+
+.dark ::selection {
+  background-color: oklch(70% 0.08 85 / 0.35);
+  color: var(--color-text-primary);
 }
 
 /* ========================================

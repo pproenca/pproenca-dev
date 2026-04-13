@@ -11,7 +11,6 @@ pnpm lint            # Run ESLint
 pnpm format          # Auto-format code with Prettier
 pnpm type-check      # Run TypeScript type checking
 pnpm clean           # Remove build artifacts (.next, out, .turbo, caches)
-pnpm check:contrast  # Verify color contrast accessibility
 pnpm test:e2e        # Run Playwright E2E tests (builds site first)
 pnpm test:e2e:ui     # Run E2E tests with interactive UI debugger
 pnpm test:e2e:update # Update visual regression snapshots

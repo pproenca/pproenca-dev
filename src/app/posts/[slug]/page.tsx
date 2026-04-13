@@ -11,6 +11,8 @@ import {
 import { MDXContent } from "@/components/MDXContent";
 import { JsonLd } from "@/components/JsonLd";
 import { Heading } from "@/components/elements";
+import { TableOfContents } from "@/components/TableOfContents";
+import { ReadingProgress } from "@/components/ReadingProgress";
 import { SITE_CONFIG, buildBreadcrumbSchema } from "@/lib/constants";
 
 interface PageProps {
@@ -64,7 +66,7 @@ export default async function PostPage({ params }: PageProps) {
     notFound();
   }
 
-  const { frontmatter, content } = post;
+  const { frontmatter, content, readingTimeMinutes, headings } = post;
 
   const articleSchema: WithContext<Article> = {
     "@context": "https://schema.org",
@@ -100,24 +102,33 @@ export default async function PostPage({ params }: PageProps) {
     <article className="mx-auto max-w-[680px]">
       <JsonLd data={articleSchema} />
       <JsonLd data={breadcrumbSchema} />
+      <ReadingProgress />
       <header className="mb-golden-5 text-center">
-        <Heading level={1} className="leading-tight">
+        <Heading level={1} className="text-pretty">
           {frontmatter.title}
         </Heading>
-        <div className="mt-golden-2 text-text-tertiary">
+        <p className="mt-golden-2 text-text-tertiary">
           <Link
             href="/about"
             rel="author"
-            className="author-name transition-colors hover:text-accent"
+            className="author-name hover:text-accent"
           >
             {SITE_CONFIG.author.name}
           </Link>
-          <span className="mx-2">&middot;</span>
+          <span className="mx-2" aria-hidden="true">
+            &middot;
+          </span>
           <time dateTime={frontmatter.date} className="entry-date">
             {formatPostDate(frontmatter.date)}
           </time>
-        </div>
+          <span className="mx-2" aria-hidden="true">
+            &middot;
+          </span>
+          <span className="tabular-nums">{readingTimeMinutes} min read</span>
+        </p>
       </header>
+
+      <TableOfContents headings={headings} />
 
       <MDXContent source={content} />
 

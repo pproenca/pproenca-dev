@@ -4,14 +4,24 @@ import { useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Shared icon button styling
+// Shared icon button styling — relative so the touch-target span can absolutely fill
 const iconButtonClass =
-  "flex h-10 w-10 items-center justify-center rounded-lg text-text-tertiary transition-colors duration-base hover:bg-bg-elevated hover:text-text-secondary";
+  "relative flex size-10 items-center justify-center rounded-lg text-text-tertiary hover:bg-bg-elevated hover:text-text-secondary";
+
+// Expands the tap area to 48px on coarse pointers without affecting layout
+function TouchTarget() {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-fine:hidden absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2"
+    />
+  );
+}
 
 function MenuIcon() {
   return (
     <svg
-      className="h-5 w-5"
+      className="size-5 shrink-0"
       fill="none"
       stroke="currentColor"
       strokeWidth={1.5}
@@ -30,7 +40,7 @@ function MenuIcon() {
 function CloseIcon() {
   return (
     <svg
-      className="h-5 w-5"
+      className="size-5 shrink-0"
       fill="none"
       stroke="currentColor"
       strokeWidth={1.5}
@@ -73,6 +83,7 @@ export function MobileMenu({ navLinks, socialLinks }: MobileMenuProps) {
         aria-label="Open menu"
       >
         <MenuIcon />
+        <TouchTarget />
       </button>
 
       {/* Native dialog with backdrop */}
@@ -96,6 +107,7 @@ export function MobileMenu({ navLinks, socialLinks }: MobileMenuProps) {
               aria-label="Close menu"
             >
               <CloseIcon />
+              <TouchTarget />
             </button>
           </div>
 
@@ -133,13 +145,14 @@ export function MobileMenu({ navLinks, socialLinks }: MobileMenuProps) {
                   aria-label={label}
                 >
                   <svg
-                    className="h-5 w-5"
+                    className="size-5 shrink-0"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
                   >
                     <path d={icon} />
                   </svg>
+                  <TouchTarget />
                 </Link>
               ))}
             </div>

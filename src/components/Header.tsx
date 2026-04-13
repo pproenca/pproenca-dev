@@ -40,21 +40,25 @@ export function Header({ className, ...props }: HeaderProps) {
       )}
       {...props}
     >
-      <div className="mx-auto flex h-12 items-center justify-between px-5 sm:h-14 sm:px-6 md:max-w-2xl lg:h-[50px] lg:max-w-[680px] lg:px-golden-3">
+      <div className="mx-auto flex h-12 items-center justify-between px-5 text-sm sm:h-14 sm:px-6 md:max-w-2xl lg:h-[50px] lg:max-w-[680px] lg:px-golden-3">
         <Link
           href="/"
-          className="font-serif text-lg font-bold text-accent transition-colors duration-base hover:text-accent-muted"
+          aria-label="Homepage"
+          className="font-serif text-lg font-semibold text-accent hover:text-accent-muted"
         >
           pproenca.dev
         </Link>
 
         {/* Desktop navigation - hidden on mobile */}
-        <nav className="hidden items-center gap-golden-3 md:flex">
+        <nav
+          aria-label="Primary"
+          className="hidden items-center gap-golden-3 md:flex"
+        >
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="text-sm text-text-tertiary transition-colors duration-base hover:text-text-secondary"
+              className="text-text-tertiary hover:text-text-secondary"
             >
               {label}
             </Link>
@@ -66,11 +70,11 @@ export function Header({ className, ...props }: HeaderProps) {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-text-tertiary transition-colors duration-base hover:text-text-secondary"
+                className="text-text-tertiary hover:text-text-secondary"
                 aria-label={label}
               >
                 <svg
-                  className="h-4 w-4"
+                  className="size-4 shrink-0"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
