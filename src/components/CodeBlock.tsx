@@ -98,33 +98,33 @@ export interface CodeBlockProps {
   "aria-label"?: string;
 }
 
-export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
-  function CodeBlock(
-    { children, lightHtml, darkHtml, className, "aria-label": ariaLabel },
-    ref,
-  ) {
-    return (
-      <div
-        ref={ref}
-        className={clsx("terminal-window group", className)}
-        role="figure"
-        aria-label={ariaLabel ?? "Code example"}
-      >
-        <div className="terminal-header">
-          {TerminalDots}
-          <CopyButton code={children} />
-        </div>
-        <div className="terminal-body">
-          <div
-            className="hidden dark:block"
-            dangerouslySetInnerHTML={{ __html: darkHtml }}
-          />
-          <div
-            className="block dark:hidden"
-            dangerouslySetInnerHTML={{ __html: lightHtml }}
-          />
-        </div>
+export function CodeBlock({
+  children,
+  lightHtml,
+  darkHtml,
+  className,
+  "aria-label": ariaLabel,
+}: CodeBlockProps) {
+  return (
+    <div
+      className={clsx("terminal-window group", className)}
+      role="figure"
+      aria-label={ariaLabel ?? "Code example"}
+    >
+      <div className="terminal-header">
+        {TerminalDots}
+        <CopyButton code={children} />
       </div>
-    );
-  },
-);
+      <div className="terminal-body">
+        <div
+          className="hidden dark:block"
+          dangerouslySetInnerHTML={{ __html: darkHtml }}
+        />
+        <div
+          className="block dark:hidden"
+          dangerouslySetInnerHTML={{ __html: lightHtml }}
+        />
+      </div>
+    </div>
+  );
+}
