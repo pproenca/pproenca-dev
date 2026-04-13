@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getAllCategories, categoryToSlug } from "@/lib/posts";
-import { Heading, Text } from "@/components/elements";
+import { Heading } from "@/components/elements/Heading";
+import { Text } from "@/components/elements/Text";
 
 export const metadata: Metadata = {
   title: "Categories",

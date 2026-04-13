@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { Person, WithContext } from "schema-dts";
 import { JsonLd } from "@/components/JsonLd";
 import { MDXContent } from "@/components/MDXContent";
-import { Heading } from "@/components/elements";
+import { Heading } from "@/components/elements/Heading";
 import { getPageBySlug } from "@/lib/pages";
 import { SITE_CONFIG } from "@/lib/constants";
 

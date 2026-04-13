@@ -7,7 +7,8 @@ import {
 } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
 import { JsonLd } from "@/components/JsonLd";
-import { Heading, Text } from "@/components/elements";
+import { Heading } from "@/components/elements/Heading";
+import { Text } from "@/components/elements/Text";
 import { SITE_CONFIG, buildBreadcrumbSchema } from "@/lib/constants";
 
 interface PageProps {

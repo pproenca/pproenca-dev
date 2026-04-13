@@ -104,14 +104,41 @@ export const getAllCategories = cache(
   },
 );
 
+export function categoryToSlug(category: string): string {
+  return category.toLowerCase().replace(/\./g, "").replace(/\s+/g, "-");
+}
+
+// Build a slug-keyed index of categories once per request so that
+// getPostsByCategory and slugToCategory are O(1) instead of O(n) scans.
+const getCategoryIndex = cache(function getCategoryIndex(): {
+  slugToName: Map<string, string>;
+  slugToPosts: Map<string, PostMeta[]>;
+} {
+  const slugToName = new Map<string, string>();
+  const slugToPosts = new Map<string, PostMeta[]>();
+
+  for (const post of getAllPosts()) {
+    for (const category of post.frontmatter.categories) {
+      const slug = categoryToSlug(category);
+      if (!slugToName.has(slug)) {
+        slugToName.set(slug, category);
+        slugToPosts.set(slug, []);
+      }
+      slugToPosts.get(slug)!.push(post);
+    }
+  }
+
+  return { slugToName, slugToPosts };
+});
+
 export const getPostsByCategory = cache((category: string): PostMeta[] => {
-  const posts = getAllPosts();
-  const normalizedCategory = category.toLowerCase();
-  return posts.filter((post) =>
-    post.frontmatter.categories.some(
-      (c) => c.toLowerCase() === normalizedCategory,
-    ),
-  );
+  return getCategoryIndex().slugToPosts.get(categoryToSlug(category)) ?? [];
+});
+
+export const slugToCategory = cache(function slugToCategory(
+  slug: string,
+): string | undefined {
+  return getCategoryIndex().slugToName.get(slug);
 });
 
 export const getAllSlugs = cache(function getAllSlugs(): string[] {
@@ -127,21 +154,9 @@ export const getAllSlugs = cache(function getAllSlugs(): string[] {
 
 export const getAllCategorySlugs = cache(
   function getAllCategorySlugs(): string[] {
-    const categories = getAllCategories();
-    return categories.map((c) => categoryToSlug(c.name));
+    return Array.from(getCategoryIndex().slugToName.keys());
   },
 );
-
-export function categoryToSlug(category: string): string {
-  return category.toLowerCase().replace(/\./g, "").replace(/\s+/g, "-");
-}
-
-export const slugToCategory = cache(function slugToCategory(
-  slug: string,
-): string | undefined {
-  const categories = getAllCategories();
-  return categories.find((c) => categoryToSlug(c.name) === slug)?.name;
-});
 
 export function formatPostDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString("en-US", {

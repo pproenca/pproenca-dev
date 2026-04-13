@@ -10,7 +10,7 @@ import {
 } from "@/lib/posts";
 import { MDXContent } from "@/components/MDXContent";
 import { JsonLd } from "@/components/JsonLd";
-import { Heading } from "@/components/elements";
+import { Heading } from "@/components/elements/Heading";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { SITE_CONFIG, buildBreadcrumbSchema } from "@/lib/constants";
